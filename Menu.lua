@@ -1,3 +1,4 @@
+module("Menu", package.seeall)
 require "Main"
 
 function load()

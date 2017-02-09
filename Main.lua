@@ -4,7 +4,9 @@ require "Menu"
 require "Sound"
 
 function love.load()
-   gamestate = "endless"
+  gamestate = "endless"
+  Game.load()
+  Menu.load()
   Sound.load()
   Sound.play()
   
@@ -24,5 +26,19 @@ function love.load()
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
+  
+  if gamestate == "menu" then
+    Menu.draw()
+  end
+  
+  if gamestate == "story" then
+    Menu.drawStory()
+  end
+  
+  if gamestate == "endless" then
+    Game.drawEndless()
+  end
+
+  
 end
 

@@ -40,7 +40,7 @@ function love.draw()
   end
 end
 
-function update()
+function love.update()
   if gamestate == "menu" then
     Menu.update()
   end

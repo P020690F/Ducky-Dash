@@ -8,6 +8,7 @@ function load()
  
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
  bubbles= love.graphics.newImage("assets/bubbles.png")
  drain = love.graphics.newImage("assets/Drain.png")
  plug = love.graphics.newImage("assets/Plug.png")
@@ -17,6 +18,13 @@ end
 function drawStory()
 end  
 
+function updateStory()
+end  
+
 function drawEndless()
-love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+end
+
+function updateEndless()
+  
 end

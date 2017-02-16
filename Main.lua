@@ -39,3 +39,17 @@ function love.draw()
     Game.drawEndless()
   end
 end
+
+function update()
+  if gamestate == "menu" then
+    Menu.update()
+  end
+  
+  if gamestate == "story" then
+    Game.updateStory()
+  end
+  
+  if gamestate == "endless" then
+    Game.updateEndless()
+  end
+end

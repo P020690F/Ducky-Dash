@@ -27,8 +27,21 @@ function load()
  for i = 1, 5 do
    local tempObject = {}
    tempObject.Tex = bubbles
-   tempObject.PosX = 50 --Random Number Generator to determine position above screen
-   tempObject.PosY = -1 * (i * 50)
+   tempObject.Lane = math.random(1,3) --Random Number to decide which Lane the obstacle is in
+   
+   if (tempObject.Lane == 1) then
+     tempObject.PosX = 35
+   end
+   
+     if (tempObject.Lane == 2) then
+     tempObject.PosX = 115
+     
+   end
+     if (tempObject.Lane == 3) then
+     tempObject.PosX = 200
+   end
+ 
+   tempObject.PosY = -(i * 100)
    tempObject.Width = 10
    tempObject.Height = 10
    table.insert(Obstacles, tempObject)
@@ -42,13 +55,21 @@ function updateStory()
 end  
 
 function drawEndless()
-    for i,v in ipairs(Obstacles) do
-    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
-    end
   
 love.graphics.draw(bathtub, backgroundQuad, 0, 0)
 love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+ for i,v in ipairs(Obstacles) do
+    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+  end
 end
 
 function updateEndless()
+  
+  for i,v in ipairs(Obstacles) do
+    v.PosY = v.PosY + 2.5
+    if v.PosY > 500 then
+      v.PosY = -(i * 50)
+    end
+  end
+  
 end

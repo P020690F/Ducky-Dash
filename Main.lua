@@ -10,8 +10,8 @@ function love.load()
   Sound.load()
   Sound.play()
   
-  screenWidth = 720/2
-  screenHeight = 1280/2
+  screenWidth = 750/2
+  screenHeight = 1337/2
 
   if love.system.getOS() == "Android" then
     local x,y = love.graphics.getDimensions()
@@ -22,7 +22,7 @@ function love.load()
     scaley = 1
   end
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
-  end
+end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
@@ -38,7 +38,4 @@ function love.draw()
   if gamestate == "endless" then
     Game.drawEndless()
   end
-
-  
 end
-

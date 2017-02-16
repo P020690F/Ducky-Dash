@@ -33,9 +33,6 @@ function load()
    tempObject.Height = 10
    table.insert(Obstacles, tempObject)
  end
- 
- 
- 
 end
 
 function drawStory()
@@ -45,20 +42,14 @@ function updateStory()
 end  
 
 function drawEndless()
-<<<<<<< HEAD
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
 end
 
 function updateEndless()
-  
-=======
-  
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
     end
   
 love.graphics.draw(bathtub, backgroundQuad, 0, 0)
 love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
-
->>>>>>> 5a91e60ae4fdffed1c5735f2a883a22b355974a8
 end

@@ -42,14 +42,13 @@ function updateStory()
 end  
 
 function drawEndless()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-end
-
-function updateEndless()
-  for i,v in ipairs(Obstacles) do
+    for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
     end
   
 love.graphics.draw(bathtub, backgroundQuad, 0, 0)
 love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+end
+
+function updateEndless()
 end

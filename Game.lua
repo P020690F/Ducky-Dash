@@ -65,25 +65,9 @@ function updateStory()
 end  
 
 function drawEndless()
-<<<<<<< HEAD
-  
-love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
- for i,v in ipairs(Obstacles) do
-    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
-  end
-end
+  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
 
-function updateEndless()
-  
-  for i,v in ipairs(Obstacles) do
-    v.PosY = v.PosY + 2.5
-    if v.PosY > 500 then
-      v.PosY = -(i * 50)
-    end
-  end
-  
-=======
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
@@ -109,5 +93,15 @@ function updateEndless()
     Ducky.PosX = RightPoint.x
     Ducky.PosY = RightPoint.y
   end
->>>>>>> origin/Rhys-P
+  
+  for i,v in ipairs(Obstacles) do
+    v.PosY = v.PosY + 2.5
+    if v.PosY > 500 then
+      v.PosY = -(i * 50)
+    end
+  end
+  
+  for i,v in ipairs(Obstacles) do
+    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+  end
 end

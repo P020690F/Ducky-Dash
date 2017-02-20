@@ -1,18 +1,24 @@
+
+function load()
+  scoreModifier
+  upgradeSpeed
+  
+  
+  end
 function HalfSpeed()
-  
-  
+ 
 end
 function DoublePoints()
-  while (upgradeState = "double") then
-    points = points * 2
-        
+  
   
 end
 function LifeLine()
-  
+  if (duckColumn > 2) then
+    duckColumn = duckColumn
+  else
+    duckColumn = duckColumn + 2
 end
 
 function Invincibility()
-  
   
   end

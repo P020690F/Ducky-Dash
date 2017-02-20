@@ -2,9 +2,9 @@ module("Sound", package.seeall)
 require "Main"
 
 function load()
-  menu = love.audio.newSource("assets/menu.wav", "stream")
+  menu = love.audio.newSource("assets/Sounds/menu.wav", "stream")
   menu:setLooping(true)
-  endless = love.audio.newSource("assets/endless.wav", "stream")
+  endless = love.audio.newSource("assets/Sounds/endless.wav", "stream")
   endless:setLooping(true)
 end
 

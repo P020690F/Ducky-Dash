@@ -13,7 +13,5 @@ function draw()
   else
   love.graphics.draw(mainMenuPreStory, backgroundQuad, 0, 0)
   end
-  
-  
 end  
 

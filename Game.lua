@@ -3,7 +3,6 @@ require "Main"
 
 function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
- DuckQuad = love.graphics.newQuad(1,1,100,100,100,100)
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  
@@ -16,9 +15,6 @@ function load()
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
- drain = love.graphics.newImage("assets/Drain.png")
- plug = love.graphics.newImage("assets/Plug.png")
- water = love.graphics.newImage("assets/Water.png")
  
  Ducky = {
  Tex = standardduck,
@@ -27,11 +23,12 @@ function load()
  Position = "Middle",
  Height = 10,
  Width = 10
-}
+  }
+  DuckQuad = love.graphics.newQuad(1,1,100,100,100,100)
 
- LeftPoint = { x = 50, y = 400 }
- MiddlePoint = { x = 130, y = 400 }
- RightPoint = { x = 210, y = 400 }
+ LeftPoint = { PosX = 50, PosY = 400 }
+ MiddlePoint = { PosX = 130, PosY = 400 }
+ RightPoint = { PosX = 210, PosY = 400 }
  
  Obstacles = {}
  for i = 1, 5 do
@@ -40,15 +37,15 @@ function load()
    tempObject.Lane = math.random(1,3) --Random Number to decide which Lane the obstacle is in
    
    if (tempObject.Lane == 1) then
-     tempObject.PosX = 35
+     tempObject.PosX = LeftPoint.PosX
    end
    
      if (tempObject.Lane == 2) then
-     tempObject.PosX = 115
+     tempObject.PosX = MiddlePoint.PosX
      
    end
      if (tempObject.Lane == 3) then
-     tempObject.PosX = 200
+     tempObject.PosX = RightPoint.PosX
    end
  
    tempObject.PosY = -(i * 100)
@@ -66,42 +63,35 @@ end
 
 function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
-
+  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(drain, drainQuad, 0, 0)
+  
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
-  
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterQuad, 0, 0)
-  love.graphics.draw(drain, drainQuad, 0, 0)
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
 end
 
 function updateEndless()
   if Ducky.Position == "Left" then
-    Ducky.PosX = LeftPoint.x
-    Ducky.PosY = LeftPoint.y
+    Ducky.PosX = LeftPoint.PosX
+    Ducky.PosY = LeftPoint.PosY
   end
   
   if Ducky.Position == "Middle" then
-    Ducky.PosX = MiddlePoint.x
-    Ducky.PosY = MiddlePoint.y
+    Ducky.PosX = MiddlePoint.PosX
+    Ducky.PosY = MiddlePoint.PosY
   end
   
   if Ducky.Position == "Right" then
-    Ducky.PosX = RightPoint.x
-    Ducky.PosY = RightPoint.y
+    Ducky.PosX = RightPoint.PosX
+    Ducky.PosY = RightPoint.PosY
   end
   
   for i,v in ipairs(Obstacles) do
     v.PosY = v.PosY + 2.5
     if v.PosY > 500 then
-      v.PosY = -(i * 50)
+      v.PosY = -(i * 100)
     end
-  end
-  
-  for i,v in ipairs(Obstacles) do
-    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
 end

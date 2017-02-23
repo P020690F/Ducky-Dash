@@ -1,4 +1,5 @@
 module("Upgrades", package.seeall)
+<<<<<<< HEAD
 require "main"
 
 function load()
@@ -8,8 +9,13 @@ function load()
   
 end
 
+=======
+require "Main"
+function load()
+  end
+>>>>>>> origin/Tom-G
 function HalfSpeed()
- 
+      v.PosY = v.PosY + (speed / 2)
 end
 
 function DoublePoints()

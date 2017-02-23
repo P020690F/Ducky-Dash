@@ -12,7 +12,7 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- 
+ speed = 2.5
  bubbles= love.graphics.newImage("assets/bubbles.png")
  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
  Ducky = {
@@ -87,6 +87,7 @@ function updateEndless()
     Ducky.PosY = RightPoint.PosY
   end
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 =======
   --if(upgradeState = "") then
@@ -160,4 +161,18 @@ function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
          y1 < y2+h2 and
          y2 < y1+h1
 >>>>>>> origin/Robert
+=======
+  
+  for i,v in ipairs(Obstacles) do
+  if(upgradeState == "halfSpeed") then
+  Upgrades.HalfSpeed()
+  else
+    v.PosY = v.PosY + speed
+    
+  end
+  if v.PosY > 500 then
+      v.PosY = -(i * 100)
+    end
+end
+>>>>>>> origin/Tom-G
 end

@@ -1,5 +1,5 @@
 module("Store", package.seeall)
-require "Main"
+require "main"
 
 function load()
   bathtub = love.graphics.newImage("assets/Bathtub.png")

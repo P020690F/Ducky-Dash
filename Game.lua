@@ -1,5 +1,5 @@
 module("Game", package.seeall)
-require "Main"
+require "main"
 
 function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")

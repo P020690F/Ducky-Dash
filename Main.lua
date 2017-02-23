@@ -1,4 +1,4 @@
-module("Main", package.seeall)
+module("main", package.seeall)
 require "Game"
 require "Menu"
 require "Sound"

@@ -1,9 +1,9 @@
 module("Upgrades", package.seeall)
-require "Main"
+require "main"
 
 function load()
-  scoreModifier
-  upgradeSpeed
+  --scoreModifier
+  --upgradeSpeed
   
   
 end

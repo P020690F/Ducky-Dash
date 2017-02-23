@@ -1,5 +1,5 @@
 module("Menu", package.seeall)
-require "Main"
+require "main"
 
 function load()
   mainMenuPreStory = love.graphics.newImage("assets/MainMenuGreyEndless.png")
@@ -27,7 +27,7 @@ function mousepressed(x,y,button,istouch)
 
   -- endless mode
   if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
-    Main.gamestate = "endless"
+    main.gamestate = "endless"
   end 
 end
 
@@ -43,6 +43,6 @@ function touchpressed(id,x,y,sw,sh,pressure)
 
   -- endless mode
   if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
-    Main.gamestate = "endless"
+    main.gamestate = "endless"
   end 
 end

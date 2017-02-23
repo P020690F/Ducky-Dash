@@ -1,5 +1,5 @@
 module("Sound", package.seeall)
-require "Main"
+require "main"
 
 function load()
   menu = love.audio.newSource("assets/Sounds/menu.wav", "stream")
@@ -9,12 +9,12 @@ function load()
 end
 
 function play()
-  if Main.gamestate == "menu" then
+  if main.gamestate == "menu" then
     love.audio.stop() 
     love.audio.play(menu)
   end
   
-  if Main.gamestate == "endless" then
+  if main.gamestate == "endless" then
   love.audio.stop()
   love.audio.play(endless)
   end  

@@ -12,7 +12,7 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- 
+ speed = 2.5
  bubbles= love.graphics.newImage("assets/bubbles.png")
  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
  Ducky = {
@@ -86,11 +86,16 @@ function updateEndless()
     Ducky.PosX = RightPoint.PosX
     Ducky.PosY = RightPoint.PosY
   end
-  if(upgradeState = "
+  
   for i,v in ipairs(Obstacles) do
-    v.PosY = v.PosY + 2.5
-    if v.PosY > 500 then
+  if(upgradeState == "halfSpeed") then
+  Upgrades.HalfSpeed()
+  else
+    v.PosY = v.PosY + speed
+    
+  end
+  if v.PosY > 500 then
       v.PosY = -(i * 100)
     end
-  end
+end
 end

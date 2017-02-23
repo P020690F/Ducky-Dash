@@ -1,12 +1,9 @@
-
+module("Upgrades", package.seeall)
+require "Main"
 function load()
-  scoreModifier
-  upgradeSpeed
-  
-  
   end
 function HalfSpeed()
- 
+      v.PosY = v.PosY + (speed / 2)
 end
 function DoublePoints()
   

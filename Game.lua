@@ -29,7 +29,7 @@ function load()
  MiddlePoint = { PosX = 130, PosY = 400 }
  RightPoint = { PosX = 210, PosY = 400 }
  
- Obstacles = {}
+ Obstacles = { PosX = 0, PosY = 0, Width = 0, Height = 0 }
  for i = 1, 5 do
    local tempObject = {}
    tempObject.Tex = bubbles
@@ -86,13 +86,18 @@ function updateEndless()
     Ducky.PosX = RightPoint.PosX
     Ducky.PosY = RightPoint.PosY
   end
+<<<<<<< HEAD
   
+=======
+  --if(upgradeState = "") then
+>>>>>>> origin/Robert
   for i,v in ipairs(Obstacles) do
-    v.PosY = v.PosY + 2.5
+   v.PosY = v.PosY + 2.5
     if v.PosY > 500 then
       v.PosY = -(i * 100)
     end
   end
+<<<<<<< HEAD
 end
 
 function keypressed(key)
@@ -139,4 +144,20 @@ function touchpressed(id,x,y,sw,sh,pressure)
       Ducky.Position = "right"
     end
   end
+=======
+
+  for i,v in ipairs(Obstacles) do
+  hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+  if (hitTest) then
+    Main.gamestate = "menu"
+  end  
+  end
+end
+
+function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+  return x1 < x2+w2 and
+         x2 < x1+w1 and
+         y1 < y2+h2 and
+         y2 < y1+h1
+>>>>>>> origin/Robert
 end

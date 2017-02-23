@@ -5,16 +5,21 @@ function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
+ 
  upgradeState = "none"
+ 
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  drain = love.graphics.newImage("assets/Drain.png")
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
  speed = 2.5
+ 
  bubbles= love.graphics.newImage("assets/bubbles.png")
  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+ 
  Ducky = {
  Tex = standardduck,
  PosX = 0,
@@ -29,7 +34,7 @@ function load()
  MiddlePoint = { PosX = 130, PosY = 400 }
  RightPoint = { PosX = 210, PosY = 400 }
  
- Obstacles = { PosX = 0, PosY = 0, Width = 0, Height = 0 }
+ Obstacles = {}
  for i = 1, 5 do
    local tempObject = {}
    tempObject.Tex = bubbles
@@ -86,19 +91,19 @@ function updateEndless()
     Ducky.PosX = RightPoint.PosX
     Ducky.PosY = RightPoint.PosY
   end
-<<<<<<< HEAD
-<<<<<<< HEAD
   
-=======
-  --if(upgradeState = "") then
->>>>>>> origin/Robert
+  
   for i,v in ipairs(Obstacles) do
-   v.PosY = v.PosY + 2.5
+    if (upgradeState == "halfSpeed") then
+      Upgrades.HalfSpeed()
+    else
+      v.PosY = v.PosY + speed
+    end
+
     if v.PosY > 500 then
-      v.PosY = -(i * 100)
+        v.PosY = -(i * 100)
     end
   end
-<<<<<<< HEAD
 end
 
 function keypressed(key)
@@ -145,13 +150,12 @@ function touchpressed(id,x,y,sw,sh,pressure)
       Ducky.Position = "right"
     end
   end
-=======
 
   for i,v in ipairs(Obstacles) do
-  hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-  if (hitTest) then
-    Main.gamestate = "menu"
-  end  
+    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+    if (hitTest) then
+      Main.gamestate = "menu"
+    end  
   end
 end
 
@@ -160,19 +164,4 @@ function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
          x2 < x1+w1 and
          y1 < y2+h2 and
          y2 < y1+h1
->>>>>>> origin/Robert
-=======
-  
-  for i,v in ipairs(Obstacles) do
-  if(upgradeState == "halfSpeed") then
-  Upgrades.HalfSpeed()
-  else
-    v.PosY = v.PosY + speed
-    
-  end
-  if v.PosY > 500 then
-      v.PosY = -(i * 100)
-    end
-end
->>>>>>> origin/Tom-G
 end

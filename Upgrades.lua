@@ -1,13 +1,17 @@
+module("Upgrades", package.seeall)
+require "Main"
 
 function load()
   scoreModifier
   upgradeSpeed
   
   
-  end
+end
+
 function HalfSpeed()
  
 end
+
 function DoublePoints()
   
   
@@ -17,8 +21,9 @@ function LifeLine()
     duckColumn = duckColumn
   else
     duckColumn = duckColumn + 2
+  end
 end
 
 function Invincibility()
   
-  end
+end

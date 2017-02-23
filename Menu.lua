@@ -9,9 +9,40 @@ end
 
 function draw()
   if ( _G.completedStory == true ) then
-  love.graphics.draw(mainMenuPostStory, backgroundQuad, 0, 0)
+    love.graphics.draw(mainMenuPostStory, backgroundQuad, 0, 0)
   else
-  love.graphics.draw(mainMenuPreStory, backgroundQuad, 0, 0)
+    love.graphics.draw(mainMenuPreStory, backgroundQuad, 0, 0)
   end
 end  
 
+function mousepressed(x,y,button,istouch)
+  if (x < 95 and y > 355 and y <455) then
+    _G.completedStory = true
+  end 
+
+  --duck shop 
+  if (x > 140 and x < 235 and y > 345 and y <450) then
+  
+  end 
+
+  -- endless mode
+  if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
+    Main.gamestate = "endless"
+  end 
+end
+
+function touchpressed(id,x,y,sw,sh,pressure)
+    if (x < 95 and y > 355 and y <455) then
+    _G.completedStory = true
+  end 
+
+  --duck shop 
+  if (x > 140 and x < 235 and y > 345 and y <450) then
+  
+  end 
+
+  -- endless mode
+  if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
+    Main.gamestate = "endless"
+  end 
+end

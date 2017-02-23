@@ -19,11 +19,11 @@ function load()
  Tex = standardduck,
  PosX = 0,
  PosY = 0,
- Position = "Middle",
+ Position = "middle",
  Height = 10,
  Width = 10
-  }
-  DuckQuad = love.graphics.newQuad(1,1,100,100,100,100)
+ }
+ DuckQuad = love.graphics.newQuad(1,1,100,100,100,100)
 
  LeftPoint = { PosX = 50, PosY = 400 }
  MiddlePoint = { PosX = 130, PosY = 400 }
@@ -39,11 +39,11 @@ function load()
      tempObject.PosX = LeftPoint.PosX
    end
    
-     if (tempObject.Lane == 2) then
+   if (tempObject.Lane == 2) then
      tempObject.PosX = MiddlePoint.PosX
-     
    end
-     if (tempObject.Lane == 3) then
+   
+    if (tempObject.Lane == 3) then
      tempObject.PosX = RightPoint.PosX
    end
  
@@ -72,25 +72,71 @@ function drawEndless()
 end
 
 function updateEndless()
-  if Ducky.Position == "Left" then
+  if Ducky.Position == "left" then
     Ducky.PosX = LeftPoint.PosX
     Ducky.PosY = LeftPoint.PosY
   end
   
-  if Ducky.Position == "Middle" then
+  if Ducky.Position == "middle" then
     Ducky.PosX = MiddlePoint.PosX
     Ducky.PosY = MiddlePoint.PosY
   end
   
-  if Ducky.Position == "Right" then
+  if Ducky.Position == "right" then
     Ducky.PosX = RightPoint.PosX
     Ducky.PosY = RightPoint.PosY
   end
-  if(upgradeState = "
+  
   for i,v in ipairs(Obstacles) do
     v.PosY = v.PosY + 2.5
     if v.PosY > 500 then
       v.PosY = -(i * 100)
+    end
+  end
+end
+
+function keypressed(key)
+  if (Ducky.Position == "middle") then
+    if (key == "1") then
+      Ducky.Position = "left"
+    end
+    
+    if (key == "3") then
+      Ducky.Position = "right"
+    end
+  end
+
+  if (Ducky.Position == "left" or Ducky.Position == "right") then
+    if (key == "2") then
+      Ducky.Position = "middle"
+    end
+  end
+end
+
+function mousepressed(x,y,button,istouch)
+  if (Ducky.Position == "left" and x > Ducky.PosX) then
+    Ducky.Position = "middle"
+  elseif (Ducky.Position == "right" and x < Ducky.PosX) then
+    Ducky.Position = "middle"
+  elseif (Ducky.Position == "middle") then
+    if (x < Ducky.PosX) then
+      Ducky.Position = "left"
+    elseif (x > Ducky.PosX) then
+      Ducky.Position = "right"
+    end
+  end
+end
+
+function touchpressed(id,x,y,sw,sh,pressure)
+  if (Ducky.Position == "left" and x > Ducky.PosX) then
+    Ducky.Position = "middle"
+  elseif (Ducky.Position == "right" and x < Ducky.PosX) then
+    Ducky.Position = "middle"
+  elseif (Ducky.Position == "middle") then
+    if (x < Ducky.PosX) then
+      Ducky.Position = "left"
+    elseif (x > Ducky.PosX) then
+      Ducky.Position = "right"
     end
   end
 end

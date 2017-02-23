@@ -3,23 +3,14 @@ require "Game"
 require "Menu"
 require "Sound"
 require "Store"
+require "Upgrades"
 
 function love.load()
   --if arg[#arg] == "-debug" then require("mobdebug").start() end
-  
-  gamestate = "menu"
-  Game.load()
-  Menu.load()
-  Sound.load()
-  Store.load()
-  Sound.play()
-  
+
   screenWidth = 750/2
   screenHeight = 1337/2
   
-  --global value
-   _G.completedStory = false
-
   if love.system.getOS() == "Android" then
     local x,y = love.graphics.getDimensions()
     scalex = (x/screenWidth)
@@ -29,7 +20,17 @@ function love.load()
     scaley = 1
   end
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
-  end
+  
+  gamestate = "menu"
+  Game.load()
+  Menu.load()
+  Sound.load()
+  Store.load()
+  Sound.play()
+  
+  --global value
+   _G.completedStory = false
+end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
@@ -65,19 +66,29 @@ end
 
 function love.mousepressed(x,y,button,istouch)
   if (gamestate == "menu") then
-    --story mode main screen duck
-    if (x < 95 and y > 355 and y <455) then
-      _G.completedStory = true
-    end 
+    Menu.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "endless") then
+    Game.mousepressed(x,y,button,istouch)
+  end
+end
 
-  --duck shop 
-    if (x > 140 and x < 235 and y > 345 and y <450) then
-    
-    end 
+function love.keypressed(key)
+  if (gamestate == "endless") then
+    Game.keypressed(key)
+  end
+end
 
-  -- endless mode
-    if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
-    
-    end 
+function love.touchpressed(id,x,y,sw,sh,pressure)
+  x = x * ScreenWidth
+  y = y * ScreenHeight
+  
+  if (gamestate == "endless") then
+    Game.touchpressed(id,x,y,sw,sh,pressure)
+  end
+  
+  if (gamestate == "menu") then
+    Menu.touchpressed(id,x,y,sw,sh,pressure)
   end
 end

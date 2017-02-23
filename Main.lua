@@ -77,7 +77,7 @@ function love.mousepressed(x,y,button,istouch)
 
   -- endless mode
     if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
-    
+    gamestate = "endless"
     end 
   end
 end

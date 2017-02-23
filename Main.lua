@@ -81,8 +81,8 @@ function love.keypressed(key)
 end
 
 function love.touchpressed(id,x,y,sw,sh,pressure)
-  x = x * ScreenWidth
-  y = y * ScreenHeight
+  x = x * screenWidth
+  y = y * screenHeight
   
   if (gamestate == "endless") then
     Game.touchpressed(id,x,y,sw,sh,pressure)

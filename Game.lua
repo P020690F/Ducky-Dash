@@ -14,7 +14,7 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- 
+ gameover = love.graphics.newImage("assets/GameOverScreen.png") 
  speed = 2.5
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
@@ -108,10 +108,18 @@ function updateEndless()
   for i,v in ipairs(Obstacles) do
     hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
     if (hitTest) then
+<<<<<<< 02dc8f34c642eaa5dee61d8cff4c9e1b3f9ce378
       main.gamestate = "menu"
+=======
+      main.gamestate = "gameover"
+>>>>>>> +Collision fixed
     end  
   end
 end
+
+function drawGameOver()
+  love.graphics.draw(gameover, backgroundQuad, 0, 0)
+end  
 
 function keypressed(key)
   if (Ducky.Position == "middle") then

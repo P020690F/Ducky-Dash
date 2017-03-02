@@ -50,6 +50,10 @@ function love.draw()
   if gamestate == "store" then
     store.drawDuckSelect()
   end
+  
+  if gamestate == "gameover" then
+    Game.drawGameOver()
+  end  
 end
 
 function love.update()

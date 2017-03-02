@@ -14,7 +14,13 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- gameover = love.graphics.newImage("assets/GameOverScreen.png") 
+ gameover = love.graphics.newImage("assets/GameOverScreen.png")
+ retryButton = love.graphics.newImage("assets/RetryButton.png")
+ mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
+ buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
+ scoreFont = love.graphics.newFont(20)
+ 
+ endlessScore = 0
  speed = 2.5
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
@@ -69,6 +75,11 @@ function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
   love.graphics.draw(drain, drainQuad, 0, 0)
+  love.graphics.setFont(scoreFont)
+  love.graphics.setColor(255,0,0)
+  love.graphics.print("Score: ", 10, 600)
+  love.graphics.print(endlessScore, 80, 600)
+  love.graphics.setColor(255,255,255)
   
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
@@ -97,11 +108,15 @@ function updateEndless()
     if (upgradeState == "halfSpeed") then
       Upgrades.HalfSpeed()
     else
+      if endlessScore >= 10 and endlessScore % 10 == 0 then
+      speed = endlessScore / 20 + 2.5
+      end
       v.PosY = v.PosY + speed
     end
-
+      
     if v.PosY > 500 then
         v.PosY = -(i * 100)
+        endlessScore = endlessScore + 1
     end
   end
   
@@ -115,6 +130,8 @@ end
 
 function drawGameOver()
   love.graphics.draw(gameover, backgroundQuad, 0, 0)
+  love.graphics.draw(retryButton, buttonQuad, 30, 475)
+  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
 end  
 
 function mousepressed(x,y,button,istouch)
@@ -128,6 +145,15 @@ function mousepressed(x,y,button,istouch)
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
     end
+  end
+  
+  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    Game.load()
+    main.gamestate = "endless"
+  end
+  
+  if x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    main.gamestate = "menu"
   end
 end
 

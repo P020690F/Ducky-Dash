@@ -1,4 +1,4 @@
-module("Menu", package.seeall)
+module("menu", package.seeall)
 require "main"
 
 function load()

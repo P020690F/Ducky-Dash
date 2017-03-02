@@ -1,4 +1,4 @@
-module("Game", package.seeall)
+module("game", package.seeall)
 require "main"
 
 function load()
@@ -104,6 +104,13 @@ function updateEndless()
         v.PosY = -(i * 100)
     end
   end
+  
+  for i,v in ipairs(Obstacles) do
+    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+    if (hitTest) then
+      main.gamestate = "menu"
+    end  
+  end
 end
 
 function keypressed(key)
@@ -149,13 +156,6 @@ function touchpressed(id,x,y,sw,sh,pressure)
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
     end
-  end
-
-  for i,v in ipairs(Obstacles) do
-    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-    if (hitTest) then
-      Main.gamestate = "menu"
-    end  
   end
 end
 

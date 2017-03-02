@@ -1,9 +1,9 @@
 module("main", package.seeall)
-require "Game"
-require "Menu"
-require "Sound"
-require "Store"
-require "Upgrades"
+require "game"
+require "menu"
+require "sound"
+require "store"
+require "upgrades"
 
 function love.load()
   --if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -22,11 +22,11 @@ function love.load()
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
   
   gamestate = "menu"
-  Game.load()
-  Menu.load()
-  Sound.load()
-  Store.load()
-  Sound.play()
+  game.load()
+  menu.load()
+  sound.load()
+  store.load()
+  sound.play()
   
   --global value
    _G.completedStory = false
@@ -36,19 +36,19 @@ function love.draw()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "menu" then
-    Menu.draw()
+    menu.draw()
   end
   
   if gamestate == "story" then
-    Menu.drawStory()
+    menu.drawStory()
   end
   
   if gamestate == "endless" then
-    Game.drawEndless()
+    game.drawEndless()
   end
   
   if gamestate == "store" then
-    Store.drawDuckSelect()
+    store.drawDuckSelect()
   end
 end
 
@@ -56,27 +56,27 @@ function love.update()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "story" then
-    Menu.updateStory()
+    menu.updateStory()
   end
   
   if gamestate == "endless" then
-    Game.updateEndless()
+    game.updateEndless()
   end
 end
 
 function love.mousepressed(x,y,button,istouch)
   if (gamestate == "menu") then
-    Menu.mousepressed(x,y,button,istouch)
+    menu.mousepressed(x,y,button,istouch)
   end
   
   if (gamestate == "endless") then
-    Game.mousepressed(x,y,button,istouch)
+    game.mousepressed(x,y,button,istouch)
   end
 end
 
 function love.keypressed(key)
   if (gamestate == "endless") then
-    Game.keypressed(key)
+    game.keypressed(key)
   end
 end
 
@@ -85,10 +85,10 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   y = y * screenHeight
   
   if (gamestate == "endless") then
-    Game.touchpressed(id,x,y,sw,sh,pressure)
+    game.touchpressed(id,x,y,sw,sh,pressure)
   end
   
   if (gamestate == "menu") then
-    Menu.touchpressed(id,x,y,sw,sh,pressure)
+    menu.touchpressed(id,x,y,sw,sh,pressure)
   end
 end

@@ -52,7 +52,7 @@ function love.draw()
   end
   
   if gamestate == "gameover" then
-    Game.drawGameOver()
+    game.drawGameOver()
   end  
 end
 
@@ -70,11 +70,11 @@ end
 
 function love.mousepressed(x,y,button,istouch)
   if (gamestate == "menu") then
-    menu.mousepressed(x,y,button,istouch)
+    --menu.mousepressed(x,y,button,istouch)
   end
   
   if (gamestate == "endless") then
-    game.mousepressed(x,y,button,istouch)
+    --game.mousepressed(x,y,button,istouch)
   end
 end
 

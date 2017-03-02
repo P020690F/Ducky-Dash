@@ -4,6 +4,7 @@ require "main"
 function load()
   mainMenuPreStory = love.graphics.newImage("assets/MainMenuGreyEndless.png")
   mainMenuPostStory = love.graphics.newImage("assets/MainMenuAllYellow.png")
+  gameover = love.graphics.newImage("assets/GameOverScreen.png")
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
 end
 
@@ -27,6 +28,7 @@ function mousepressed(x,y,button,istouch)
 
   -- endless mode
   if (x > 265 and x < 360 and y > 345 and y <450 and _G.completedStory) then
+    Game.load()
     main.gamestate = "endless"
   end 
 end

@@ -14,7 +14,7 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- 
+ gameover = love.graphics.newImage("assets/GameOverScreen.png") 
  speed = 2.5
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
@@ -104,7 +104,18 @@ function updateEndless()
         v.PosY = -(i * 100)
     end
   end
+  
+  for i,v in ipairs(Obstacles) do
+    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+    if (hitTest) then
+      main.gamestate = "gameover"
+    end  
+  end
 end
+
+function drawGameOver()
+  love.graphics.draw(gameover, backgroundQuad, 0, 0)
+end  
 
 function keypressed(key)
   if (Ducky.Position == "middle") then
@@ -149,13 +160,6 @@ function touchpressed(id,x,y,sw,sh,pressure)
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
     end
-  end
-
-  for i,v in ipairs(Obstacles) do
-    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-    if (hitTest) then
-      Main.gamestate = "menu"
-    end  
   end
 end
 

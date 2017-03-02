@@ -117,24 +117,6 @@ function drawGameOver()
   love.graphics.draw(gameover, backgroundQuad, 0, 0)
 end  
 
-function keypressed(key)
-  if (Ducky.Position == "middle") then
-    if (key == "1") then
-      Ducky.Position = "left"
-    end
-    
-    if (key == "3") then
-      Ducky.Position = "right"
-    end
-  end
-
-  if (Ducky.Position == "left" or Ducky.Position == "right") then
-    if (key == "2") then
-      Ducky.Position = "middle"
-    end
-  end
-end
-
 function mousepressed(x,y,button,istouch)
   if (Ducky.Position == "left" and x > Ducky.PosX) then
     Ducky.Position = "middle"

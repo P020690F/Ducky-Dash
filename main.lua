@@ -6,7 +6,7 @@ require "store"
 require "upgrades"
 
 function love.load()
-  --if arg[#arg] == "-debug" then require("mobdebug").start() end
+  if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   screenWidth = 750/2
   screenHeight = 1337/2

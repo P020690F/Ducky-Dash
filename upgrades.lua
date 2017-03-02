@@ -2,12 +2,6 @@ module("upgrades", package.seeall)
 require "main"
 
 function load()
-  scoreModifier = 0
-  upgradeSpeed = 0
-end
-
-function HalfSpeed()
-      game.v.PosY = game.v.PosY + (speed / 2)
 end
 
 function DoublePoints()

@@ -5,7 +5,7 @@ function load()
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  
- upgradeState = "halfSpeed"
+ upgradeState = "normalSpeed"
  duckState = "vulnerable"
  
  water = love.graphics.newImage("assets/Water.png")
@@ -20,6 +20,7 @@ function load()
  buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
  scoreFont = love.graphics.newFont(20)
  
+ speedMultiplier = 1
  endlessScore = 0
  speed = 2.5
  
@@ -100,15 +101,19 @@ function updateEndless()
     Ducky.PosX = RightPoint.PosX
     Ducky.PosY = RightPoint.PosY
   end
-  for i,v in ipairs(Obstacles) do
-    if (upgradeState == "halfSpeed") then
-      Upgrades.HalfSpeed()
-    else
-      if endlessScore >= 10 and endlessScore % 10 == 0 then
-      speed = endlessScore / 20 + 2.5
-      end
-      v.PosY = v.PosY + speed
+  
+    if endlessScore >= 10 and endlessScore % 10 == 0 then
+        speed = endlessScore / 20 + 2.5
     end
+    
+    if (upgradeState == "halfSpeed") then
+      speedMultiplier = 0.5
+    else
+      speedMultiplier = 1
+    end
+  
+  for i,v in ipairs(Obstacles) do
+    v.PosY = v.PosY + (speed * speedMultiplier)
       
     if v.PosY > 500 then
         v.PosY = -(i * 100)

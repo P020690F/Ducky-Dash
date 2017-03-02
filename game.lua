@@ -148,7 +148,7 @@ function mousepressed(x,y,button,istouch)
   end
   
   if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    Game.load()
+    game.load()
     main.gamestate = "endless"
   end
   

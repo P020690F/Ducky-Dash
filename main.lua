@@ -70,22 +70,11 @@ end
 
 function love.mousepressed(x,y,button,istouch)
   if (gamestate == "menu") then
-    --menu.mousepressed(x,y,button,istouch)
+    menu.mousepressed(x,y,button,istouch)
   end
-  
-<<<<<<< HEAD:main.lua
-  if (gamestate == "endless") then
-    --game.mousepressed(x,y,button,istouch)
-=======
-  if (gamestate == "endless" or gamestate == "gameover") then
-    Game.mousepressed(x,y,button,istouch)
-  end
-end
 
-function love.keypressed(key)
-  if (gamestate == "endless") then
-    Game.keypressed(key)
->>>>>>> origin/Robert:Main.lua
+  if (gamestate == "endless" or gamestate == "gameover") then
+    game.mousepressed(x,y,button,istouch)
   end
 end
 
@@ -93,13 +82,8 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-<<<<<<< HEAD:main.lua
-  if (gamestate == "endless") then
-    game.touchpressed(id,x,y,sw,sh,pressure)
-=======
   if (gamestate == "endless" or gamestate == "gameover") then
     Game.touchpressed(id,x,y,sw,sh,pressure)
->>>>>>> origin/Robert:Main.lua
   end
   
   if (gamestate == "menu") then

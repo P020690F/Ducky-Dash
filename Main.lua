@@ -73,7 +73,7 @@ function love.mousepressed(x,y,button,istouch)
     Menu.mousepressed(x,y,button,istouch)
   end
   
-  if (gamestate == "endless") then
+  if (gamestate == "endless" or gamestate == "gameover") then
     Game.mousepressed(x,y,button,istouch)
   end
 end
@@ -88,7 +88,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if (gamestate == "endless") then
+  if (gamestate == "endless" or gamestate == "gameover") then
     Game.touchpressed(id,x,y,sw,sh,pressure)
   end
   

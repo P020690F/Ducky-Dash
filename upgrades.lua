@@ -1,12 +1,21 @@
-module("upgrades", package.seeall)
+module("Upgrades", package.seeall)
 require "main"
 
 function load()
+  --scoreModifier
+  --upgradeSpeed
+  
+  
+end
+
+function HalfSpeed()
+      v.PosY = v.PosY + (speed / 2)
 end
 
 function DoublePoints()
+  
+  
 end
-
 function LifeLine()
   if (duckColumn > 2) then
     duckColumn = duckColumn
@@ -16,5 +25,5 @@ function LifeLine()
 end
 
 function Invincibility()
-  game.duckState = "invulnerable"
+  
 end

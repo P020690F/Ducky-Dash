@@ -1,4 +1,4 @@
-module("sound", package.seeall)
+module("Sound", package.seeall)
 require "main"
 
 function load()

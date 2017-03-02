@@ -1,12 +1,12 @@
-module("game", package.seeall)
+module("Game", package.seeall)
 require "main"
+
 function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  
- upgradeState = "normalSpeed"
- duckState = "vulnerable"
+ upgradeState = "none"
  
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
@@ -14,14 +14,7 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- gameover = love.graphics.newImage("assets/GameOverScreen.png")
- retryButton = love.graphics.newImage("assets/RetryButton.png")
- mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
- buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
- scoreFont = love.graphics.newFont(20)
  
- speedMultiplier = 1
- endlessScore = 0
  speed = 2.5
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
@@ -76,11 +69,6 @@ function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
   love.graphics.draw(drain, drainQuad, 0, 0)
-  love.graphics.setFont(scoreFont)
-  love.graphics.setColor(255,0,0)
-  love.graphics.print("Score: ", 10, 600)
-  love.graphics.print(endlessScore, 80, 600)
-  love.graphics.setColor(255,255,255)
   
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
@@ -89,53 +77,54 @@ function drawEndless()
 end
 
 function updateEndless()
-  if Ducky.Position == "left" then
-    Ducky.PosX = LeftPoint.PosX
-    Ducky.PosY = LeftPoint.PosY
-  end
-  if Ducky.Position == "middle" then
-    Ducky.PosX = MiddlePoint.PosX
-    Ducky.PosY = MiddlePoint.PosY
-  end
-  if Ducky.Position == "right" then
-    Ducky.PosX = RightPoint.PosX
-    Ducky.PosY = RightPoint.PosY
-  end
-  
-    if endlessScore >= 10 and endlessScore % 10 == 0 then
-        speed = endlessScore / 20 + 2.5
-    end
-    
-    if (upgradeState == "halfSpeed") then
-      speedMultiplier = 0.5
-    else
-      speedMultiplier = 1
+  if not _G.paused then
+    if Ducky.Position == "left" then
+      Ducky.PosX = LeftPoint.PosX
+      Ducky.PosY = LeftPoint.PosY
     end
   
-  for i,v in ipairs(Obstacles) do
-    v.PosY = v.PosY + (speed * speedMultiplier)
-      
-    if v.PosY > 500 then
-        v.PosY = -(i * 100)
-        endlessScore = endlessScore + 1
+    if Ducky.Position == "middle" then
+      Ducky.PosX = MiddlePoint.PosX
+      Ducky.PosY = MiddlePoint.PosY
     end
-  end
   
-  if(duckState == "vulnerable") then
+    if Ducky.Position == "right" then
+      Ducky.PosX = RightPoint.PosX
+      Ducky.PosY = RightPoint.PosY
+    end
+ 
+  
     for i,v in ipairs(Obstacles) do
-      hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-      if (hitTest) then
-        main.gamestate = "gameover"
-      end  
+      if (upgradeState == "halfSpeed") then
+        Upgrades.HalfSpeed()
+      else
+        v.PosY = v.PosY + speed
+      end
+
+      if v.PosY > 500 then
+        v.PosY = -(i * 100)
+      end
     end
   end
 end
 
-function drawGameOver()
-  love.graphics.draw(gameover, backgroundQuad, 0, 0)
-  love.graphics.draw(retryButton, buttonQuad, 30, 475)
-  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
-end  
+function keypressed(key)
+  if (Ducky.Position == "middle") then
+    if (key == "1") then
+      Ducky.Position = "left"
+    end
+    
+    if (key == "3") then
+      Ducky.Position = "right"
+    end
+  end
+
+  if (Ducky.Position == "left" or Ducky.Position == "right") then
+    if (key == "2") then
+      Ducky.Position = "middle"
+    end
+  end
+end
 
 function mousepressed(x,y,button,istouch)
   if (Ducky.Position == "left" and x > Ducky.PosX) then
@@ -150,14 +139,12 @@ function mousepressed(x,y,button,istouch)
     end
   end
   
-  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    game.load()
-    main.gamestate = "endless"
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311) then
+  _G.paused = true
   end
   
-  if x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    main.gamestate = "menu"
-  end
+  
+  
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
@@ -171,6 +158,13 @@ function touchpressed(id,x,y,sw,sh,pressure)
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
     end
+  end
+
+  for i,v in ipairs(Obstacles) do
+    hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+    if (hitTest) then
+      Main.gamestate = "menu"
+    end  
   end
 end
 

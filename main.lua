@@ -1,12 +1,12 @@
 module("main", package.seeall)
-require "game"
-require "menu"
-require "sound"
-require "store"
-require "upgrades"
+require "Game"
+require "Menu"
+require "Sound"
+require "Store"
+require "Upgrades"
 
 function love.load()
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
+  --if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   screenWidth = 750/2
   screenHeight = 1337/2
@@ -22,60 +22,88 @@ function love.load()
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
   
   gamestate = "menu"
-  game.load()
-  menu.load()
-  sound.load()
-  store.load()
-  sound.play()
-  upgrades.load()
+  Game.load()
+  Menu.load()
+  Sound.load()
+  Store.load()
+  Sound.play()
   
   --global value
    _G.completedStory = false
+   _G.paused = false
 end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "menu" then
-    menu.draw()
+    if _G.paused then
+      love.graphics.setColor(113,113,113)
+    end
+    Menu.draw()
+    if _G.paused then
+      love.graphics.setColor(255,255,255)
+    end
   end
   
   if gamestate == "story" then
-    menu.drawStory()
+    if _G.paused then
+      love.graphics.setColor(113,113,113)
+    end
+    Menu.drawStory()
+    if _G.paused then
+      love.graphics.setColor(255,255,255)
+    end
   end
   
   if gamestate == "endless" then
-    game.drawEndless()
+    if _G.paused then
+      love.graphics.setColor(113,113,113)
+    end
+    Game.drawEndless()
+    if _G.paused then
+      love.graphics.setColor(255,255,255)
+    end
   end
   
   if gamestate == "store" then
-    store.drawDuckSelect()
+    Store.drawStoreHub()
   end
-  
-  if gamestate == "gameover" then
-    game.drawGameOver()
-  end  
 end
 
 function love.update()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "story" then
-    menu.updateStory()
+    Menu.updateStory()
   end
   
   if gamestate == "endless" then
-    game.updateEndless()
+    Game.updateEndless()
+  end
+  
+  if gamestate == "store" then
+    Store.updateStore()
   end
 end
 
 function love.mousepressed(x,y,button,istouch)
   if (gamestate == "menu") then
-    menu.mousepressed(x,y,button,istouch)
+    Menu.mousepressed(x,y,button,istouch)
   end
+  
+  if (gamestate == "endless") then
+    Game.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "Store") then
+    Store.clickStoreHub(x,y,button,istouch)
+  end
+end
 
-  if (gamestate == "endless" or gamestate == "gameover") then
-    game.mousepressed(x,y,button,istouch)
+function love.keypressed(key)
+  if (gamestate == "endless") then
+    Game.keypressed(key)
   end
 end
 
@@ -83,11 +111,15 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if (gamestate == "endless" or gamestate == "gameover") then
+  if (gamestate == "endless") then
     Game.touchpressed(id,x,y,sw,sh,pressure)
   end
   
   if (gamestate == "menu") then
-    menu.touchpressed(id,x,y,sw,sh,pressure)
+    Menu.touchpressed(id,x,y,sw,sh,pressure)
+  end
+  
+  if (gamestate == "store") then
+    Store.pressStoreHub(id,x,y,sw,sh,pressure)
   end
 end

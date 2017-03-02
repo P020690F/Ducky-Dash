@@ -108,11 +108,7 @@ function updateEndless()
   for i,v in ipairs(Obstacles) do
     hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
     if (hitTest) then
-<<<<<<< 02dc8f34c642eaa5dee61d8cff4c9e1b3f9ce378
-      main.gamestate = "menu"
-=======
       main.gamestate = "gameover"
->>>>>>> +Collision fixed
     end  
   end
 end

@@ -27,6 +27,7 @@ function love.load()
   sound.load()
   store.load()
   sound.play()
+  upgrades.load()
   
   --global value
    _G.completedStory = false

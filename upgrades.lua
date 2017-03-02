@@ -7,7 +7,7 @@ function load()
 end
 
 function HalfSpeed()
-      v.PosY = v.PosY + (speed / 2)
+      game.v.PosY = game.v.PosY + (speed / 2)
 end
 
 function DoublePoints()
@@ -22,4 +22,5 @@ function LifeLine()
 end
 
 function Invincibility()
+  game.duckState = "invulnerable"
 end

@@ -8,7 +8,7 @@ function load()
 
   
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
-  centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,450/2,450/2)
+  centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
   
   storeState = "Duck"
 
@@ -41,7 +41,7 @@ end
 
 function drawDuckSelect()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(PDFront, centreDuckQuad, 150/2 ,487/2)
+  love.graphics.draw(PDFront, centreDuckQuad, 125/2 ,450/2)
   
   --smaller behind ducks
   love.graphics.setColor(113,113,133)

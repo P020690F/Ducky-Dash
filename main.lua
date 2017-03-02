@@ -4,6 +4,7 @@ require "Menu"
 require "Sound"
 require "Store"
 require "Upgrades"
+require "Pause"
 
 function love.load()
   --if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -27,6 +28,7 @@ function love.load()
   Sound.load()
   Store.load()
   Sound.play()
+  Pause.load()
   
   --global value
    _G.completedStory = false
@@ -69,6 +71,11 @@ function love.draw()
   if gamestate == "store" then
     Store.drawStoreHub()
   end
+  
+  if _G.paused then
+    Pause.draw()
+  end
+    
 end
 
 function love.update()
@@ -88,16 +95,21 @@ function love.update()
 end
 
 function love.mousepressed(x,y,button,istouch)
+  
   if (gamestate == "menu") then
     Menu.mousepressed(x,y,button,istouch)
   end
   
-  if (gamestate == "endless") then
+  if (gamestate == "endless" and not _G.paused) then
     Game.mousepressed(x,y,button,istouch)
   end
   
   if (gamestate == "Store") then
     Store.clickStoreHub(x,y,button,istouch)
+  end
+  
+  if (_G.paused) then
+    Pause.mousepressed(x,y,button,istouch)
   end
 end
 
@@ -111,7 +123,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if (gamestate == "endless") then
+  if (gamestate == "endless" and not _G.Paused) then
     Game.touchpressed(id,x,y,sw,sh,pressure)
   end
   
@@ -121,5 +133,8 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   
   if (gamestate == "store") then
     Store.pressStoreHub(id,x,y,sw,sh,pressure)
+  end
+   if (_G.paused) then
+    Pause.touchpressed(x,y,button,istouch)
   end
 end

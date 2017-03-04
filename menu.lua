@@ -45,7 +45,7 @@ function touchpressed(id,x,y,sw,sh,pressure)
   end 
 
   -- endless mode
-  if (x > 524 and x < 739 and y > 671 and y <899 and _G.completedStory) then
+  if (x > 524/2 and x < 739/2 and y > 671/2 and y <899/2 and _G.completedStory) then
     main.gamestate = "endless"
   end 
 end

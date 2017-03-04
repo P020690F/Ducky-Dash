@@ -89,44 +89,46 @@ function drawEndless()
 end
 
 function updateEndless()
-  if Ducky.Position == "left" then
-    Ducky.PosX = LeftPoint.PosX
-    Ducky.PosY = LeftPoint.PosY
-  end
-  if Ducky.Position == "middle" then
-    Ducky.PosX = MiddlePoint.PosX
-    Ducky.PosY = MiddlePoint.PosY
-  end
-  if Ducky.Position == "right" then
-    Ducky.PosX = RightPoint.PosX
-    Ducky.PosY = RightPoint.PosY
-  end
-  
-    if endlessScore >= 10 and endlessScore % 10 == 0 then
-        speed = endlessScore / 20 + 2.5
+  if not _G.paused then
+    if Ducky.Position == "left" then
+      Ducky.PosX = LeftPoint.PosX
+      Ducky.PosY = LeftPoint.PosY
+    end
+    if Ducky.Position == "middle" then
+      Ducky.PosX = MiddlePoint.PosX
+      Ducky.PosY = MiddlePoint.PosY
+    end
+    if Ducky.Position == "right" then
+      Ducky.PosX = RightPoint.PosX
+      Ducky.PosY = RightPoint.PosY
     end
     
-    if (upgradeState == "halfSpeed") then
-      speedMultiplier = 0.5
-    else
-      speedMultiplier = 1
-    end
-  
-  for i,v in ipairs(Obstacles) do
-    v.PosY = v.PosY + (speed * speedMultiplier)
+      if endlessScore >= 10 and endlessScore % 10 == 0 then
+          speed = endlessScore / 20 + 2.5
+      end
       
-    if v.PosY > 500 then
-        v.PosY = -(i * 100)
-        endlessScore = endlessScore + 1
-    end
-  end
-  
-  if(duckState == "vulnerable") then
+      if (upgradeState == "halfSpeed") then
+        speedMultiplier = 0.5
+      else
+        speedMultiplier = 1
+      end
+    
     for i,v in ipairs(Obstacles) do
-      hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-      if (hitTest) then
-        main.gamestate = "gameover"
-      end  
+      v.PosY = v.PosY + (speed * speedMultiplier)
+        
+      if v.PosY > 500 then
+          v.PosY = -(i * 100)
+          endlessScore = endlessScore + 1
+      end
+    end
+    
+    if(duckState == "vulnerable") then
+      for i,v in ipairs(Obstacles) do
+        hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+        if (hitTest) then
+          main.gamestate = "gameover"
+        end  
+      end
     end
   end
 end
@@ -155,8 +157,8 @@ function mousepressed(x,y,button,istouch)
     main.gamestate = "endless"
   end
   
-  if x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    main.gamestate = "menu"
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
+    _G.paused = true
   end
 end
 
@@ -171,6 +173,15 @@ function touchpressed(id,x,y,sw,sh,pressure)
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
     end
+  end
+  
+  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    game.load()
+    main.gamestate = "endless"
+  end
+  
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
+    _G.paused = true
   end
 end
 

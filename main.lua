@@ -69,6 +69,16 @@ function love.draw()
     end
   end
   
+  if gamestate == "local" then
+    if _G.paused then
+      love.graphics.setColor(113,113,113)
+    end
+    game.drawLocal()
+    if _G.paused then
+      love.graphics.setColor(255,255,255)
+    end
+  end
+  
   if gamestate == "store" then
     store.drawStoreHub()
   end
@@ -92,6 +102,10 @@ function love.update()
     game.updateEndless()
   end
   
+    if gamestate == "local" then
+    game.updateLocal()
+  end
+  
   if gamestate == "store" then
     store.updateStore()
   end
@@ -105,6 +119,11 @@ function love.mousepressed(x,y,button,istouch)
   if (gamestate == "endless" and not _G.paused) then
     game.mousepressed(x,y,button,istouch)
   end
+  
+  if (gamestate == "local" and not _G.paused) then
+    game.mousepressed(x,y,button,istouch)
+  end
+  
   
   if (gamestate == "gameover") then
     game.mousepressed(x,y,button,istouch)
@@ -124,6 +143,10 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   y = y * screenHeight
   
   if (gamestate == "endless" and not _G.Paused) then
+    game.touchpressed(id,x,y,sw,sh,pressure)
+  end
+   
+  if (gamestate == "local" and not _G.Paused) then
     game.touchpressed(id,x,y,sw,sh,pressure)
   end
   

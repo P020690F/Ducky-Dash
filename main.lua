@@ -97,28 +97,8 @@ function love.update()
   end
 end
 
-function love.mousepressed(x,y,button,istouch) 
-  if (gamestate == "menu") then
-    menu.mousepressed(x,y,button,istouch)
-  end
+if love.system.getOS() == "Android" then
   
-  if (gamestate == "endless" and not _G.paused) then
-    game.mousepressed(x,y,button,istouch)
-  end
-  
-  if (gamestate == "gameover") then
-    game.mousepressed(x,y,button,istouch)
-  end
-  
-  if (gamestate == "store") then
-    store.clickStoreHub(x,y,button,istouch)
-  end
-  
-  if (_G.paused) then
-    pause.mousepressed(x,y,button,istouch)
-  end
-end
-
 function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
@@ -140,6 +120,31 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   end
   
   if (_G.paused) then
-    pause.touchpressed(x,y,button,istouch)
+    pause.touchpressed(id,x,y,sw,sh,pressure)
   end
+end
+  
+else
+  
+function love.mousepressed(x,y,button,istouch) 
+  if (gamestate == "menu") then
+    menu.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "endless" and not _G.paused) then
+    game.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "gameover") then
+    game.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "store") then
+    store.clickStoreHub(x,y,button,istouch)
+  end
+  
+  if (_G.paused) then
+    pause.mousepressed(x,y,button,istouch)
+  end
+end
 end

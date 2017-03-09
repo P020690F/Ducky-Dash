@@ -74,8 +74,8 @@ function touchpressed(id,x,y,sw,sh,pressure)
     if y > 446 and y < 552 then
       -- menu
       
-      --doesnt reset game 
       _G.paused = false
+      game.load()
       main.gamestate = "menu"
     end
   

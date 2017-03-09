@@ -5,9 +5,6 @@ function load()
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  
- upgradeState = "normalSpeed"
- duckState = "vulnerable"
- 
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  drain = love.graphics.newImage("assets/Drain.png")
@@ -108,9 +105,10 @@ function updateEndless()
     
       if endlessScore >= 10 and endlessScore % 10 == 0 then
           speed = endlessScore / 20 + 2.5
+          upgrades.SpawnUpgrade()
       end
       
-      if (upgradeState == "halfSpeed") then
+      if (upgrades.speedState == "halfSpeed") then
         speedMultiplier = 0.5
       else
         speedMultiplier = 1
@@ -125,7 +123,7 @@ function updateEndless()
       end
     end
     
-    if(duckState == "vulnerable") then
+    if(upgrades.duckState == "vulnerable") then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then

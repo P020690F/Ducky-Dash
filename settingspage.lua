@@ -6,7 +6,7 @@ require "sound"
 function load()
   
   settingsImg = love.graphics.newImage("assets/Settings_Button.png")
-  mainImg = love.graphics.newImage("assets/MainMenuButton.png")
+  mainImg = love.graphics.newImage("assets/Close_button.png")
   
   sliderBaseImg = love.graphics.newImage("assets/SliderBase.png")
   sliderImg = love.graphics.newImage("assets/Slider.png")
@@ -36,7 +36,14 @@ function draw()
 end
 
 function mousepressed(x,y,button, istouch)
+  clickLocations(x,y) 
+end
 
+function touchpressed(id,x,y,sw,sh,pressure)
+  clickLocations(x,y)
+end
+
+function clickLocations(x,y)
   if (x > 85 and x < 288 and y > 446 and y < 552) then
       --close settings
       _G.settings = false  
@@ -69,16 +76,6 @@ function mousepressed(x,y,button, istouch)
     end
     
     _G.musicVolume = ((effectSliderXPos - 70) / (263-70))
-    sound.updateEffect(_G.musicVolume)
-    
-  end
-end
-
-function touchpressed(id,x,y,sw,sh,pressure)
-
-  if (x > 85 and x < 288 and y > 446 and y < 552) then
-      --close settings
-      _G.setting = false
-      
+    sound.updateEffect(_G.musicVolume)    
   end
 end

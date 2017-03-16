@@ -1,11 +1,12 @@
 module("game", package.seeall)
 require "main"
 require "duckdatabase"
+require "storyMenu"
 function load()
  
  duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
  
- 
+ storyLevel = 0
  upgradeState = "normalSpeed"
  duckState = "vulnerable"
  
@@ -30,8 +31,8 @@ function load()
  
  Ducky = {
  Tex = duckSkin,
- PosX = 0,
- PosY = 0,
+ PosX = 130,
+ PosY = 350,
  Position = "middle",
  Height = 10,
  Width = 10
@@ -41,6 +42,11 @@ function load()
  LeftPoint = { PosX = 50, PosY = 400 }
  MiddlePoint = { PosX = 130, PosY = 400 }
  RightPoint = { PosX = 210, PosY = 400 }
+ 
+ duckHorizontalMove = "still"
+ duckVerticalMove = "still"
+ 
+ duckLife = 2
  
  Obstacles = {}
  for i = 1, 5 do
@@ -68,6 +74,9 @@ function load()
 end
 
 function drawStory()
+  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(drain, drainQuad, 0, 0)
 end  
 
 function updateStory()
@@ -91,20 +100,45 @@ end
 
 function updateEndless()
   if not _G.paused then
-    if Ducky.Position == "left" then
-      Ducky.PosX = LeftPoint.PosX
-      Ducky.PosY = LeftPoint.PosY
-    end
-    if Ducky.Position == "middle" then
-      Ducky.PosX = MiddlePoint.PosX
-      Ducky.PosY = MiddlePoint.PosY
-    end
-    if Ducky.Position == "right" then
-      Ducky.PosX = RightPoint.PosX
-      Ducky.PosY = RightPoint.PosY
+    if duckHorizontalMove == "left" then
+      if Ducky.Position == "left" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 50 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
     end
     
-      if endlessScore >= 10 and endlessScore % 10 == 0 then
+    if duckHorizontalMove == "right" then
+      if Ducky.Position == "right" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 210 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
+    end
+    
+    if duckVerticalMove == "down" then
+      if duckLife == 1 then
+        Ducky.PosY =  Ducky.PosY + 5
+        if Ducky.PosY == 400 then
+          duckVerticalMove = "still"
+          duckState = "vulnerable"
+        end
+      end
+    end
+
+      if endlessScore >= 5 and endlessScore % 5 == 0 then
           speed = endlessScore / 20 + 2.5
       end
       
@@ -127,7 +161,15 @@ function updateEndless()
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
-          main.gamestate = "gameover"
+          duckLife = duckLife - 1
+          if duckLife == 1  then
+            duckVerticalMove = "down"  
+            duckState = "BeenHit"
+            v.PosY = -100
+          elseif duckLife == 0 then
+            main.gamestate = "gameover"
+          end
+          _G.DuckBills = _G.DuckBills + endlessScore
         end  
       end
     end
@@ -141,38 +183,27 @@ function drawGameOver()
 end  
 
 function mousepressed(x,y,button,istouch)
-  if (Ducky.Position == "left" and x > Ducky.PosX) then
-    Ducky.Position = "middle"
-  elseif (Ducky.Position == "right" and x < Ducky.PosX) then
-    Ducky.Position = "middle"
-  elseif (Ducky.Position == "middle") then
-    if (x < Ducky.PosX) then
-      Ducky.Position = "left"
-    elseif (x > Ducky.PosX) then
-      Ducky.Position = "right"
-    end
-  end
-  
-  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    game.load()
-    main.gamestate = "endless"
-  end
-  
-  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
-    _G.paused = true
-  end
+  clickLocations(x,y)
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
+  clickLocations(x,y)
+end
+
+function clickLocations (x,y)
   if (Ducky.Position == "left" and x > Ducky.PosX) then
     Ducky.Position = "middle"
+    duckHorizontalMove = "right"
   elseif (Ducky.Position == "right" and x < Ducky.PosX) then
     Ducky.Position = "middle"
+    duckHorizontalMove = "left"
   elseif (Ducky.Position == "middle") then
     if (x < Ducky.PosX) then
       Ducky.Position = "left"
+      duckHorizontalMove = "left"
     elseif (x > Ducky.PosX) then
       Ducky.Position = "right"
+      duckHorizontalMove = "right"
     end
   end
   
@@ -181,10 +212,16 @@ function touchpressed(id,x,y,sw,sh,pressure)
     main.gamestate = "endless"
   end
   
+  if x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    main.gamestate = "menu"
+  end
+  
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
     _G.paused = true
   end
+
 end
+
 
 function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
   return x1 < x2+w2 and

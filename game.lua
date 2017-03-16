@@ -119,14 +119,26 @@ function updateEndless()
         speedMultiplier = 1
       end
     
-    for i,v in ipairs(Obstacles) do
+  for i,v in ipairs(Obstacles) do
       v.PosY = v.PosY + (speed * speedMultiplier)
         
-      if v.PosY > 500 then
-          v.PosY = -(i * 100)
-          endlessScore = endlessScore + 1
+    if v.PosY > 500 then
+         v.Lane = math.random(1,3)
+      if (v.Lane == 1) then
+        v.PosX = LeftPoint.PosX
       end
+      if (v.Lane == 2) then
+        v.PosX = MiddlePoint.PosX
+      end
+      if (v.Lane == 3) then
+        v.PosX = RightPoint.PosX
+      end
+         
+         v.PosY = -(i * 100)
+          
+          endlessScore = endlessScore + 1
     end
+  end
     
     if(duckState == "vulnerable") then
       for i,v in ipairs(Obstacles) do

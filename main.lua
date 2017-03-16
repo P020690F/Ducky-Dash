@@ -27,7 +27,7 @@ function love.load()
   menu.load()
   sound.load()
   store.load()
-  sound.play()
+  --sound.play()
   upgrades.load()
   pause.load()
   
@@ -40,6 +40,7 @@ function love.draw()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "menu" then
+    sound.play()
     if _G.paused then
       love.graphics.setColor(113,113,113)
     end
@@ -60,6 +61,7 @@ function love.draw()
   end
   
   if gamestate == "endless" then
+    sound.play()
     if _G.paused then
       love.graphics.setColor(113,113,113)
     end

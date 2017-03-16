@@ -53,7 +53,7 @@ function love.draw()
     if _G.paused then
       love.graphics.setColor(113,113,113)
     end
-    menu.drawStory()
+    game.drawStory()
     if _G.paused then
       love.graphics.setColor(255,255,255)
     end
@@ -95,7 +95,7 @@ function love.update()
   love.graphics.scale(scalex, scaley)
   
   if gamestate == "story" then
-    menu.updateStory()
+    game.updateStory()
   end
   
   if gamestate == "endless" then
@@ -125,6 +125,9 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
     game.mousepressed(x,y,button,istouch)
   end
   
+  if (gamestate == "story" and not _G.Paused) then
+    game.touchpressed(id,x,y,sw,sh,pressure)
+  end
   
   if (gamestate == "gameover") then
     game.touchpressed(id,x,y,sw,sh,pressure)
@@ -164,6 +167,10 @@ function love.mousepressed(x,y,button,istouch)
   
   if (gamestate == "store") then
     store.clickStoreHub(x,y,button,istouch)
+  end
+  
+  if (gamestate == "story") then
+    game.mousepressed(x,y,button,istouch)
   end
   
   if (_G.paused) then

@@ -47,6 +47,7 @@ function mousepressed(x,y,button, istouch)
       _G.paused = false
       game.load()
       main.gamestate = "menu"
+      sound.play()
     end
   
   end
@@ -77,6 +78,7 @@ function touchpressed(id,x,y,sw,sh,pressure)
       _G.paused = false
       game.load()
       main.gamestate = "menu"
+      sound.play()
     end
   
   end

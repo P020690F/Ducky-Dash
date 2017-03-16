@@ -4,7 +4,6 @@ function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
- 
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  drain = love.graphics.newImage("assets/Drain.png")
@@ -153,6 +152,7 @@ end
 
 function updateLocal()
   if not _G.paused then
+    upgrades.Update()
     if Ducky.Position == "left" then
       Ducky.PosX = LeftPoint.PosX
       Ducky.PosY = LeftPoint.PosY

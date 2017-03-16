@@ -9,13 +9,24 @@ function load()
 end
 
 function play()
-  if main.gamestate == "menu" and not menu:isPlaying() then
-    love.audio.stop()
+  if main.gamestate == "menu" then
+    love.audio.stop() 
     love.audio.play(menu)
   end
   
-  if main.gamestate == "endless" and not endless:isPlaying() then
+  if main.gamestate == "endless" then
   love.audio.stop()
   love.audio.play(endless)
   end  
+end
+
+function updateMusic(v)
+
+  menu:setVolume(v)
+  endless:setVolume(v)
+end
+
+function updateEffect(v)
+
+  
 end

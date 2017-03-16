@@ -27,7 +27,6 @@ function love.load()
   menu.load()
   sound.load()
   store.load()
-  --sound.play()
   upgrades.load()
   pause.load()
   

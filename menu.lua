@@ -12,7 +12,7 @@ function draw()
     love.graphics.draw(mainMenuPostStory, backgroundQuad, 0, 0)
   else
     love.graphics.draw(mainMenuPreStory, backgroundQuad, 0, 0)
-  end
+  end 
 end  
 
 function mousepressed(x,y,button,istouch)

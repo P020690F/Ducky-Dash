@@ -33,5 +33,4 @@ function HalfSpeed()
   end
 function SpawnUpgrade()
   upgradeDrop = love.math.random(1,4)
-  if upgradeDrop
 end

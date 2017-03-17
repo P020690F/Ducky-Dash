@@ -15,7 +15,7 @@ function load()
  retryButton = love.graphics.newImage("assets/RetryButton.png")
  mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
  buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
- scoreFont = love.graphics.newFont(20)
+ scoreFont = love.graphics.newFont(20) 
  
  speedMultiplier = 1
  endlessScore = 0
@@ -70,10 +70,61 @@ function load()
 end
 
 function drawStory()
-end  
+  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(drain, drainQuad, 0, 0)
+  love.graphics.setFont(scoreFont)
+  
+  for i,v in ipairs(Obstacles) do
+    love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+  end
+  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  end  
 
 function updateStory()
-end  
+  if not _G.paused then
+    if Ducky.Position == "left" then
+      Ducky.PosX = LeftPoint.PosX
+      Ducky.PosY = LeftPoint.PosY
+    end
+    if Ducky.Position == "middle" then
+      Ducky.PosX = MiddlePoint.PosX
+      Ducky.PosY = MiddlePoint.PosY
+    end
+    if Ducky.Position == "right" then
+      Ducky.PosX = RightPoint.PosX
+      Ducky.PosY = RightPoint.PosY
+    end
+    
+      if endlessScore >= 10 and endlessScore % 10 == 0 then
+          speed = endlessScore / 20 + 2.5
+      end
+      
+      if (upgradeState == "halfSpeed") then
+        speedMultiplier = 0.5
+      else
+        speedMultiplier = 1
+      end
+    
+    for i,v in ipairs(Obstacles) do
+      v.PosY = v.PosY + (speed * speedMultiplier)
+        
+      if v.PosY > 500 then
+          v.PosY = -(i * 100)
+          endlessScore = endlessScore + 1
+      end
+    end
+    
+    if(duckState == "vulnerable") then
+      for i,v in ipairs(Obstacles) do
+        hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+        if (hitTest) then
+          main.gamestate = "gameover"
+        end  
+      end
+    end
+  end
+end 
 
 function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)

@@ -19,6 +19,7 @@ function mousepressed(x,y,button,istouch)
   
   
   if (x > 45/2 and x < 261/2 and y > 702/2 and y <930/2) then
+    main.gamestate = "story"
     _G.completedStory = true
   end 
 
@@ -36,6 +37,7 @@ end
 function touchpressed(id,x,y,sw,sh,pressure)
 
    if (x > 45/2 and x < 261/2 and y > 702/2 and y <930/2) then
+    main.gamestate = "story"
     _G.completedStory = true
   end 
 

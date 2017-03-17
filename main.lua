@@ -5,6 +5,8 @@ require "sound"
 require "store"
 require "upgrades"
 require "pause"
+require "duckdatabase"
+require "settingspage"
 
 function love.load()
   --if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -23,16 +25,23 @@ function love.load()
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
   
   gamestate = "menu"
+  duckdatabase.load()
   game.load()
   menu.load()
   sound.load()
   store.load()
+  sound.play()
   upgrades.load()
   pause.load()
+  settingspage.load()
+ 
   
   --global value
    _G.completedStory = false
    _G.paused = false
+   _G.settings = false
+   _G.musicVolume = 1.0
+   _G.effectVolume = 1.0
 end
 
 function love.draw()
@@ -40,11 +49,11 @@ function love.draw()
   
   if gamestate == "menu" then
     sound.play()
-    if _G.paused then
+    if _G.settings then
       love.graphics.setColor(113,113,113)
     end
     menu.draw()
-    if _G.paused then
+    if _G.settings then
       love.graphics.setColor(255,255,255)
     end
   end
@@ -88,7 +97,15 @@ function love.draw()
     game.drawGameOver()
   end  
   if _G.paused then
-    pause.draw()
+    if not _G.settings then
+      pause.draw()
+    else
+      settingspage.draw()
+    end
+  end 
+  
+  if _G.settings then
+    settingspage.draw()   
   end 
 end
 

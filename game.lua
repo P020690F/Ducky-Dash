@@ -1,9 +1,11 @@
 module("game", package.seeall)
 require "main"
+require "duckdatabase"
 function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
+ duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  drain = love.graphics.newImage("assets/Drain.png")
@@ -29,7 +31,7 @@ function load()
  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
  
  Ducky = {
- Tex = standardduck,
+ Tex = duckSkin,
  PosX = 0,
  PosY = 0,
  Position = "middle",
@@ -254,7 +256,7 @@ function updateLocal()
         end
       end
     
-      if(duckState == "vulnerable") then
+    if(duckState == "vulnerable") then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then

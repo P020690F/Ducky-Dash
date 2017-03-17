@@ -29,3 +29,14 @@ end
   love.audio.play(menu)
   end  
 end
+
+function updateMusic(v)
+
+  menu:setVolume(v)
+  endless:setVolume(v)
+end
+
+function updateEffect(v)
+
+  
+end

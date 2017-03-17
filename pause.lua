@@ -1,5 +1,6 @@
 module("pause", package.seeall)
 require "main"
+require "game"
 
 function load()
   resumeImg = love.graphics.newImage("assets/Resume_Button.png")
@@ -33,12 +34,14 @@ function mousepressed(x,y,button, istouch)
   
     if y > 196 and y < 302 then
       -- retry
+      game.load()
+      _G.paused = false
    
     end
   
     if y > 320 and y < 426 then
       -- settings
-   
+      _G.settings = true
     end
   
     if y > 446 and y < 552 then
@@ -63,19 +66,20 @@ function touchpressed(id,x,y,sw,sh,pressure)
   
     if y > 196 and y < 302 then
       -- retry
-   
+      game.load()
+      _G.paused = false
+
     end
   
     if y > 320 and y < 426 then
       -- settings
-   
+     _G.settings = true
     end
   
     if y > 446 and y < 552 then
       -- menu
       
       _G.paused = false
-      game.load()
       main.gamestate = "menu"
     end
   

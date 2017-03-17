@@ -88,8 +88,7 @@ function drawStory()
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
-  end  
-end  
+end
 
 function updateStory()
   if not _G.paused then
@@ -290,7 +289,7 @@ function updateLocal()
         end
       end
     
-    if(duckState == "vulnerable" and hit = false) then
+    if(duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then

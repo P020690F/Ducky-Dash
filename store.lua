@@ -68,12 +68,10 @@ end
 function clickStoreHub(x,y,button,istouch)
 
   if(x > 20 and x  < 120 and y > 585 and  y < 635) then
-   
     main.gamestate = "menu"
   end
   
   if(x > 20 and x  < 120 and y > 15 and  y < 65) then
-    
     if (storeState == "Duck") then
       storeState = "PowerUp"
     
@@ -104,7 +102,6 @@ function drawDuckSelect()
   love.graphics.draw(PowerUpImg, mainButtonQuad, 10 ,-20)
   
   if(duckdatabase.returnDuckOwnership(lookingAtDuck)) then
-  
     if (duckdatabase.getDuckByNumber(lookingAtDuck) == duckdatabase.currentDuck) then
       love.graphics.setColor(111,111,111)
     end
@@ -126,31 +123,29 @@ function drawDuckSelect()
   love.graphics.draw(ArrowLeft, ArrowQuad, 20,900/2)
   love.graphics.draw(ArrowRight, ArrowQuad, (750-100)/2 -45,900/2)
   
-end  
+end 
+
 function drawPowerUpStore()
   love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
-  
-  
 end
-
-
 
 function clickDuckSelect(x,y,button,istouch)
   --duck arrows
   if(x > 20 and x  < 95 and y > 450 and  y < 525) then
-    lookingAtDuck = lookingAtDuck + 1
-   
-    if (lookingAtDuck > duckdatabase.numDucks) then
-      lookingAtDuck = 1
-    end
-    
-   cycleSkins()
-  end  
-  if(x > 280 and x  < 355 and y > 450 and  y < 525) then
-   lookingAtDuck = lookingAtDuck - 1
+    lookingAtDuck = lookingAtDuck -1
    
     if (lookingAtDuck == 0) then
       lookingAtDuck = duckdatabase.numDucks
+    end
+    
+   cycleSkins()
+  end 
+  
+  if(x > 280 and x  < 355 and y > 450 and  y < 525) then
+   lookingAtDuck = lookingAtDuck + 1
+   
+    if (lookingAtDuck > duckdatabase.numDucks) then
+      lookingAtDuck = 1
     end
    
     cycleSkins()
@@ -177,9 +172,11 @@ function clickDuckSelect(x,y,button,istouch)
   end
   
 end
+
 function clickPowerUpStore(x,y,button,istouch)
  
 end
+
 function cycleSkins()
   numDuckLeft = lookingAtDuck - 1
   numDuckRight = lookingAtDuck + 1

@@ -63,7 +63,8 @@ function clickLocations(x,y)
   --Co op mode
   if (x > 65 and x < 310 and y > 480 and y < 600) then
     --load co-op
-    --main.gamestate = "coop"
+    game.load()
+    main.gamestate = "local"
   end
   
   --Settings

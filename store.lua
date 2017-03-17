@@ -3,6 +3,7 @@ require "main"
 require "duckdatabase"
 
 function load()
+  --background placeholder
   bathtub = love.graphics.newImage("assets/Bathtub.png")
   
   leftDuck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")
@@ -13,24 +14,20 @@ function load()
   ArrowRight = love.graphics.newImage("assets/RightArrow.png")
   
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
-  
   PowerUpImg = love.graphics.newImage("assets/Power_Ups_Button.png")
   selectImg = love.graphics.newImage("assets/Select_Button.png")
   buyImg = love.graphics.newImage("assets/Buy_Button.png")
-  -- placeholder
-  DuckStoreImg = love.graphics.newImage("assets/Buy_Button.png")
-
+  DuckStoreImg = love.graphics.newImage("assets/Duck_Button.png")
+  DuckBillsImg = love.graphics.newImage("assets/Money.png")
+  
+  storeFont = love.graphics.newFont(15)
   
   mainButtonQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
+  DuckBillQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
   ArrowQuad = love.graphics.newQuad(1,1,75,75,75,75)
-  
-  
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
-
-  
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
   centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
-  
   
   storeState = "Duck"
 
@@ -40,8 +37,6 @@ function load()
 end
 
 function updateStore()
-  
-  
  
 end
 
@@ -49,6 +44,11 @@ end
 function drawStoreHub()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(mainImg, mainButtonQuad,10, 550)
+  love.graphics.draw(DuckBillsImg, DuckBillQuad,250,-15)
+  love.graphics.setColor(0,255,0)
+  love.graphics.setFont(storeFont)
+  love.graphics.print("Duck Bills: " .. _G.DuckBills, 265,70)
+  love.graphics.setColor(255,255,255) 
    
   --xstring = ("asd" and love.mouse.getX())
   --ystring = ("asd" and love.mouse.getY())
@@ -96,8 +96,11 @@ function pressStoreHub(id,x,y,sw,sh,pressure)
 --need to create functions
 end
 function drawDuckSelect()
+  love.graphics.setColor(255,0,0)
+  love.graphics.print(duckdatabase.currentDuck, 135, 445)
+  love.graphics.setColor(255,255,255)
   
-  love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,450/2)
+  love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,225)
   love.graphics.draw(PowerUpImg, mainButtonQuad, 10 ,-20)
   
   if(duckdatabase.returnDuckOwnership(lookingAtDuck)) then
@@ -105,11 +108,13 @@ function drawDuckSelect()
     if (duckdatabase.getDuckByNumber(lookingAtDuck) == duckdatabase.currentDuck) then
       love.graphics.setColor(111,111,111)
     end
-    love.graphics.draw(selectImg, mainButtonQuad, 125 ,425)
+    love.graphics.draw(selectImg, mainButtonQuad, 125 ,430)
     love.graphics.setColor(255,255,255)
   else
-  love.graphics.draw(buyImg, mainButtonQuad, 125 ,425)
- 
+    love.graphics.draw(buyImg, mainButtonQuad, 125 ,430)
+    love.graphics.setColor(0,255,0)
+    love.graphics.print("500",175,520)
+    love.graphics.setColor(255,255,255)
   end
   
   --smaller behind ducks
@@ -161,10 +166,12 @@ function clickDuckSelect(x,y,button,istouch)
       --buy duck
       --need to decide if ducks cost different amounts
       --if(duckdatabase.duckBills >= duckdatabase.duckCost(lookingAtDuck)) then
-      --duckdatabase.duckBills - duckdatabase.duckCost(lookingAtDuck)
-      duckdatabase.buyDuck(lookingAtDuck)
-      duckdatabase.currentDuck = duckdatabase.getDuckByNumber(lookingAtDuck)
-      --end
+      if(_G.DuckBills >= 500) then
+        --duckdatabase.duckBills = duckdatabase.duckBills - duckdatabase.duckCost(lookingAtDuck)
+        _G.DuckBills = _G.DuckBills - 500
+        duckdatabase.buyDuck(lookingAtDuck)
+        duckdatabase.currentDuck = duckdatabase.getDuckByNumber(lookingAtDuck)
+      end
     end
     
   end

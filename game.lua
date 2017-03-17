@@ -1,11 +1,13 @@
 module("game", package.seeall)
 require "main"
 require "duckdatabase"
+require "storyMenu"
 function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
+ storyLevel = 0
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  drain = love.graphics.newImage("assets/Drain.png")
@@ -32,8 +34,8 @@ function load()
  
  Ducky = {
  Tex = duckSkin,
- PosX = 0,
- PosY = 0,
+ PosX = 130,
+ PosY = 350,
  Position = "middle",
  Height = 10,
  Width = 10
@@ -43,6 +45,12 @@ function load()
  LeftPoint = { PosX = 50, PosY = 400 }
  MiddlePoint = { PosX = 130, PosY = 400 }
  RightPoint = { PosX = 210, PosY = 400 }
+ 
+ duckHorizontalMove = "still"
+ duckVerticalMove = "still"
+ 
+ duckLife = 2
+ hit = false
  
  Obstacles = {}
  for i = 1, 5 do
@@ -81,6 +89,7 @@ function drawStory()
   end
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
   end  
+end  
 
 function updateStory()
   if not _G.paused then
@@ -145,20 +154,45 @@ end
 
 function updateEndless()
   if not _G.paused then
-    if Ducky.Position == "left" then
-      Ducky.PosX = LeftPoint.PosX
-      Ducky.PosY = LeftPoint.PosY
-    end
-    if Ducky.Position == "middle" then
-      Ducky.PosX = MiddlePoint.PosX
-      Ducky.PosY = MiddlePoint.PosY
-    end
-    if Ducky.Position == "right" then
-      Ducky.PosX = RightPoint.PosX
-      Ducky.PosY = RightPoint.PosY
+    if duckHorizontalMove == "left" then
+      if Ducky.Position == "left" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 50 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
     end
     
-      if endlessScore >= 10 and endlessScore % 10 == 0 then
+    if duckHorizontalMove == "right" then
+      if Ducky.Position == "right" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 210 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
+    end
+    
+    if duckVerticalMove == "down" then
+      if duckLife == 1 then
+        Ducky.PosY =  Ducky.PosY + 5
+        if Ducky.PosY == 400 then
+          duckVerticalMove = "still"
+          hit = false
+        end
+      end
+    end
+
+      if endlessScore >= 5 and endlessScore % 5 == 0 then
           speed = endlessScore / 20 + 2.5
           upgrades.SpawnUpgrade()
       end
@@ -256,16 +290,22 @@ function updateLocal()
         end
       end
     
-    if(duckState == "vulnerable") then
+    if(duckState == "vulnerable" and hit = false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
-          main.gamestate = "gameover"
+          duckLife = duckLife - 1
+          if duckLife == 1  then
+            duckVerticalMove = "down"  
+            hit = true
+            v.PosY = -100
+          elseif duckLife == 0 then
+            main.gamestate = "gameover"
+          end
+          _G.DuckBills = _G.DuckBills + endlessScore
         end  
       end
     end
-    
-    
   end
 end
 
@@ -276,158 +316,75 @@ function drawGameOver()
 end  
 
 function mousepressed(x,y,button,istouch)
-  if not _G.paused then
-    if (Ducky.Position == "left" and x > Ducky.PosX and y > 270) then
-      Ducky.Position = "middle"
-    elseif (Ducky.Position == "right" and x < Ducky.PosX and y > 270) then
-      Ducky.Position = "middle"
-    elseif (Ducky.Position == "middle" ) then
-      if (x < Ducky.PosX and y > 270) then
-        Ducky.Position = "left"
-      elseif (x > Ducky.PosX and y > 270) then
-        Ducky.Position = "right"
-      end
-    end
-
-  
-
-if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
-    -- place object in position left
-    objectfound = false
-    for i,v in ipairs(Obstacles) do
-      if (v.InUse == false and objectfound == false) then 
-      v.Lane = 1
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
-      end
-     end
-end
-
-if x>= 128 and x < 220 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
-    -- place object in position middle
-    objectfound = false
-    for i,v in ipairs(Obstacles) do
-      if (v.InUse == false and objectfound == false) then
-      v.Lane = 2
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
-      end
-    end
-end
-
-  if x>= 220 and x < 301 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
-    -- place object in position right
-    objectfound = false
-    for i,v in ipairs(Obstacles) do
-      if (v.InUse == false and objectfound == false) then
-      v.Lane = 3
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
-      end
-    end
-end
-
-objectFound = false
-
- for i,v in ipairs(Obstacles) do
-      if (v.Lane == 1) then
-         v.PosX = LeftPoint.PosX
-      end
-       
-      if (v.Lane == 2) then
-         v.PosX = MiddlePoint.PosX
-      end
-       
-      if (v.Lane == 3) then
-         v.PosX = RightPoint.PosX
-      end
-   end 
-end 
-  
-  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    game.load()
-    main.gamestate = "endless"
-  end
-  
-  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
-    _G.paused = true
-  end
+  clickLocations(x,y)
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
-  if not _G.paused then
-    if (Ducky.Position == "left" and x > Ducky.PosX and y > 270) then -- and y > 50 prevents clicking at the very top of the screen for local co-op mode
-      Ducky.Position = "middle"
-    elseif (Ducky.Position == "right" and x < Ducky.PosX and y > 270) then
-      Ducky.Position = "middle"
-    elseif (Ducky.Position == "middle") then
-      if (x < Ducky.PosX and y > 270) then
-        Ducky.Position = "left"
-      elseif (x > Ducky.PosX and y > 270) then
-        Ducky.Position = "right"
-      end
+  clickLocations(x,y)
+end
+
+function clickLocations (x,y)
+  if (Ducky.Position == "left" and x > Ducky.PosX) then
+    Ducky.Position = "middle"
+    duckHorizontalMove = "right"
+  elseif (Ducky.Position == "right" and x < Ducky.PosX) then
+    Ducky.Position = "middle"
+    duckHorizontalMove = "left"
+  elseif (Ducky.Position == "middle") then
+    if (x < Ducky.PosX) then
+      Ducky.Position = "left"
+      duckHorizontalMove = "left"
+    elseif (x > Ducky.PosX) then
+      Ducky.Position = "right"
+      duckHorizontalMove = "right"
     end
-   
- 
-    
-  
-if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
+  end
+
+  if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
     -- place object in position left
     objectfound = false
     for i,v in ipairs(Obstacles) do
       if (v.InUse == false and objectfound == false) then 
-      v.Lane = 1
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
-    
+        v.Lane = 1
+        v.PosY = -20
+        v.InUse = true
+        objectfound = true
+        clickReady = false
+        clickReadyTimer = 5
       end
-     end
-end
+    end
+  end
 
-if x>= 128 and x < 220 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
+  if x>= 128 and x < 220 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
     -- place object in position middle
     objectfound = false
     for i,v in ipairs(Obstacles) do
       if (v.InUse == false and objectfound == false) then
-      v.Lane = 2
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
+        v.Lane = 2
+        v.PosY = -20
+        v.InUse = true
+        objectfound = true
+        clickReady = false
+        clickReadyTimer = 5
       end
     end
-end
-
-  if x>= 220 and x < 301 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
-    -- place object in position right
-    objectfound = false
-    for i,v in ipairs(Obstacles) do
-      if (v.InUse == false and objectfound == false) then
-      v.Lane = 3
-      v.PosY = -20
-      v.InUse = true
-      objectfound = true
-      clickReady = false
-      clickReadyTimer = 5
+  end
+  
+    if x>= 220 and x < 301 and y >= 1 and y < 50 and main.gamestate == "local" then
+      -- place object in position right
+      objectfound = false
+      for i,v in ipairs(Obstacles) do
+        if (v.InUse == false and objectfound == false) then
+          v.Lane = 3
+          v.PosY = -20
+          v.InUse = true
+          objectfound = true
+        end
       end
     end
-end
 
-objectFound = false
- 
+  objectFound = false
+
   if (clickReady == false) then
     clickReadyTimer = clickReadyTimer - clickDelay
   end
@@ -435,10 +392,9 @@ objectFound = false
   if (clickReadyTimer <= 0) then
    -- main.gamestate = "endless"
        clickReady = true
-  end
-  
+  end  
 
- for i,v in ipairs(Obstacles) do
+  for i,v in ipairs(Obstacles) do
       if (v.Lane == 1) then
          v.PosX = LeftPoint.PosX
       end
@@ -450,19 +406,23 @@ objectFound = false
       if (v.Lane == 3) then
          v.PosX = RightPoint.PosX
       end
-   end 
+  end 
   -- end of local co op code }
-end
   
   if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
     game.load()
     main.gamestate = "endless"
   end
   
+  if x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    main.gamestate = "menu"
+  end
+  
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
     _G.paused = true
   end
 end
+
 
 function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
   return x1 < x2+w2 and

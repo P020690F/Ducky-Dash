@@ -36,8 +36,7 @@ function Update()
       end
   
 end
-end
-end
+
 function DoublePoints()
   
 end

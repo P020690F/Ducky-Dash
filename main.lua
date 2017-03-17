@@ -7,6 +7,7 @@ require "upgrades"
 require "pause"
 require "duckdatabase"
 require "settingspage"
+require "storyMenu"
 
 function love.load()
   --if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -34,6 +35,7 @@ function love.load()
   upgrades.load()
   pause.load()
   settingspage.load()
+  storyMenu.load()
  
   
   --global value
@@ -42,6 +44,8 @@ function love.load()
    _G.settings = false
    _G.musicVolume = 1.0
    _G.effectVolume = 1.0
+   _G.DuckBills = 0
+   _G.storyLevel = 1
 end
 
 function love.draw()
@@ -93,6 +97,10 @@ function love.draw()
     store.drawStoreHub()
   end
   
+   if gamestate == "storySelect" then
+    storyMenu.draw()
+  end
+  
   if gamestate == "gameover" then
     game.drawGameOver()
   end  
@@ -130,69 +138,68 @@ function love.update()
 end
 
 if love.system.getOS() == "Android" then
-  
 function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if (gamestate == "endless" and not _G.Paused) then
-    game.touchpressed(id,x,y,sw,sh,pressure)
-  end
-  
-  if (gamestate == "local" and not _G.paused) then
-    game.mousepressed(x,y,button,istouch)
-  end
-  
-  if (gamestate == "story" and not _G.Paused) then
+  if (gamestate == "endless" or  gamestate == "story" or gamestate == "local" and not _G.paused) then
     game.touchpressed(id,x,y,sw,sh,pressure)
   end
   
   if (gamestate == "gameover") then
     game.touchpressed(id,x,y,sw,sh,pressure)
   end
-  
-  if (gamestate == "menu") then
-    menu.touchpressed(id,x,y,sw,sh,pressure)
+
+  if (gamestate == "storySelect") then
+    storyMenu.touchpressed(id,x,y,sw,sh,pressure)
   end
   
   if (gamestate == "store") then
-    store.pressStoreHub(id,x,y,sw,sh,pressure)
+    store.pressstorehub(id,x,y,sw,sh,pressure)
   end
   
-  if (_G.paused) then
+  if (_G.paused and not _G.settings) then
     pause.touchpressed(id,x,y,sw,sh,pressure)
   end
-end
   
+  if (_G.settings) then
+    settingspage.touchpressed(id,x,y,sw,sh,pressure)
+  end
+  
+  if (gamestate == "menu" and not _G.settings) then
+    menu.touchpressed(id,x,y,sw,sh,pressure)
+  end
+end
+
 else
   
 function love.mousepressed(x,y,button,istouch) 
-  if (gamestate == "menu") then
-    menu.mousepressed(x,y,button,istouch)
-  end
-   
-  if (gamestate == "local" and not _G.Paused) then
-    game.touchpressed(id,x,y,sw,sh,pressure)
-  end
-  
-  if (gamestate == "endless" and not _G.paused) then
-    game.mousepressed(x,y,button,istouch)
+    if (gamestate == "endless" or  gamestate == "story" or gamestate == "local" and not _G.paused) then
+    game.mousepressed(x,y,button,istouch) 
   end
   
   if (gamestate == "gameover") then
-    game.mousepressed(x,y,button,istouch)
+    game.mousepressed(x,y,button,istouch) 
+  end
+
+  if (gamestate == "storySelect") then
+    storyMenu.mousepressed(x,y,button,istouch)
   end
   
   if (gamestate == "store") then
     store.clickStoreHub(x,y,button,istouch)
   end
   
-  if (gamestate == "story") then
-    game.mousepressed(x,y,button,istouch)
+  if (_G.paused and not _G.settings) then
+    pause.mousepressed(x,y,button,istouch)
   end
   
-  if (_G.paused) then
-    pause.mousepressed(x,y,button,istouch)
+  if (_G.settings) then
+    settingspage.mousepressed(x,y,button,istouch)
+  end
+  
+  if (gamestate == "menu" and not _G.settings) then
+    menu.mousepressed(x,y,button,istouch)
   end
 end
 end

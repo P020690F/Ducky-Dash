@@ -11,13 +11,9 @@ function load()
   
   buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)  
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
-  
 end
 
 function draw()
-  
-  
-  
   if ( _G.storyLevel == 1 ) then
     love.graphics.draw(story1,backgroundQuad, 0, 0)
   elseif ( _G.storyLevel == 2 ) then
@@ -28,7 +24,6 @@ function draw()
     love.graphics.draw(story4, backgroundQuad, 0, 0)
   end
   
-  
   xstring = ("asd" and love.mouse.getX())
   ystring = ("asd" and love.mouse.getY())
   love.graphics.setColor(255,0,0)
@@ -37,7 +32,6 @@ function draw()
   love.graphics.setColor(255,255,255)  
   
   love.graphics.draw(mainImg, buttonQuad, 105 ,475)
-  
 end  
 
 function mousepressed(x,y,button,istouch)

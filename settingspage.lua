@@ -4,7 +4,7 @@ require "game"
 require "sound"
 
 function load()
-  
+  settingsFont = love.graphics.newFont(20)
   settingsImg = love.graphics.newImage("assets/Settings_Button.png")
   mainImg = love.graphics.newImage("assets/Close_button.png")
   
@@ -28,8 +28,12 @@ function draw()
   love.graphics.draw(settingsImg, buttonQuad, 125/2 ,-20)
   love.graphics.draw(mainImg, buttonQuad, 125/2 ,750/2)
   
+  love.graphics.setFont(settingsFont)
+  love.graphics.print("Music", 150 , 180)
   love.graphics.draw(sliderBaseImg, baseQuad,40,200)
+  love.graphics.print("SFX", 150 , 330)
   love.graphics.draw(sliderBaseImg, baseQuad,40,350)
+  
   love.graphics.draw(sliderImg, sliderQuad,effectSliderXPos, 360)
   love.graphics.draw(sliderImg, sliderQuad,sliderXPos, 210)
   

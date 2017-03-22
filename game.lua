@@ -14,6 +14,11 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
+ Co_OpLayout = love.graphics.newImage("assets/Co-OpLayout.png")
+ Co_OpLayoutQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
+ 
  gameover = love.graphics.newImage("assets/GameOverScreen.png")
  retryButton = love.graphics.newImage("assets/RetryButton.png")
  mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
@@ -23,6 +28,10 @@ function load()
  speedMultiplier = 1
  endlessScore = 0
  localScore = 0
+ player1Score = 0
+ player2Score = 0
+ localRound = 1
+ 
  speed = 2.5
  objectFound = false -- used in local co op
  clickReady = true -- used in local co op to have a timer in between placing objects
@@ -155,6 +164,7 @@ function drawLocal()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
   love.graphics.draw(drain, drainQuad, 0, 0)
+  love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
   love.graphics.print("Score: ", 10, 600)
@@ -209,8 +219,27 @@ function updateLocal()
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
-          main.gamestate = "gameover"
+          
+         if(localRound == 1) then
+           player1Score = localScore
+           localRound = 2
+          
+    else if (localRound == 2) then
+           player2Score = localScore
+           localRound = 3
+        end
+      end
+      
+      -- main.gamestate = "localSwitch"
+      if (localRound == 2) then
+          main.gamestate = "localSwitch" -- LocalIntermidiateStage
+      end
+          
         end  
+      if (localRound == 3) then
+        main.gamestate = "coopend" 
+        end
+        
       end
     end
     
@@ -221,6 +250,16 @@ end
 function drawGameOver()
   love.graphics.draw(gameover, backgroundQuad, 0, 0)
   love.graphics.draw(retryButton, buttonQuad, 30, 475)
+  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
+end  
+
+function drawLocalSwitch()
+  love.graphics.draw(gameover, backgroundQuad, 0, 0)
+  love.graphics.draw(retryButton, buttonQuad, 30, 475)
+  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
+end  
+
+function drawLocalEnd()
   love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
 end  
 
@@ -310,6 +349,17 @@ end
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
     _G.paused = true
   end
+  
+  if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "localSwitch" then
+    game.load()
+    main.gamestate = "local"
+    localRound = 2
+  end
+  
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "localSwitch") then
+    _G.paused = true
+  end
+  
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
@@ -409,6 +459,16 @@ end
   end
   
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
+    _G.paused = true
+  end
+
+
+ if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "localSwitch" then
+    game.load()
+    main.gamestate = "local"
+  end
+  
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "localSwitch") then
     _G.paused = true
   end
 end

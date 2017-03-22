@@ -22,7 +22,7 @@ function love.load()
   end
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
   
-  gamestate = "menu"
+  gamestate = "local"
   game.load()
   menu.load()
   sound.load()
@@ -86,6 +86,10 @@ function love.draw()
   if gamestate == "gameover" then
     game.drawGameOver()
   end  
+  if gamestate == "localSwitch" then
+    game.drawLocalSwitch()
+  end  
+  
   if _G.paused then
     pause.draw()
   end 
@@ -130,6 +134,10 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
     game.touchpressed(id,x,y,sw,sh,pressure)
   end
   
+    if (gamestate == "localSwitch") then
+    game.touchpressed(id,x,y,sw,sh,pressure)
+  end
+  
   if (gamestate == "menu") then
     menu.touchpressed(id,x,y,sw,sh,pressure)
   end
@@ -159,6 +167,10 @@ function love.mousepressed(x,y,button,istouch)
   end
   
   if (gamestate == "gameover") then
+    game.mousepressed(x,y,button,istouch)
+  end
+  
+   if (gamestate == "localSwitch") then
     game.mousepressed(x,y,button,istouch)
   end
   

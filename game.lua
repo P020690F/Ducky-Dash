@@ -85,10 +85,13 @@ function drawEndless()
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+   upgrades.Draw()
 end
 
 function updateEndless()
+  
   if not _G.paused then
+    upgrades.Update()
     if Ducky.Position == "left" then
       Ducky.PosX = LeftPoint.PosX
       Ducky.PosY = LeftPoint.PosY
@@ -104,7 +107,6 @@ function updateEndless()
     
       if endlessScore >= 10 and endlessScore % 10 == 0 then
           speed = endlessScore / 20 + 2.5
-          upgrades.SpawnUpgrade()
       end
       
       if (upgrades.speedState == "halfSpeed") then
@@ -148,11 +150,12 @@ function drawLocal()
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+ 
 end
 
 function updateLocal()
   if not _G.paused then
-    upgrades.Update()
+    
     if Ducky.Position == "left" then
       Ducky.PosX = LeftPoint.PosX
       Ducky.PosY = LeftPoint.PosY

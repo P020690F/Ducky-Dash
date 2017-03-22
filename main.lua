@@ -38,7 +38,6 @@ end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
-  
   if gamestate == "menu" then
     if _G.paused then
       love.graphics.setColor(113,113,113)

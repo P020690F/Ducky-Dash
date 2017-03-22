@@ -80,7 +80,7 @@ function drawEndless()
   love.graphics.print("Score: ", 10, 600)
   love.graphics.print(endlessScore, 80, 600)
   love.graphics.setColor(255,255,255)
-  
+  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 100, 10)
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end

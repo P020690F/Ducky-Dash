@@ -1,4 +1,4 @@
-module("duckdatabase", package.seeall)
+module("DuckDataBase", package.seeall)
 require "main"
 
 

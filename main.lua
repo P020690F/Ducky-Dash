@@ -4,7 +4,7 @@ require "menu"
 require "sound"
 require "store"
 require "pause"
-require "duckdatabase"
+require "DuckDataBase"
 require "settingspage"
 require "storyMenu"
 require "RotatePhone"
@@ -28,7 +28,7 @@ function love.load()
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
   
   gamestate = "menu"
-  duckdatabase.load()
+  DuckDataBase.load()
   game.load()
   menu.load()
   sound.load()

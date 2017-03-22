@@ -1,6 +1,6 @@
 module("store", package.seeall)
 require "main"
-require "duckdatabase"
+require "DuckDataBase"
 
 function load()
   --background placeholder
@@ -116,14 +116,14 @@ function pressStoreHub(id,x,y,sw,sh,pressure)
 end
 function drawDuckSelect()
   love.graphics.setColor(255,0,0)
-  love.graphics.print(duckdatabase.getDuckByNumber(lookingAtDuck), 135, 445)
+  love.graphics.print(DuckDataBase.getDuckByNumber(lookingAtDuck), 135, 445)
   love.graphics.setColor(255,255,255)
   
   love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,225)
   love.graphics.draw(PowerUpImg, mainButtonQuad, 10 ,-20)
   
-  if(duckdatabase.returnDuckOwnership(lookingAtDuck)) then
-    if (duckdatabase.getDuckByNumber(lookingAtDuck) == duckdatabase.currentDuck) then
+  if(DuckDataBase.returnDuckOwnership(lookingAtDuck)) then
+    if (DuckDataBase.getDuckByNumber(lookingAtDuck) == DuckDataBase.currentDuck) then
       love.graphics.setColor(111,111,111)
     end
     love.graphics.draw(selectImg, mainButtonQuad, 125 ,430)
@@ -156,7 +156,7 @@ function clickDuckSelect(x,y)
     lookingAtDuck = lookingAtDuck -1
    
     if (lookingAtDuck == 0) then
-      lookingAtDuck = duckdatabase.numDucks
+      lookingAtDuck = DuckDataBase.numDucks
     end
     
    cycleSkins()
@@ -165,7 +165,7 @@ function clickDuckSelect(x,y)
   if(x > 280 and x  < 355 and y > 450 and  y < 525) then
    lookingAtDuck = lookingAtDuck + 1
    
-    if (lookingAtDuck > duckdatabase.numDucks) then
+    if (lookingAtDuck > DuckDataBase.numDucks) then
       lookingAtDuck = 1
     end
    
@@ -175,18 +175,18 @@ function clickDuckSelect(x,y)
   if(x > 135 and x  < 235 and y > 463 and  y < 510) then
     --grey out duck select button when selected
     --output message if not have enough duck bills
-    if(duckdatabase.returnDuckOwnership(lookingAtDuck)) then
+    if(DuckDataBase.returnDuckOwnership(lookingAtDuck)) then
       --select current duck
-      duckdatabase.currentDuck = duckdatabase.getDuckByNumber(lookingAtDuck)
-    elseif not (duckdatabase.returnDuckOwnership(lookingAtDuck)) then
+      DuckDataBase.currentDuck = DuckDataBase.getDuckByNumber(lookingAtDuck)
+    elseif not (DuckDataBase.returnDuckOwnership(lookingAtDuck)) then
       --buy duck
       --need to decide if ducks cost different amounts
-      --if(duckdatabase.duckBills >= duckdatabase.duckCost(lookingAtDuck)) then
+      --if(DuckDataBase.duckBills >= DuckDataBase.duckCost(lookingAtDuck)) then
       if(_G.DuckBills >= 500) then
-        --duckdatabase.duckBills = duckdatabase.duckBills - duckdatabase.duckCost(lookingAtDuck)
+        --DuckDataBase.duckBills = DuckDataBase.duckBills - DuckDataBase.duckCost(lookingAtDuck)
         _G.DuckBills = _G.DuckBills - 500
-        duckdatabase.buyDuck(lookingAtDuck)
-        duckdatabase.currentDuck = duckdatabase.getDuckByNumber(lookingAtDuck)
+        DuckDataBase.buyDuck(lookingAtDuck)
+        DuckDataBase.currentDuck = DuckDataBase.getDuckByNumber(lookingAtDuck)
       end
     end
     
@@ -202,16 +202,16 @@ function cycleSkins()
   numDuckLeft = lookingAtDuck - 1
   numDuckRight = lookingAtDuck + 1
   if (numDuckLeft == 0) then
-    numDuckLeft = duckdatabase.numDucks
+    numDuckLeft = DuckDataBase.numDucks
   end
-  if (numDuckRight > duckdatabase.numDucks) then
+  if (numDuckRight > DuckDataBase.numDucks) then
     numDuckRight = 1
   end
     leftDuck = null
     rightDuck = null
     middleDuck = null
     collectgarbage()
-  leftDuck = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.getDuckByNumber(numDuckLeft) .. "_Front.png")
-  middleDuck = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.getDuckByNumber(lookingAtDuck) .. "_Front.png")
-  rightDuck = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.getDuckByNumber(numDuckRight) .. "_Front.png")
+  leftDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(numDuckLeft) .. "_Front.png")
+  middleDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(lookingAtDuck) .. "_Front.png")
+  rightDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(numDuckRight) .. "_Front.png")
 end

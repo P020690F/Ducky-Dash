@@ -1,6 +1,6 @@
 module("game", package.seeall)
 require "main"
-require "duckdatabase"
+require "DuckDataBase"
 require "storyMenu"
 require "upgrades"
 require "RotatePhone"
@@ -14,7 +14,7 @@ function load()
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
  cy_duck = love.graphics.newImage("assets/Duck Skins/Cy_Duck.png")
- duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
+ duckSkin = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.currentDuck .. ".png")
  storyLevel = 0
  water = love.graphics.newImage("assets/Water.png")
  bathtub = love.graphics.newImage("assets/Bathtub.png")

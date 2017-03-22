@@ -116,7 +116,7 @@ function pressStoreHub(id,x,y,sw,sh,pressure)
 end
 function drawDuckSelect()
   love.graphics.setColor(255,0,0)
-  love.graphics.print(duckdatabase.currentDuck, 135, 445)
+  love.graphics.print(duckdatabase.getDuckByNumber(lookingAtDuck), 135, 445)
   love.graphics.setColor(255,255,255)
   
   love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,225)

@@ -25,7 +25,7 @@ function getDuckByNumber(number)
   elseif (number == 3) then
     return "Astronaut_Duck"
   elseif (number == 4) then
-    return "Cy-Duck"
+    return "Cy_Duck"
   end
 end
 function returnDuckOwnership(number)

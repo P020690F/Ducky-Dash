@@ -54,18 +54,22 @@ function clickLocations(x,y)
   
   if (x > 95 and x < 263) then   
     if(y < 381 and y > 331)then
+      sound.playSqueak()
       game.storyLevel = 1
       main.gamestate = "story"
       game.load()
     elseif (y > 250 and y < 300 and _G.storyLevel > 2) then
+      sound.playSqueak()
       game.storyLevel = 2
       main.gamestate = "story"
       game.load()
     elseif (y > 165 and y < 213 and _G.storyLevel > 3) then
+      sound.playSqueak()
       game.storyLevel = 3
       main.gamestate = "story"
       game.load()
     elseif (y > 79 and y < 127 and _G.storyLevel > 4) then
+      sound.playSqueak()
       game.storyLevel = 4
       main.gamestate = "story"
       game.load()

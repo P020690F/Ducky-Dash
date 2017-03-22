@@ -6,6 +6,7 @@ function load()
   menu:setLooping(true)
   endless = love.audio.newSource("assets/Sounds/endless.wav", "stream")
   endless:setLooping(true)
+  squeak = love.audio.newSource("assets/Sounds/squeak.wav", "static")
 end
 
 function play()
@@ -31,12 +32,14 @@ end
 end
 
 function updateMusic(v)
-
   menu:setVolume(v)
   endless:setVolume(v)
 end
 
 function updateEffect(v)
-
-  
+  squeak:setVolume(v)
 end
+
+function playSqueak()
+  love.audio.play(squeak)
+end  

@@ -15,7 +15,6 @@ function load()
  duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
  storyLevel = 0
  water = love.graphics.newImage("assets/Water.png")
- waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  gameover = love.graphics.newImage("assets/GameOverScreen.png")
@@ -28,6 +27,20 @@ function load()
  
  Co_OpLayout = love.graphics.newImage("assets/Co-OpLayout.png")
  Co_OpLayoutQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
+ duckFrames = {}
+ duckFrames[1] = love.graphics.newQuad(0,0,100,100,duckSkin:getDimensions())
+ duckFrames[2] = love.graphics.newQuad(100,0,100,100,duckSkin:getDimensions())
+ duckFrames[3] = love.graphics.newQuad(200,0,100,100,duckSkin:getDimensions())
+ currentDuckFrame = 2
+ 
+ waterFrames = {}
+ waterFrames[1] = love.graphics.newQuad(0,0,375,669,water:getDimensions())
+ waterFrames[2] = love.graphics.newQuad(375,0,375,669,water:getDimensions())
+ waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
+ waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
+ currentWaterFrame = 1
+ timer = 0
  
  speedMultiplier = 1
  endlessScore = 0
@@ -49,7 +62,6 @@ function load()
  Height = 10,
  Width = 10
  }
- DuckQuad = love.graphics.newQuad(1,1,100,100,100,100)
 
  LeftPoint = { PosX = 50, PosY = 400 }
  MiddlePoint = { PosX = 130, PosY = 400 }
@@ -96,13 +108,13 @@ end
 
 function drawStory()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
   love.graphics.setFont(scoreFont)
   
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
-  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
 end
 
 function updateStory()
@@ -129,11 +141,17 @@ function updateStory()
       end
     end
   end
+  
+  timer = timer + 1 * love.timer.getDelta()
+  if timer > 1 then
+    timer = 0
+    currentWaterFrame = math.random(1,4)
+  end  
 end
 
 function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
@@ -141,10 +159,12 @@ function drawEndless()
   love.graphics.print(endlessScore, 80, 600)
   love.graphics.setColor(255,255,255)
   --love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 100, 10)
+  
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
-  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
   upgrades.Draw()
 end
 
@@ -175,11 +195,17 @@ function updateEndless()
       end
     end
   end
+  
+  timer = timer + 1 * love.timer.getDelta()
+  if timer > 1 then
+    timer = 0
+    currentWaterFrame = math.random(1,4)
+  end  
 end
 
 function drawLocal()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterQuad, 0, 0)
+  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
   love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
@@ -191,7 +217,7 @@ function drawLocal()
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
-  love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
 end
 
 function updateLocal()
@@ -246,6 +272,12 @@ function updateLocal()
       end
     end
   end
+  
+  timer = timer + 1 * love.timer.getDelta()
+  if timer > 1 then
+    timer = 0
+    currentWaterFrame = math.random(1,4)
+  end  
 end
 
 function drawGameOver()
@@ -380,11 +412,13 @@ end
 function InAllUpdateStates()
   if duckHorizontalMove == "left" then
     if Ducky.Position == "left" then
+      currentDuckFrame = 1
       Ducky.PosX = Ducky.PosX - 5       
       if Ducky.PosX == 50 then
         duckHorizontalMove = "still"          
       end
     elseif Ducky.Position == "middle" then
+      currentDuckFrame = 2
       Ducky.PosX = Ducky.PosX - 5      
       if Ducky.PosX == 130 then
         duckHorizontalMove = "still"        
@@ -392,6 +426,7 @@ function InAllUpdateStates()
     end 
   end
   if duckHorizontalMove == "right" then
+    currentDuckFrame = 3
     if Ducky.Position == "right" then
         Ducky.PosX = Ducky.PosX + 5
       if Ducky.PosX == 210 then

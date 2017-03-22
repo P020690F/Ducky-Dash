@@ -80,18 +80,24 @@ function clickStoreHub(x,y,button,istouch)
     end
   end
   
-if (storeState == "Duck") then
-    clickDuckSelect(x,y,button,istouch)
+  if (storeState == "Duck") then
+    clickDuckSelect(x,y)
   end
   
   if (storeState == "PowerUp") then
-   clickPowerUpStore(x,y,button,istouch)
+   clickPowerUpStore(x,y)
   end
 
 end
 function pressStoreHub(id,x,y,sw,sh,pressure)
 
---need to create functions
+  if (storeState == "Duck") then
+    clickDuckSelect(x,y)
+  end
+  
+  if (storeState == "PowerUp") then
+   clickPowerUpStore(x,y)
+  end
 end
 function drawDuckSelect()
   love.graphics.setColor(255,0,0)
@@ -129,7 +135,7 @@ function drawPowerUpStore()
   love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
 end
 
-function clickDuckSelect(x,y,button,istouch)
+function clickDuckSelect(x,y)
   --duck arrows
   if(x > 20 and x  < 95 and y > 450 and  y < 525) then
     lookingAtDuck = lookingAtDuck -1
@@ -173,7 +179,7 @@ function clickDuckSelect(x,y,button,istouch)
   
 end
 
-function clickPowerUpStore(x,y,button,istouch)
+function clickPowerUpStore(x,y)
  
 end
 

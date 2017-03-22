@@ -8,9 +8,12 @@ require "pause"
 require "duckdatabase"
 require "settingspage"
 require "storyMenu"
+require "RotatePhone"
+require "VsEndScreen"
+
 
 function love.load()
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
+  --if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   screenWidth = 750/2
   screenHeight = 1337/2
@@ -36,6 +39,8 @@ function love.load()
   pause.load()
   settingspage.load()
   storyMenu.load()
+  RotatePhone.load()
+  VsEndScreen.load()
  
   
   --global value
@@ -50,6 +55,7 @@ end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
+  
   if gamestate == "menu" then
     sound.play()
     if _G.settings then
@@ -105,8 +111,12 @@ function love.draw()
   end  
   
   if gamestate == "localSwitch" then
-    game.drawLocalSwitch()
-  end  
+    RotatePhone.draw()
+  end
+  
+  if gamestate == "coopend" then
+    VsEndScreen.draw()
+  end
   
   if _G.paused then
     if not _G.settings then
@@ -126,78 +136,63 @@ function love.update()
   
   if gamestate == "story" then
     game.updateStory()
-  end
-  
-  if gamestate == "endless" then
+  elseif gamestate == "endless" then
     game.updateEndless()
-  end
-  
-    if gamestate == "local" then
+  elseif gamestate == "local" then
     game.updateLocal()
-  end
-  
-  if gamestate == "store" then
+  elseif gamestate == "store" then
     store.updateStore()
+  elseif gamestate == "localSwitch" then
+    RotatePhone.update()
   end
 end
 
 if love.system.getOS() == "Android" then
-function love.touchpressed(id,x,y,sw,sh,pressure)
-  x = x * screenWidth
-  y = y * screenHeight
-  
-  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
-    game.touchpressed(id,x,y,sw,sh,pressure)
-  
-  elseif (gamestate == "gameover") then
-    game.touchpressed(id,x,y,sw,sh,pressure)
+  function love.touchpressed(id,x,y,sw,sh,pressure)
+    x = x * screenWidth
+    y = y * screenHeight
+    
+    if ((not _G.paused) and(gamestate == "endless" or  gamestate == "story" or gamestate == "local" )) then
+      game.touchpressed(id,x,y,sw,sh,pressure)
+    elseif (gamestate == "gameover") then
+      game.touchpressed(id,x,y,sw,sh,pressure) 
+    elseif (gamestate == "storySelect") then
+      storyMenu.touchpressed(id,x,y,sw,sh,pressure)
+    elseif (gamestate == "localSwitch") then
+      RotatePhone.touchpressed(id,x,y,sw,sh,pressure)
+    elseif (gamestate == "coopend") then
+      VsEndScreen.touchpressed(id,x,y,sw,sh,pressure)
+    elseif(gamestate == "store") then
+      store.pressStoreHub(id,x,y,sw,sh,pressure)
+    elseif(_G.paused and not _G.settings) then
+      pause.touchpressed(id,x,y,sw,sh,pressure)
+    elseif (_G.settings) then
+      settingspage.touchpressed(id,x,y,sw,sh,pressure)
+    elseif(gamestate == "menu" and not _G.settings) then
+      menu.touchpressed(id,x,y,sw,sh,pressure)
+    end
+  end
 
-  elseif (gamestate == "storySelect") then
-    storyMenu.touchpressed(id,x,y,sw,sh,pressure)
-  
-  elseif (gamestate == "localSwitch") then
-    game.touchpressed(id,x,y,sw,sh,pressure)
-  
-  elseif (gamestate == "store") then
-    store.pressstorehub(id,x,y,sw,sh,pressure)
-  
-  elseif (_G.paused and not _G.settings) then
-    pause.touchpressed(id,x,y,sw,sh,pressure)
-  
-  elseif (_G.settings) then
-    settingspage.touchpressed(id,x,y,sw,sh,pressure)
-  
-  elseif (gamestate == "menu" and not _G.settings) then
-    menu.touchpressed(id,x,y,sw,sh,pressure)
+else 
+  function love.mousepressed(x,y,button,istouch) 
+    if ((not _G.paused) and(gamestate == "endless" or  gamestate == "story" or gamestate == "local" )) then
+      game.mousepressed(x,y,button,istouch) 
+    elseif (gamestate == "gameover") then
+      game.mousepressed(x,y,button,istouch) 
+    elseif (gamestate == "storySelect") then
+      storyMenu.mousepressed(x,y,button,istouch)
+    elseif (gamestate == "localSwitch") then
+      RotatePhone.mousepressed(x,y,button,istouch)
+    elseif (gamestate == "coopend") then
+      VsEndScreen.mousepressed(x,y,button,istouch)
+    elseif(gamestate == "store") then
+      store.clickStoreHub(x,y,button,istouch)
+    elseif(_G.paused and not _G.settings) then
+      pause.mousepressed(x,y,button,istouch)
+    elseif (_G.settings) then
+      settingspage.mousepressed(x,y,button,istouch)
+    elseif(gamestate == "menu" and not _G.settings) then
+      menu.mousepressed(x,y,button,istouch)
+    end
   end
 end
-
-else --If Android else
-  
-function love.mousepressed(x,y,button,istouch) 
-  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
-    game.mousepressed(x,y,button,istouch) 
-    
-  elseif (gamestate == "gameover") then
-    game.mousepressed(x,y,button,istouch) 
-
-  elseif (gamestate == "storySelect") then
-    storyMenu.mousepressed(x,y,button,istouch)
-    
-  elseif (gamestate == "localSwitch") then
-    game.mousepressed(x,y,button,istouch)
-  
-  elseif (gamestate == "store") then
-    store.clickStoreHub(x,y,button,istouch)
-    
-  elseif (_G.paused and not _G.settings) then
-    pause.mousepressed(x,y,button,istouch)
-  
-  elseif (_G.settings) then
-    settingspage.mousepressed(x,y,button,istouch)
-  
-  elseif (gamestate == "menu" and not _G.settings) then
-    menu.mousepressed(x,y,button,istouch)
-  end
-end
-end --If Android End

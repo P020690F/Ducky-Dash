@@ -16,19 +16,24 @@ function play()
   end
   
   if main.gamestate == "endless" and not endless:isPlaying() then
-  love.audio.stop()
-  love.audio.play(endless)
-end
+    love.audio.stop()
+    love.audio.play(endless)
+  end
   
   if main.gamestate == "story" and not endless:isPlaying()then
-  love.audio.stop()
-  love.audio.play(endless)
-end
+    love.audio.stop()
+    love.audio.play(endless)
+  end
 
   if main.gamestate == "gameover" and not menu:isPlaying()then
-  love.audio.stop()
-  love.audio.play(menu)
+    love.audio.stop()
+    love.audio.play(menu)
   end  
+
+  if main.gamestate == "local" and not endless:isPlaying()then
+    love.audio.stop()
+    love.audio.play(endless)
+  end
 end
 
 function updateMusic(v)

@@ -91,6 +91,20 @@ function clickStoreHub(x,y,button,istouch)
 
 end
 function pressStoreHub(id,x,y,sw,sh,pressure)
+  if(x > 20 and x  < 120 and y > 585 and  y < 635) then
+    sound.playSqueak()
+    main.gamestate = "menu"
+  end
+  
+  if(x > 20 and x  < 120 and y > 15 and  y < 65) then
+    if (storeState == "Duck") then
+      storeState = "PowerUp"
+    
+    elseif (storeState == "PowerUp") then
+      storeState = "Duck"
+    end
+  end
+
 
   if (storeState == "Duck") then
     clickDuckSelect(x,y)

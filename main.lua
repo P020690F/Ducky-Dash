@@ -50,7 +50,6 @@ end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
-  
   if gamestate == "menu" then
     sound.play()
     if _G.settings then

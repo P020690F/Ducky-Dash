@@ -7,9 +7,12 @@ require "pause"
 require "duckdatabase"
 require "settingspage"
 require "storyMenu"
+require "RotatePhone"
+require "VsEndScreen"
+
 
 function love.load()
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
+  --if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   screenWidth = 750/2
   screenHeight = 1337/2
@@ -34,6 +37,8 @@ function love.load()
   pause.load()
   settingspage.load()
   storyMenu.load()
+  RotatePhone.load()
+  VsEndScreen.load()
  
   
   --global value
@@ -48,6 +53,7 @@ end
 
 function love.draw()
   love.graphics.scale(scalex, scaley)
+  
   if gamestate == "menu" then
     sound.play()
     if _G.settings then
@@ -103,8 +109,12 @@ function love.draw()
   end  
   
   if gamestate == "localSwitch" then
-    game.drawLocalSwitch()
-  end  
+    RotatePhone.draw()
+  end
+  
+  if gamestate == "coopend" then
+    VsEndScreen.draw()
+  end
   
   if _G.paused then
     if not _G.settings then
@@ -124,18 +134,14 @@ function love.update()
   
   if gamestate == "story" then
     game.updateStory()
-  end
-  
-  if gamestate == "endless" then
+  elseif gamestate == "endless" then
     game.updateEndless()
-  end
-  
-    if gamestate == "local" then
+  elseif gamestate == "local" then
     game.updateLocal()
-  end
-  
-  if gamestate == "store" then
+  elseif gamestate == "store" then
     store.updateStore()
+  elseif gamestate == "localSwitch" then
+    RotatePhone.update()
   end
 end
 
@@ -154,7 +160,10 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
     storyMenu.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "localSwitch") then
-    game.touchpressed(id,x,y,sw,sh,pressure)
+    RotatePhone.touchpressed(id,x,y,sw,sh,pressure)
+      
+  elseif (gamestate == "coopend") then
+    VsEndScreen.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "store") then
     store.pressStoreHub(id,x,y,sw,sh,pressure)
@@ -183,7 +192,10 @@ function love.mousepressed(x,y,button,istouch)
     storyMenu.mousepressed(x,y,button,istouch)
     
   elseif (gamestate == "localSwitch") then
-    game.mousepressed(x,y,button,istouch)
+    RotatePhone.mousepressed(x,y,button,istouch)
+      
+  elseif (gamestate == "coopend") then
+    VsEndScreen.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "store") then
     store.clickStoreHub(x,y,button,istouch)

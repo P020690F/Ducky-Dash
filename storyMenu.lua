@@ -7,7 +7,9 @@ function load()
   story2 = love.graphics.newImage("assets/level_select_2.png")
   story3 = love.graphics.newImage("assets/level_select_3.png")
   story4 = love.graphics.newImage("assets/level_select_4.png")
+  mainImg = love.graphics.newImage("assets/MainMenuButton.png")
   
+  buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)  
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   
 end
@@ -34,7 +36,7 @@ function draw()
   love.graphics.print(ystring, 120,150)
   love.graphics.setColor(255,255,255)  
   
-  
+  love.graphics.draw(mainImg, buttonQuad, 105 ,475)
   
 end  
 
@@ -46,8 +48,11 @@ function touchpressed(id,x,y,sw,sh,pressure)
 end
 
 function clickLocations(x,y)
-  if (x > 95 and x < 263) then
-    
+  if ((x > 120 and x < 240) and ( y > 520 and y < 580)) then
+    main.gamestate = "menu"
+  end
+  
+  if (x > 95 and x < 263) then   
     if(y < 381 and y > 331)then
       game.storyLevel = 1
       main.gamestate = "story"
@@ -65,7 +70,5 @@ function clickLocations(x,y)
       main.gamestate = "story"
       game.load()
     end
-  
-  
   end
 end

@@ -147,7 +147,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if (gamestate == "endless" or  gamestate == "story" or gamestate == "local" and not _G.paused) then
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
     game.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "gameover") then
@@ -176,15 +176,7 @@ end
 else --If Android else
   
 function love.mousepressed(x,y,button,istouch) 
-  if (_G.paused and not _G.settings) then
-    pause.mousepressed(x,y,button,istouch)
-  end
-  
-  if (_G.settings) then
-    settingspage.mousepressed(x,y,button,istouch)
-  end
-  
-  if ((not _G.paused) and gamestate == "endless" or  gamestate == "story" or gamestate == "local") then
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
     game.mousepressed(x,y,button,istouch) 
     
   elseif (gamestate == "gameover") then
@@ -198,6 +190,12 @@ function love.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "store") then
     store.clickStoreHub(x,y,button,istouch)
+    
+  elseif (_G.paused and not _G.settings) then
+    pause.mousepressed(x,y,button,istouch)
+  
+  elseif (_G.settings) then
+    settingspage.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "menu" and not _G.settings) then
     menu.mousepressed(x,y,button,istouch)

@@ -75,11 +75,12 @@ function SpawnUpgrade()
   upgradeLane = love.math.random(1,3)
   if(upgradeLane == 1) then
     upgradeX = LeftPoint
-  else if(upgradeLane == 2) then
+  elseif(upgradeLane == 2) then
     upgradeX = MiddlePoint
   elseif(upgradeLane == 3) then
     upgradeX = RightPoint
   end
+  
   if (upgradeDrop == 1) then
     upgradeType = "LifeLine"
     upgradeTex = lifeLineUpgrade
@@ -97,7 +98,7 @@ function SpawnUpgrade()
     upgradeTex = halfSpeedUpgrade
     upgradeQuad = halfSpeedQuad
   end
-isSpawned = true
+  isSpawned = true
 end
 
 function Draw()

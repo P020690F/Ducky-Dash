@@ -92,39 +92,77 @@ end
 
 function updateStory()
   if not _G.paused then
-    if Ducky.Position == "left" then
-      Ducky.PosX = LeftPoint.PosX
-      Ducky.PosY = LeftPoint.PosY
-    end
-    if Ducky.Position == "middle" then
-      Ducky.PosX = MiddlePoint.PosX
-      Ducky.PosY = MiddlePoint.PosY
-    end
-    if Ducky.Position == "right" then
-      Ducky.PosX = RightPoint.PosX
-      Ducky.PosY = RightPoint.PosY
+    if duckHorizontalMove == "left" then
+      if Ducky.Position == "left" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 50 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
     end
     
-      if endlessScore >= 10 and endlessScore % 10 == 0 then
+    if duckHorizontalMove == "right" then
+      if Ducky.Position == "right" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 210 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
+    end
+    
+    if duckVerticalMove == "down" then
+      if duckLife == 1 then
+        Ducky.PosY =  Ducky.PosY + 5
+        if Ducky.PosY == 400 then
+          duckVerticalMove = "still"
+          hit = false
+        end
+      end
+    end
+
+      if endlessScore >= 5 and endlessScore % 5 == 0 then
           speed = endlessScore / 20 + 2.5
+          upgrades.SpawnUpgrade()
       end
       
-      if (upgradeState == "halfSpeed") then
+      if (upgrades.speedState == "halfSpeed") then
         speedMultiplier = 0.5
       else
         speedMultiplier = 1
       end
     
-    for i,v in ipairs(Obstacles) do
+  for i,v in ipairs(Obstacles) do
       v.PosY = v.PosY + (speed * speedMultiplier)
         
-      if v.PosY > 500 then
-          v.PosY = -(i * 100)
-          endlessScore = endlessScore + 1
+    if v.PosY > 500 then
+         v.Lane = math.random(1,3)
+      if (v.Lane == 1) then
+        v.PosX = LeftPoint.PosX
       end
+      if (v.Lane == 2) then
+        v.PosX = MiddlePoint.PosX
+      end
+      if (v.Lane == 3) then
+        v.PosX = RightPoint.PosX
+      end
+         
+         v.PosY = -(i * 100)
+          
+          endlessScore = endlessScore + 1
     end
+  end
     
-    if(duckState == "vulnerable") then
+    if(upgrades.duckState == "vulnerable") then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
@@ -133,7 +171,7 @@ function updateStory()
       end
     end
   end
-end 
+end
 
 function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
@@ -323,17 +361,17 @@ function touchpressed(id,x,y,sw,sh,pressure)
 end
 
 function clickLocations (x,y)
-  if (Ducky.Position == "left" and x > Ducky.PosX) then
+  if (Ducky.Position == "left" and x > Ducky.PosX and y > 270) then
     Ducky.Position = "middle"
     duckHorizontalMove = "right"
-  elseif (Ducky.Position == "right" and x < Ducky.PosX) then
+  elseif (Ducky.Position == "right" and x < Ducky.PosX and y > 270) then
     Ducky.Position = "middle"
     duckHorizontalMove = "left"
   elseif (Ducky.Position == "middle") then
-    if (x < Ducky.PosX) then
+    if (x < Ducky.PosX and y > 270) then
       Ducky.Position = "left"
       duckHorizontalMove = "left"
-    elseif (x > Ducky.PosX) then
+    elseif (x > Ducky.PosX and y > 270) then
       Ducky.Position = "right"
       duckHorizontalMove = "right"
     end

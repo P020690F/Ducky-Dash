@@ -159,7 +159,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
     game.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "store") then
-    store.pressstorehub(id,x,y,sw,sh,pressure)
+    store.pressStoreHub(id,x,y,sw,sh,pressure)
   
   elseif (_G.paused and not _G.settings) then
     pause.touchpressed(id,x,y,sw,sh,pressure)

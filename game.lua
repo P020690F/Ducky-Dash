@@ -81,8 +81,8 @@ function load()
  
    tempObject.InUse = false
    tempObject.PosY = -(i * 100)
-   tempObject.Width = 10
-   tempObject.Height = 10
+   tempObject.Width = 50
+   tempObject.Height = 70
    table.insert(Obstacles, tempObject)
  end
 end

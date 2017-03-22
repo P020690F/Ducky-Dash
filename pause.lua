@@ -29,11 +29,13 @@ function mousepressed(x,y,button, istouch)
   
     if y > 70 and y < 176 then
       -- resume
+      sound.playSqueak()
       _G.paused = false
     end
   
     if y > 196 and y < 302 then
       -- retry
+      sound.playSqueak()
       game.load()
       _G.paused = false
    
@@ -41,12 +43,13 @@ function mousepressed(x,y,button, istouch)
   
     if y > 320 and y < 426 then
       -- settings
+      sound.playSqueak()
       _G.settings = true
     end
   
     if y > 446 and y < 552 then
       -- menu
-      
+      sound.playSqueak()
       _G.paused = false
       game.load()
       main.gamestate = "menu"
@@ -61,11 +64,13 @@ function touchpressed(id,x,y,sw,sh,pressure)
   
     if y > 70 and y < 176 then
       -- resume
+      sound.playSqueak()
       _G.paused = false
     end
   
     if y > 196 and y < 302 then
       -- retry
+      sound.playSqueak()
       game.load()
       _G.paused = false
 
@@ -73,12 +78,13 @@ function touchpressed(id,x,y,sw,sh,pressure)
   
     if y > 320 and y < 426 then
       -- settings
+      sound.playSqueak()
      _G.settings = true
     end
   
     if y > 446 and y < 552 then
       -- menu
-      
+      sound.playSqueak()
       _G.paused = false
       main.gamestate = "menu"
     end

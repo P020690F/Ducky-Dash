@@ -63,6 +63,7 @@ function love.draw()
   end
   
   if gamestate == "story" then
+    sound.play()
     if _G.paused then
       love.graphics.setColor(113,113,113)
     end
@@ -84,6 +85,7 @@ function love.draw()
   end
   
   if gamestate == "local" then
+    sound.play()
     if _G.paused then
       love.graphics.setColor(113,113,113)
     end

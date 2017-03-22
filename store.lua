@@ -68,6 +68,7 @@ end
 function clickStoreHub(x,y,button,istouch)
 
   if(x > 20 and x  < 120 and y > 585 and  y < 635) then
+    sound.playSqueak()
     main.gamestate = "menu"
   end
   

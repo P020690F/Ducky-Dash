@@ -44,18 +44,21 @@ end
 
 function clickLocations(x,y)
   if (x > 45/2 and x < 261/2 and y > 595/2 and y <825/2) then
+    sound.playSqueak()
     main.gamestate = "storySelect"
     _G.completedStory = true
   end 
 
   --duck shop 
   if (x > 288/2 and x < 503/2 and y > 595/2 and y <825/2) then
+    sound.playSqueak()
     store.load()
     main.gamestate = "store"
   end 
 
   -- endless mode
   if (x > 524/2 and x < 739/2 and y > 585/2 and y <835/2 and _G.completedStory) then
+    sound.playSqueak()
     game.load()
     main.gamestate = "endless"
   end 
@@ -63,12 +66,14 @@ function clickLocations(x,y)
   --Co op mode
   if (x > 65 and x < 310 and y > 480 and y < 600) then
     --load co-op
+    sound.playSqueak()
     game.load()
     main.gamestate = "local"
   end
   
   --Settings
   if (x > 250 and x < 350 and y > 615 and y <655) then
+    sound.playSqueak()
     --load settings
     _G.settings = true
   end

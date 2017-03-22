@@ -46,6 +46,7 @@ end
 function clickLocations(x,y)
   if (x > 85 and x < 288 and y > 446 and y < 552) then
       --close settings
+      sound.playSqueak()
       _G.settings = false  
   end
   

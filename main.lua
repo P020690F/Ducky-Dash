@@ -3,7 +3,6 @@ require "game"
 require "menu"
 require "sound"
 require "store"
-require "upgrades"
 require "pause"
 require "duckdatabase"
 require "settingspage"
@@ -32,7 +31,6 @@ function love.load()
   sound.load()
   store.load()
   sound.play()
-  upgrades.load()
   pause.load()
   settingspage.load()
   storyMenu.load()

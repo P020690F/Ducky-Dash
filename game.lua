@@ -2,7 +2,11 @@ module("game", package.seeall)
 require "main"
 require "duckdatabase"
 require "storyMenu"
+require "upgrades"
+
 function load()
+  upgrades.load()
+  
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
@@ -260,7 +264,6 @@ function updateEndless()
     
   for i,v in ipairs(Obstacles) do
       v.PosY = v.PosY + (speed * speedMultiplier)
-        
     if v.PosY > 500 then
          v.Lane = math.random(1,3)
       if (v.Lane == 1) then
@@ -273,9 +276,13 @@ function updateEndless()
         v.PosX = RightPoint.PosX
       end
          
-         v.PosY = -(i * 100)
+      v.PosY = -(i * 100)
           
-          endlessScore = endlessScore + 1
+      if(upgrades.pointState == "normal") then
+        endlessScore = endlessScore + 1
+      else
+        endlessScore = endlessScore + 2
+      end
     end
   end
     
@@ -291,6 +298,7 @@ function updateEndless()
           elseif duckLife == 0 then
             main.gamestate = "gameover"
           end
+          upgrades.upgradeY = 700
           _G.DuckBills = _G.DuckBills + endlessScore
         end   
       end

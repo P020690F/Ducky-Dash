@@ -2,11 +2,10 @@ module("upgrades", package.seeall)
 require "main"
 
 function load()
-  
- LeftPoint = 50
- MiddlePoint = 130
- RightPoint = 210
- 
+
+  LeftPoint = 50
+  MiddlePoint = 130
+  RightPoint = 210
   speedState = "normalspeed"
   duckState = "vulnerable"
   pointState = "normal"
@@ -24,8 +23,8 @@ function load()
   invincibilityQuad = love.graphics.newQuad(1,1,100,100,100,100)
   x2PointsQuad = love.graphics.newQuad(1,1,100,100,100,100)
   halfSpeedQuad = love.graphics.newQuad(1,1,100,100,100,100)
-  upgradeX = 0
-  upgradeY = 0
+  upgradeX = 60
+  upgradeY = -100
   upgradeDrop = love.math.random(1,4)
   upgradeLane = love.math.random(1,3)
 end
@@ -38,49 +37,76 @@ function Update()
           SpawnUpgrade()
         end
       end
-      if(main.gamestate == "story") then
-        if (game.storyScore >= 10 and game.storyScore % 10 == 0) then
-        SpawnUpgrade()
-        end
-      end
     end
   elseif (isSpawned == true) then
     if(isActive == false) then
       if (upgradeY < 500) then
-        upgradeY = upgradeY + 5
+        upgradeY = upgradeY + 3
       else
         upgradeY = 0
         isSpawned = false
       end
     end
   end
-end
-
+  hitTest = CheckCollision(upgradeX, upgradeY, 50, 100, game.Ducky.PosX, game.Ducky.PosY, game.Ducky.Width, game.Ducky.Height)
+  if (hitTest) then
+    upgradeY = 700
+    isSpawned = false
+    isActive = true
+  end
+  if (isSpawned == false) then
+    if (isActive == true) then
+      if (upgradeType == "Invincibility") then
+      Invincibility()
+      elseif (upgradeType == "LifeLine") then
+      LifeLine()
+      elseif (upgradeType == "x2Points") then
+      DoublePoints()
+      else
+      HalfSpeed()
+      end
+    end
+  end
+end  
 function DoublePoints()
-  
+  if (game.endlessScore >= 20 and game.endlessScore % 20 == 0) then
+    pointState = "normal"
+    isActive = false
+  else
+    pointState = "doublePoints"
+  end
 end
 
 function LifeLine()
-  
+  isActive = false
 end
 function Invincibility()
-  
+  if (game.endlessScore >= 10 and game.endlessScore % 10 == 0) then
+    duckState = "vulnerable"
+    isActive = false
+  else
+    duckState = "invulnerable"
+  end
 end
 function HalfSpeed()
-  
+  if (game.endlessScore >= 10 and game.endlessScore % 10 == 0) then
+    speedState = "normal"
+    isActive = false
+  else
+    speedState = "halfSpeed"
+  end
 end
 
-function SpawnUpgrade() 
-  upgradeDrop = love.math.random(1,4)
+function SpawnUpgrade()
+  upgradeDrop = love.math.random(1,3)
   upgradeLane = love.math.random(1,3)
   if(upgradeLane == 1) then
     upgradeX = LeftPoint
-  elseif(upgradeLane == 2) then
+  else if(upgradeLane == 2) then
     upgradeX = MiddlePoint
   elseif(upgradeLane == 3) then
     upgradeX = RightPoint
   end
-  
   if (upgradeDrop == 1) then
     upgradeType = "LifeLine"
     upgradeTex = lifeLineUpgrade
@@ -98,11 +124,18 @@ function SpawnUpgrade()
     upgradeTex = halfSpeedUpgrade
     upgradeQuad = halfSpeedQuad
   end
-  isSpawned = true
 end
-
+isSpawned = true
+end
 function Draw()
   if(isSpawned == true) then
   love.graphics.draw(upgradeTex,upgradeQuad,upgradeX, upgradeY)
   end
+end
+
+function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
+  return x1 < x2+w2 and
+         x2 < x1+w1 and
+         y1 < y2+h2 and
+         y2 < y1+h1
 end

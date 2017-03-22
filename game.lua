@@ -268,6 +268,7 @@ function drawGameOver()
   love.graphics.draw(gameover, backgroundQuad, 0, 0)
   love.graphics.draw(retryButton, buttonQuad, 30, 475)
   love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
+  love.graphics.print("Score: " .. endlessScore,200,200)
 end  
 
 function mousepressed(x,y,button,istouch)

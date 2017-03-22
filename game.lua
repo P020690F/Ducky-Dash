@@ -120,7 +120,11 @@ function updateEndless()
         
       if v.PosY > 500 then
           v.PosY = -(i * 100)
-          endlessScore = endlessScore + 1
+          if(upgrades.pointState == "normal") then
+            endlessScore = endlessScore + 1
+          else
+            endlessScore = endlessScore + 2
+          end
       end
     end
     
@@ -129,6 +133,7 @@ function updateEndless()
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
           main.gamestate = "gameover"
+          upgrades.upgradeY = 700
         end  
       end
     end

@@ -203,11 +203,14 @@ function drawEndless()
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
   end
+  
   love.graphics.draw(Ducky.Tex, DuckQuad, Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  upgrades.Draw()
 end
 
 function updateEndless()
   if not _G.paused then
+    upgrades.Update()
     if duckHorizontalMove == "left" then
       if Ducky.Position == "left" then
         Ducky.PosX = Ducky.PosX - 5
@@ -248,7 +251,6 @@ function updateEndless()
 
       if endlessScore >= 5 and endlessScore % 5 == 0 then
           speed = endlessScore / 20 + 2.5
-          upgrades.SpawnUpgrade()
       end
       
       if (upgrades.speedState == "halfSpeed") then

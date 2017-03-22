@@ -12,6 +12,7 @@ function load()
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
  astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
  punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
+ cy_duck = love.graphics.newImage("assets/Duck Skins/Cy_Duck.png")
  duckSkin = love.graphics.newImage("assets/Duck Skins/" .. duckdatabase.currentDuck .. ".png")
  storyLevel = 0
  water = love.graphics.newImage("assets/Water.png")
@@ -134,6 +135,7 @@ function updateStory()
           elseif duckLife == 0 then
             holdState = 2
             main.gamestate = "gameover"
+            sound.play()
             _G.DuckBills = _G.DuckBills + endlessScore
            
           end
@@ -180,6 +182,7 @@ function updateEndless()
           elseif duckLife == 0 then
             holdState = 1
             main.gamestate = "gameover"
+            sound.play()
             _G.DuckBills = _G.DuckBills + endlessScore
             
           end

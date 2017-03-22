@@ -10,8 +10,6 @@ function load()
  storyLevel = 0
  water = love.graphics.newImage("assets/Water.png")
  waterQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- drain = love.graphics.newImage("assets/Drain.png")
- drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  
@@ -23,7 +21,9 @@ function load()
  retryButton = love.graphics.newImage("assets/RetryButton.png")
  mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
  buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
- scoreFont = love.graphics.newFont(20) 
+ scoreFont = love.graphics.newFont(20)
+ scoreBG = love.graphics.newImage("assets/ScoreBox.png")
+ scoreQuad = love.graphics.newQuad(1,1,125,100,125,100)
  
  speedMultiplier = 1
  endlessScore = 0
@@ -90,7 +90,6 @@ end
 function drawStory()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
-  love.graphics.draw(drain, drainQuad, 0, 0)
   love.graphics.setFont(scoreFont)
   
   for i,v in ipairs(Obstacles) do
@@ -193,7 +192,7 @@ end
 function drawEndless()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
-  love.graphics.draw(drain, drainQuad, 0, 0)
+  love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
   love.graphics.print("Score: ", 10, 600)
@@ -302,7 +301,6 @@ end
 function drawLocal()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
-  love.graphics.draw(drain, drainQuad, 0, 0)
   love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)

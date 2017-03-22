@@ -10,7 +10,7 @@ function load()
 end
 
 function play()
-  if main.gamestate == "menu" and not menu:isPlaying() then
+  if main.gamestate == "menu" and not menu:isPlaying() and not squeak:isPlaying() then
     love.audio.stop()
     love.audio.play(menu)
   end

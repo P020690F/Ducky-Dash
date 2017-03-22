@@ -367,7 +367,7 @@ function clickLocations (x,y)
   
   --game over
   if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
-    
+    sound.playSqueak()
     if holdState == 1 then
       main.gamestate = "endless" 
     elseif holdState == 2 then
@@ -375,11 +375,13 @@ function clickLocations (x,y)
     end
     game.load()
   elseif x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
+    sound.playSqueak()
     main.gamestate = "menu"
   end
   
   --pause
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
+    sound.playSqueak()
     _G.paused = true
   end
 end

@@ -49,6 +49,7 @@ end
 
 function clickLocations(x,y)
   if ((x > 120 and x < 240) and ( y > 520 and y < 580)) then
+    sound.playSqueak()
     main.gamestate = "menu"
   end
   

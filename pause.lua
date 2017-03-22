@@ -48,7 +48,6 @@ function mousepressed(x,y,button, istouch)
       -- menu
       
       _G.paused = false
-      game.load()
       main.gamestate = "menu"
     end
   

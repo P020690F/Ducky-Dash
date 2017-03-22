@@ -14,6 +14,11 @@ function load()
  drainQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
  bathtub = love.graphics.newImage("assets/Bathtub.png")
  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
+ Co_OpLayout = love.graphics.newImage("assets/Co-OpLayout.png")
+ Co_OpLayoutQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+ 
+ 
  gameover = love.graphics.newImage("assets/GameOverScreen.png")
  retryButton = love.graphics.newImage("assets/RetryButton.png")
  mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
@@ -23,6 +28,10 @@ function load()
  speedMultiplier = 1
  endlessScore = 0
  localScore = 0
+ player1Score = 0
+ player2Score = 0
+ localRound = 1
+ 
  speed = 2.5
  objectFound = false -- used in local co op
  clickReady = true -- used in local co op to have a timer in between placing objects
@@ -162,12 +171,20 @@ function updateStory()
     end
   end
     
-    if(upgrades.duckState == "vulnerable") then
+    if(upgrades.duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
-          main.gamestate = "gameover"
-        end  
+          duckLife = duckLife - 1
+          if duckLife == 1  then
+            duckVerticalMove = "down"  
+            hit = true
+            v.PosY = -100
+          elseif duckLife == 0 then
+            main.gamestate = "gameover"
+          end
+          _G.DuckBills = _G.DuckBills + endlessScore
+        end   
       end
     end
   end
@@ -261,12 +278,20 @@ function updateEndless()
     end
   end
     
-    if(upgrades.duckState == "vulnerable") then
+    if(upgrades.duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
-          main.gamestate = "gameover"
-        end  
+          duckLife = duckLife - 1
+          if duckLife == 1  then
+            duckVerticalMove = "down"  
+            hit = true
+            v.PosY = -100
+          elseif duckLife == 0 then
+            main.gamestate = "gameover"
+          end
+          _G.DuckBills = _G.DuckBills + endlessScore
+        end   
       end
     end
   end
@@ -276,6 +301,7 @@ function drawLocal()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   love.graphics.draw(water, waterQuad, 0, 0)
   love.graphics.draw(drain, drainQuad, 0, 0)
+  love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
   love.graphics.print("Score: ", 10, 600)
@@ -291,64 +317,109 @@ end
 
 function updateLocal()
   if not _G.paused then
-    
-    upgrades.Update()
-    if Ducky.Position == "left" then
-      Ducky.PosX = LeftPoint.PosX
-      Ducky.PosY = LeftPoint.PosY
-    end
-    if Ducky.Position == "middle" then
-      Ducky.PosX = MiddlePoint.PosX
-      Ducky.PosY = MiddlePoint.PosY
-    end
-    if Ducky.Position == "right" then
-      Ducky.PosX = RightPoint.PosX
-      Ducky.PosY = RightPoint.PosY
-    end
-    
-      if localScore >= 10 and localScore % 10 == 0 then
-          speed = localScore / 20 + 2.5
-      end
-      
-      if (upgradeState == "halfSpeed") then
-        speedMultiplier = 0.5
-      else
-        speedMultiplier = 1
-      end
-    
-     for i,v in ipairs(Obstacles) do
-        if (v.InUse == true) then
-          v.PosY = v.PosY + (speed * speedMultiplier)
+  
+    if duckHorizontalMove == "left" then
+      if Ducky.Position == "left" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 50 then
+          duckHorizontalMove = "still"
         end
-        if v.PosY > 500 then
-          v.InUse = false
-          v.PosY = -(i * 100)
-          localScore = localScore + 1
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX - 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
+    end
+    
+    if duckHorizontalMove == "right" then
+      if Ducky.Position == "right" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 210 then
+          duckHorizontalMove = "still"
+        end
+      elseif Ducky.Position == "middle" then
+        Ducky.PosX = Ducky.PosX + 5
+        if Ducky.PosX == 130 then
+          duckHorizontalMove = "still"
+        end
+      end 
+    end
+    
+    if duckVerticalMove == "down" then
+      if duckLife == 1 then
+        Ducky.PosY =  Ducky.PosY + 5
+        if Ducky.PosY == 400 then
+          duckVerticalMove = "still"
+          hit = false
         end
       end
+    end
+
+    if localScore >= 5 and localScore % 5 == 0 then
+      speed = localScore / 20 + 2.5
+    end
     
-    if(duckState == "vulnerable" and hit == false) then
+    for i,v in ipairs(Obstacles) do
+      if (v.InUse == true) then
+        v.PosY = v.PosY + (speed * speedMultiplier)
+      end
+      if v.PosY > 500 then
+        v.InUse = false
+        v.PosY = -(i * 100)
+        localScore = localScore + 1
+      end
+    end
+    
+    if(upgrades.duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
         if (hitTest) then
           duckLife = duckLife - 1
           if duckLife == 1  then
-            duckVerticalMove = "down"  
+            duckVerticalMove = "down"
             hit = true
+            v.InUse = false
             v.PosY = -100
           elseif duckLife == 0 then
             main.gamestate = "gameover"
+            _G.DuckBills = _G.DuckBills + endlessScore
+        
+            if(localRound == 1) then
+             player1Score = localScore
+             localRound = 2
+            elseif (localRound == 2) then
+             player2Score = localScore
+             localRound = 3
+            end
+
+            if (localRound == 2) then
+                main.gamestate = "localSwitch" -- LocalIntermidiateStage
+            end
+                
+            if (localRound == 3) then
+              main.gamestate = "coopend" 
+            end
           end
-          _G.DuckBills = _G.DuckBills + endlessScore
-        end  
+        end
       end
     end
-  end
-end
+  end --Not Paused End
+end --Function End
 
 function drawGameOver()
   love.graphics.draw(gameover, backgroundQuad, 0, 0)
   love.graphics.draw(retryButton, buttonQuad, 30, 475)
+  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
+end  
+
+function drawLocalSwitch()
+  love.graphics.draw(gameover, backgroundQuad, 0, 0)
+  love.graphics.draw(retryButton, buttonQuad, 30, 475)
+  love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
+end  
+
+function drawLocalEnd()
   love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
 end  
 
@@ -407,18 +478,20 @@ function clickLocations (x,y)
     end
   end
   
-    if x>= 220 and x < 301 and y >= 1 and y < 50 and main.gamestate == "local" then
+  if x>= 220 and x < 301 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
       -- place object in position right
-      objectfound = false
-      for i,v in ipairs(Obstacles) do
-        if (v.InUse == false and objectfound == false) then
-          v.Lane = 3
-          v.PosY = -20
-          v.InUse = true
-          objectfound = true
-        end
+    objectfound = false
+    for i,v in ipairs(Obstacles) do
+      if (v.InUse == false and objectfound == false) then
+        v.Lane = 3
+        v.PosY = -20
+        v.InUse = true
+        objectfound = true
+        clickReady = false
+        clickReadyTimer = 5
       end
     end
+  end
 
   objectFound = false
 
@@ -444,7 +517,6 @@ function clickLocations (x,y)
          v.PosX = RightPoint.PosX
       end
   end 
-  -- end of local co op code }
   
   if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "gameover" then
     game.load()
@@ -455,8 +527,14 @@ function clickLocations (x,y)
     main.gamestate = "menu"
   end
   
-  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
+  if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and (main.gamestate ~= "gameover" or main.gamestate ~= "localSwitch")) then
     _G.paused = true
+  end
+
+ if x >= 30 and x < 180 and y >= 475 and y < 625 and main.gamestate == "localSwitch" then
+    game.load()
+    main.gamestate = "local"
+    localRound = 2
   end
 end
 

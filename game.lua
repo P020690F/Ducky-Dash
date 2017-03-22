@@ -140,12 +140,6 @@ function updateStory()
         end  
       end
     end
-  end
-  
-  timer = timer + 1 * love.timer.getDelta()
-  if timer > 1 then
-    timer = 0
-    currentWaterFrame = math.random(1,4)
   end  
 end
 
@@ -195,12 +189,6 @@ function updateEndless()
       end
     end
   end
-  
-  timer = timer + 1 * love.timer.getDelta()
-  if timer > 1 then
-    timer = 0
-    currentWaterFrame = math.random(1,4)
-  end  
 end
 
 function drawLocal()
@@ -271,13 +259,7 @@ function updateLocal()
         end  
       end
     end
-  end
-  
-  timer = timer + 1 * love.timer.getDelta()
-  if timer > 1 then
-    timer = 0
-    currentWaterFrame = math.random(1,4)
-  end  
+  end 
 end
 
 function drawGameOver()
@@ -415,47 +397,57 @@ function InAllUpdateStates()
       currentDuckFrame = 1
       Ducky.PosX = Ducky.PosX - 5       
       if Ducky.PosX == 50 then
-        duckHorizontalMove = "still"          
+        duckHorizontalMove = "still"  
+        currentDuckFrame = 2
       end
     elseif Ducky.Position == "middle" then
-      currentDuckFrame = 2
+      currentDuckFrame = 1
       Ducky.PosX = Ducky.PosX - 5      
       if Ducky.PosX == 130 then
-        duckHorizontalMove = "still"        
+        duckHorizontalMove = "still" 
+        currentDuckFrame = 2
       end
     end 
   end
+  
   if duckHorizontalMove == "right" then
     currentDuckFrame = 3
     if Ducky.Position == "right" then
         Ducky.PosX = Ducky.PosX + 5
       if Ducky.PosX == 210 then
         duckHorizontalMove = "still"
+        currentDuckFrame = 2
       end
     elseif Ducky.Position == "middle" then
         Ducky.PosX = Ducky.PosX + 5
-        
       if Ducky.PosX == 130 then
         duckHorizontalMove = "still"
+        currentDuckFrame = 2
       end
     end 
   end
     
-    if duckVerticalMove == "down" then
-      if duckLife == 1 then
-        Ducky.PosY =  Ducky.PosY + 5
-        if Ducky.PosY == 400 then
-          duckVerticalMove = "still"
-          hit = false
-        end
-      end
-    end
-    if duckVerticalMove == "up" then     
-      Ducky.PosY =  Ducky.PosY - 5
-      if Ducky.PosY == 350 then
+  if duckVerticalMove == "down" then
+    if duckLife == 1 then
+      Ducky.PosY =  Ducky.PosY + 5
+      if Ducky.PosY == 400 then
         duckVerticalMove = "still"
+        hit = false
       end
     end
+  end
+  if duckVerticalMove == "up" then     
+    Ducky.PosY =  Ducky.PosY - 5
+    if Ducky.PosY == 350 then
+      duckVerticalMove = "still"
+    end
+  end
+    
+  timer = timer + 1 * love.timer.getDelta()
+  if timer > 1 then
+    timer = 0
+    currentWaterFrame = math.random(1,4)
+  end 
 end
 
 function InBothStoryAndEndlessUpdate()

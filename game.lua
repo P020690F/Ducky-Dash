@@ -7,6 +7,7 @@ require "RotatePhone"
 require "VsEndScreen"
 
 function load()
+  collectgarbage()
   upgrades.load()
   
  standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
@@ -133,9 +134,7 @@ function updateStory()
             v.PosY = -100
           elseif duckLife == 0 then
             holdState = 2
-            main.gamestate = "gameover"
-            _G.DuckBills = _G.DuckBills + endlessScore
-           
+            main.gamestate = "gameover"           
           end
         end  
       end
@@ -181,10 +180,8 @@ function updateEndless()
             holdState = 1
             main.gamestate = "gameover"
             _G.DuckBills = _G.DuckBills + endlessScore
-            
           end
           upgrades.upgradeY = 700
-          _G.DuckBills = _G.DuckBills + endlessScore
         end    
       end
     end

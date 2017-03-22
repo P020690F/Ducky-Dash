@@ -35,7 +35,7 @@ function load()
  speed = 2.5
  objectFound = false -- used in local co op
  clickReady = true -- used in local co op to have a timer in between placing objects
- clickReadyTimer = 5 -- used in local co op to have a timer in between placing objects (both needed)
+ clickReadyTimer = 10 -- used in local co op to have a timer in between placing objects (both needed)
  clickDelay = 1.6
  
  bubbles= love.graphics.newImage("assets/bubbles.png")
@@ -317,6 +317,16 @@ end
 
 function updateLocal()
   if not _G.paused then
+    
+  if (clickReady == false) then
+    clickReadyTimer = clickReadyTimer - clickDelay
+  end
+  
+  if (clickReadyTimer <= 0) then
+   -- main.gamestate = "endless"
+       clickReady = true
+  end  
+  
   
     if duckHorizontalMove == "left" then
       if Ducky.Position == "left" then
@@ -458,7 +468,7 @@ function clickLocations (x,y)
         v.InUse = true
         objectfound = true
         clickReady = false
-        clickReadyTimer = 5
+        clickReadyTimer = 90
       end
     end
   end
@@ -473,7 +483,7 @@ function clickLocations (x,y)
         v.InUse = true
         objectfound = true
         clickReady = false
-        clickReadyTimer = 5
+        clickReadyTimer = 90
       end
     end
   end
@@ -488,21 +498,14 @@ function clickLocations (x,y)
         v.InUse = true
         objectfound = true
         clickReady = false
-        clickReadyTimer = 5
+        clickReadyTimer = 90
       end
     end
   end
 
   objectFound = false
 
-  if (clickReady == false) then
-    clickReadyTimer = clickReadyTimer - clickDelay
-  end
   
-  if (clickReadyTimer <= 0) then
-   -- main.gamestate = "endless"
-       clickReady = true
-  end  
 
   for i,v in ipairs(Obstacles) do
       if (v.Lane == 1) then

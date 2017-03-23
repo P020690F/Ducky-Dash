@@ -7,13 +7,23 @@ require "main"
 --Duck 3 = Astronaut_Duck
 --Duck 4 = Cy_Duck
 function load()
-currentDuck = "Standard_Duck"
-numDucks = 4
+  currentDuck = "Standard_Duck"
+  numDucks = 4
 
-ownDuck1 = true
-ownDuck2 = false
-ownDuck3 = true
-ownDuck4 = false
+  ownDuck1 = true
+  ownDuck2 = false
+  ownDuck3 = false
+  ownDuck4 = true
+
+  Standard_Duck = love.graphics.newImage("assets/Duck Skins/Standard_Duck_Front.png")
+  Punk_Duck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")
+  Astronaut_Duck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck_Front.png")
+  Cy_Duck = love.graphics.newImage("assets/Duck Skins/Cy_Duck_Front.png")
+  
+  Standard_Duck_Sprite = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
+  Punk_Duck_Sprite = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
+  Astronaut_Duck_Sprite = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
+  Cy_Duck_Sprite = love.graphics.newImage("assets/Duck Skins/Cy_Duck.png")
 end
 
 
@@ -48,5 +58,29 @@ function buyDuck(number)
     ownDuck3 = true
   elseif (number == 4) then
     ownDuck4 = true
+  end
+end
+
+function getImgByNum(number)
+  if (number == 1) then
+    return Standard_Duck
+  elseif (number == 2) then
+    return Punk_Duck
+  elseif (number == 3) then
+    return Astronaut_Duck
+  elseif (number == 4) then
+    return Cy_Duck
+  end
+end
+
+function getSpriteByCurrentDuck()
+  if (currentDuck == "Standard_Duck") then
+    return Standard_Duck_Sprite
+  elseif (currentDuck == "Punk_Duck") then
+    return Punk_Duck_Sprite
+  elseif (currentDuck == "Astronaut_Duck") then
+    return Astronaut_Duck_Sprite
+  elseif (currentDuck == "Cy_Duck") then
+    return Cy_Duck_Sprite
   end
 end

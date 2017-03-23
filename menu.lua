@@ -12,8 +12,7 @@ function load()
   
   coopDuckQuad = love.graphics.newQuad(1,1,500/2,250/2,500/2,250/2)
   settingsQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
-  TitleQuad = love.graphics.newQuad(1,1,400,200,400,200)
-  
+  TitleQuad = love.graphics.newQuad(1,1,400,200,400,200) 
 end
 
 function draw()
@@ -52,7 +51,6 @@ function clickLocations(x,y)
   --duck shop 
   if (x > 288/2 and x < 503/2 and y > 595/2 and y <825/2) then
     sound.playSqueak()
-    store.load()
     main.gamestate = "store"
   end 
 

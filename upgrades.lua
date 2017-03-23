@@ -2,7 +2,6 @@ module("upgrades", package.seeall)
 require "main"
 
 function load()
-
   LeftPoint = 50
   MiddlePoint = 130
   RightPoint = 210

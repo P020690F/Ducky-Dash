@@ -3,7 +3,6 @@ require "main"
 require "game"
 
 function load()
-
   story4 = love.graphics.newImage("assets/level_select_4.png") 
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   

@@ -456,10 +456,9 @@ function InAllUpdateStates()
 end
 
 function InBothStoryAndEndlessUpdate()
-  --upgrades.Update()
+  upgrades.Update()
   if endlessScore >= 5 and endlessScore % 5 == 0 then
     speed = endlessScore / 20 + 2.5
-    upgrades.SpawnUpgrade()
   end
       
   if (upgrades.speedState == "halfSpeed") then

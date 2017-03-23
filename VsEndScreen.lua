@@ -3,10 +3,8 @@ require "main"
 require "game"
 
 function load()
-  story1 = love.graphics.newImage("assets/level_select_1.png")
   
-  
-  hsdfh = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+
   
   replayImg = love.graphics.newImage("assets/Replay_button.png")
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
@@ -23,7 +21,7 @@ function draw()
   
 
   
-    love.graphics.draw(story1,hsdfh,0,0)
+    love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
     love.graphics.draw(mainImg,buttonQuad,50,500)
     love.graphics.draw(replayImg,buttonQuad,200,500)
     

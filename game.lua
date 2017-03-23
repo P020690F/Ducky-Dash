@@ -14,6 +14,8 @@ function load()
     
    water = love.graphics.newImage("assets/Water.png")
    bathtub = love.graphics.newImage("assets/Bathtub.png")
+   parkImg = love.graphics.newImage("assets/Park_Level.png")
+   rainbowImg = love.graphics.newImage("assets/Rainbow_Level.png")
    backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
    gameover = love.graphics.newImage("assets/GameOverScreen.png")
    retryButton = love.graphics.newImage("assets/RetryButton.png")
@@ -144,8 +146,14 @@ function updateStory()
 end
 
 function drawEndless()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  if (DuckDataBase.currentBackground == "Bath") then
+    love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+    love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  elseif (DuckDataBase.currentBackground == "Park") then
+    love.graphics.draw(parkImg, backgroundQuad, 0, 0)
+  elseif (DuckDataBase.currentBackground == "Rainbow") then
+    love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
+  end
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
@@ -191,8 +199,14 @@ function updateEndless()
 end
 
 function drawLocal()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  if (DuckDataBase.currentBackground == "Bath") then
+    love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+    love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  elseif (DuckDataBase.currentBackground == "Park") then
+    love.graphics.draw(parkImg, backgroundQuad, 0, 0)
+  elseif (DuckDataBase.currentBackground == "Rainbow") then
+    love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
+  end
   love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)

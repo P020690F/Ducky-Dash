@@ -6,14 +6,26 @@ require "main"
 --Duck 2 = Punk_Duck
 --Duck 3 = Astronaut_Duck
 --Duck 4 = Cy_Duck
+
+
+--Background 1 = Bath
+--Background 2 = Park
+--Background 1 = Rainbow
 function load()
   currentDuck = "Standard_Duck"
+  
+  currentBackground = "Bath"
+  
   numDucks = 4
 
   ownDuck1 = true
   ownDuck2 = false
   ownDuck3 = false
   ownDuck4 = true
+  
+  ownBath = true
+  ownPark = false
+  ownRainbow = true
 
   Standard_Duck = love.graphics.newImage("assets/Duck Skins/Standard_Duck_Front.png")
   Punk_Duck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")

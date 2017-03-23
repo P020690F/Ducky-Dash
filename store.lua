@@ -3,8 +3,7 @@ require "main"
 require "DuckDataBase"
 
 function load()
-  --background placeholder
-  bathtub = love.graphics.newImage("assets/Bathtub.png")
+  
   
   ArrowLeft = love.graphics.newImage("assets/LeftArrow.png")
   ArrowRight = love.graphics.newImage("assets/RightArrow.png")
@@ -19,11 +18,17 @@ function load()
   storeFont = love.graphics.newFont(15)
   
   mainButtonQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
+  smallButtonQuad = love.graphics.newQuad(1,1,250/4,250/4,250/4,250/4)
   DuckBillQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
   ArrowQuad = love.graphics.newQuad(1,1,75,75,75,75)
-  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
   centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
+  
+  miniBackgroundQuad = love.graphics.newQuad(1,1,750/7,1337/7,750/7,1337/7)
+  
+  bathTubImg = love.graphics.newImage("assets/Bathtub.png")
+  parkImg = love.graphics.newImage("assets/Park_Level.png")
+  rainbowImg = love.graphics.newImage("assets/Rainbow_Level.png")
   
   storeState = "Duck"
 
@@ -38,7 +43,7 @@ end
 
 
 function drawStoreHub()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
   love.graphics.draw(mainImg, mainButtonQuad,10, 550)
   love.graphics.draw(DuckBillsImg, DuckBillQuad,250,-15)
   love.graphics.setColor(0,255,0)
@@ -46,70 +51,70 @@ function drawStoreHub()
   love.graphics.print("Duck Bills: " .. _G.DuckBills, 265,70)
   love.graphics.setColor(255,255,255) 
    
-  --xstring = ("asd" and love.mouse.getX())
-  --ystring = ("asd" and love.mouse.getY())
-  --love.graphics.setColor(255,0,0)
-  --love.graphics.print(xstring, 120,100)
-  --love.graphics.print(ystring, 120,150)
-  --love.graphics.setColor(255,255,255)  
+  xstring = ("asd" and love.mouse.getX())
+  ystring = ("asd" and love.mouse.getY())
+  love.graphics.setColor(255,0,0)
+  love.graphics.print(xstring, 120,100)
+  love.graphics.print(ystring, 120,150)
+  love.graphics.setColor(255,255,255)  
   
   if (storeState == "Duck") then
     drawDuckSelect()
-  end
   
-  if (storeState == "PowerUp") then
+  elseif (storeState == "PowerUp") then
     drawPowerUpStore()
+    
+  elseif (storeState == "Background") then
+    drawBackgroundStore()
+  
   end
+  
 end
-function clickStoreHub(x,y,button,istouch)
+function clickStoreHub(x,y)
 
-  if(x > 20 and x  < 120 and y > 585 and  y < 635) then
+ if(x > 20 and x  < 120 and y > 585 and  y < 635) then
     sound.playSqueak()
     main.gamestate = "menu"
   end
-  
+  --left button at top
   if(x > 20 and x  < 120 and y > 15 and  y < 65) then
     if (storeState == "Duck") then
       storeState = "PowerUp"
     
     elseif (storeState == "PowerUp") then
       storeState = "Duck"
-    end
-  end
-  
-  if (storeState == "Duck") then
-    clickDuckSelect(x,y)
-  end
-  
-  if (storeState == "PowerUp") then
-   clickPowerUpStore(x,y)
-  end
 
-end
-function pressStoreHub(id,x,y,sw,sh,pressure)
-  if(x > 20 and x  < 120 and y > 585 and  y < 635) then
-    sound.playSqueak()
-    main.gamestate = "menu"
-  end
-  
-  if(x > 20 and x  < 120 and y > 15 and  y < 65) then
-    if (storeState == "Duck") then
-      storeState = "PowerUp"
     
-    elseif (storeState == "PowerUp") then
+    elseif (storeState == "Background") then
       storeState = "Duck"
     end
   end
+  --right button at top
+  if(x > 130 and x  < 230 and y > 15 and  y < 65) then
+    if (storeState == "Duck") then
+      storeState = "Background"
+    
+    elseif (storeState == "PowerUp") then
+      storeState = "Background"
 
+    
+    elseif (storeState == "Background") then
+      storeState = "PowerUp"
+    end
+  end
 
   if (storeState == "Duck") then
     clickDuckSelect(x,y)
-  end
-  
-  if (storeState == "PowerUp") then
+
+  elseif(storeState == "PowerUp") then
    clickPowerUpStore(x,y)
+  
+  elseif(storeState == "Background") then
+   clickBackgroundStore(x,y)
   end
+
 end
+
 function drawDuckSelect()
   love.graphics.setColor(255,0,0)
   love.graphics.print(DuckDataBase.getDuckByNumber(lookingAtDuck), 135, 445)
@@ -117,6 +122,8 @@ function drawDuckSelect()
   
   love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,225)
   love.graphics.draw(PowerUpImg, mainButtonQuad, 10 ,-20)
+  love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+  
   
   if(DuckDataBase.returnDuckOwnership(lookingAtDuck)) then
     if (DuckDataBase.getDuckByNumber(lookingAtDuck) == DuckDataBase.currentDuck) then
@@ -144,6 +151,56 @@ end
 
 function drawPowerUpStore()
   love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
+  love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+end
+
+function drawBackgroundStore()
+  love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
+  love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+  
+  love.graphics.draw(bathTubImg, miniBackgroundQuad,50, 100)
+  love.graphics.draw(parkImg, miniBackgroundQuad,200, 100)
+  love.graphics.draw(rainbowImg, miniBackgroundQuad,50, 350)
+  
+  if(DuckDataBase.ownBath) then
+    if ("Bath" == DuckDataBase.currentBackground) then
+      love.graphics.setColor(111,111,111)
+    end
+    love.graphics.draw(selectImg, smallButtonQuad, 75 ,290)
+    love.graphics.setColor(255,255,255)
+  else
+    love.graphics.draw(buyImg, smallButtonQuad, 75 ,290)
+    love.graphics.setColor(0,255,0)
+    love.graphics.print("500",85,290)
+    love.graphics.setColor(255,255,255)
+  end
+  
+  if(DuckDataBase.ownPark) then
+    if ("Park" == DuckDataBase.currentBackground) then
+      love.graphics.setColor(111,111,111)
+    end
+    love.graphics.draw(selectImg, smallButtonQuad, 220 ,290)
+    love.graphics.setColor(255,255,255)
+  else
+    love.graphics.draw(buyImg, smallButtonQuad, 220 ,290)
+    love.graphics.setColor(0,255,0)
+    love.graphics.print("500",230,290)
+    love.graphics.setColor(255,255,255)
+  end
+  
+  if(DuckDataBase.ownRainbow) then
+    if ("Rainbow" == DuckDataBase.currentBackground) then
+      love.graphics.setColor(111,111,111)
+    end
+    love.graphics.draw(selectImg, smallButtonQuad, 75 ,540)
+    love.graphics.setColor(255,255,255)
+  else
+    love.graphics.draw(buyImg, smallButtonQuad, 75 ,540)
+    love.graphics.setColor(0,255,0)
+    love.graphics.print("500",85,540)
+    love.graphics.setColor(255,255,255)
+  end
+  
 end
 
 function clickDuckSelect(x,y)
@@ -185,13 +242,67 @@ function clickDuckSelect(x,y)
         DuckDataBase.currentDuck = DuckDataBase.getDuckByNumber(lookingAtDuck)
       end
     end
-    
   end
   
 end
 
 function clickPowerUpStore(x,y)
  
+end
+
+function clickBackgroundStore(x,y)
+
+ if(x > 82 and x  < 130 and y > 308 and  y < 330) then
+    --output message if not have enough duck bills
+    if(DuckDataBase.ownBath) then
+      --select current duck
+      DuckDataBase.currentBackground = "Bath"
+    elseif not (DuckDataBase.ownBath) then
+      --buy duck
+      --need to decide if ducks cost different amounts
+      --if(DuckDataBase.duckBills >= DuckDataBase.duckCost(lookingAtDuck)) then
+      if(_G.DuckBills >= 500) then
+        --DuckDataBase.duckBills = DuckDataBase.duckBills - DuckDataBase.duckCost(lookingAtDuck)
+        _G.DuckBills = _G.DuckBills - 500
+        DuckDataBase.ownBath = true
+        DuckDataBase.currentBackground = "Bath"
+      end
+    end
+  
+  elseif(x > 232 and x  < 280 and y > 308 and  y < 330) then
+    --output message if not have enough duck bills
+    if(DuckDataBase.ownPark) then
+      --select current duck
+      DuckDataBase.currentBackground = "Park"
+    elseif not (DuckDataBase.ownPark) then
+      --buy duck
+      --need to decide if ducks cost different amounts
+      --if(DuckDataBase.duckBills >= DuckDataBase.duckCost(lookingAtDuck)) then
+      if(_G.DuckBills >= 500) then
+        --DuckDataBase.duckBills = DuckDataBase.duckBills - DuckDataBase.duckCost(lookingAtDuck)
+        _G.DuckBills = _G.DuckBills - 500
+        DuckDataBase.ownPark = true
+        DuckDataBase.currentBackground = "Park"
+      end
+    end
+  
+  elseif(x > 82 and x  < 130 and y > 558 and  y < 580) then
+    --output message if not have enough duck bills
+    if(DuckDataBase.ownRainbow) then
+      --select current duck
+      DuckDataBase.currentBackground = "Rainbow"
+    elseif not (DuckDataBase.ownRainbow) then
+      --buy duck
+      --need to decide if ducks cost different amounts
+      --if(DuckDataBase.duckBills >= DuckDataBase.duckCost(lookingAtDuck)) then
+      if(_G.DuckBills >= 500) then
+        --DuckDataBase.duckBills = DuckDataBase.duckBills - DuckDataBase.duckCost(lookingAtDuck)
+        _G.DuckBills = _G.DuckBills - 500
+        DuckDataBase.ownRainbow = true
+        DuckDataBase.currentBackground = "Rainbow"
+      end
+    end
+  end
 end
 
 function cycleSkins()

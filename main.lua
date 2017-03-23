@@ -107,6 +107,7 @@ function love.draw()
   end
   
   if gamestate == "gameover" then
+    sound.play()
     game.drawGameOver()
   end  
   

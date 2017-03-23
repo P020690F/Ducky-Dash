@@ -7,6 +7,7 @@ function load()
   endless = love.audio.newSource("assets/Sounds/endless.wav", "stream")
   endless:setLooping(true)
   squeak = love.audio.newSource("assets/Sounds/squeak.wav", "static")
+  cySqueak = love.audio.newSource("assets/Sounds/cySqueak.wav", "static")
 end
 
 function play()
@@ -25,7 +26,7 @@ function play()
     love.audio.play(endless)
   end
 
-  if main.gamestate == "gameover" and not menu:isPlaying()then
+  if main.gamestate == "gameover" and not menu:isPlaying() and not squeak:isPlaying() and not cySqueak:isPlaying() then
     love.audio.stop()
     love.audio.play(menu)
   end  
@@ -47,4 +48,8 @@ end
 
 function playSqueak()
   love.audio.play(squeak)
+end  
+
+function playCy()
+  love.audio.play(cySqueak)
 end  

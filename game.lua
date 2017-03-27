@@ -9,41 +9,41 @@ require "VsEndScreen"
 function load()
   collectgarbage()
   upgrades.load()
-  
- standardduck = love.graphics.newImage("assets/Duck Skins/Standard_Duck.png")
- astronautduck = love.graphics.newImage("assets/Duck Skins/Astronaut_Duck.png")
- punkduck = love.graphics.newImage("assets/Duck Skins/Punk_Duck.png")
- cy_duck = love.graphics.newImage("assets/Duck Skins/Cy_Duck.png")
- duckSkin = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.currentDuck .. ".png")
- storyLevel = 0
- water = love.graphics.newImage("assets/Water.png")
- bathtub = love.graphics.newImage("assets/Bathtub.png")
- backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- gameover = love.graphics.newImage("assets/GameOverScreen.png")
- retryButton = love.graphics.newImage("assets/RetryButton.png")
- mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
- buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
- scoreBG = love.graphics.newImage("assets/ScoreBox.png")
- scoreQuad = love.graphics.newQuad(1,1,125,100,125,100)
- scoreFont = love.graphics.newFont(20) 
- 
- Co_OpLayout = love.graphics.newImage("assets/Co-OpLayout.png")
- Co_OpLayoutQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
- 
- duckFrames = {}
- duckFrames[1] = love.graphics.newQuad(0,0,100,100,duckSkin:getDimensions())
- duckFrames[2] = love.graphics.newQuad(100,0,100,100,duckSkin:getDimensions())
- duckFrames[3] = love.graphics.newQuad(200,0,100,100,duckSkin:getDimensions())
+  duckSkin = DuckDataBase.getSpriteByCurrentDuck()
+  if(imagaeloader == nil) then
+    
+   water = love.graphics.newImage("assets/Water.png")
+   bathtub = love.graphics.newImage("assets/Bathtub.png")
+   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+   gameover = love.graphics.newImage("assets/GameOverScreen.png")
+   retryButton = love.graphics.newImage("assets/RetryButton.png")
+   mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
+   buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
+   scoreBG = love.graphics.newImage("assets/ScoreBox.png")
+   scoreQuad = love.graphics.newQuad(1,1,125,100,125,100)
+   scoreFont = love.graphics.newFont(20) 
+   
+   Co_OpLayout = love.graphics.newImage("assets/Co-OpLayout.png")
+   Co_OpLayoutQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+   
+   duckFrames = {}
+   duckFrames[1] = love.graphics.newQuad(0,0,100,100,duckSkin:getDimensions())
+   duckFrames[2] = love.graphics.newQuad(100,0,100,100,duckSkin:getDimensions())
+   duckFrames[3] = love.graphics.newQuad(200,0,100,100,duckSkin:getDimensions())
+   
+   waterFrames = {}
+   waterFrames[1] = love.graphics.newQuad(0,0,375,669,water:getDimensions())
+   waterFrames[2] = love.graphics.newQuad(375,0,375,669,water:getDimensions())
+   waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
+   waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
+
+   bubbles= love.graphics.newImage("assets/bubbles.png")
+   bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+ end
  currentDuckFrame = 2
- 
- waterFrames = {}
- waterFrames[1] = love.graphics.newQuad(0,0,375,669,water:getDimensions())
- waterFrames[2] = love.graphics.newQuad(375,0,375,669,water:getDimensions())
- waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
- waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
  currentWaterFrame = 1
  timer = 0
- 
+ storyLevel = 0
  speedMultiplier = 1
  endlessScore = 0
  localScore = 0
@@ -52,9 +52,7 @@ function load()
  clickReady = true -- used in local co op to have a timer in between placing objects
  clickReadyTimer = 5 -- used in local co op to have a timer in between placing objects (both needed)
  clickDelay = 1.6
- 
- bubbles= love.graphics.newImage("assets/bubbles.png")
- bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+ imagaeloader = false
  
  Ducky = {
  Tex = duckSkin,
@@ -471,10 +469,9 @@ function InAllUpdateStates()
 end
 
 function InBothStoryAndEndlessUpdate()
-  --upgrades.Update()
+  upgrades.Update()
   if endlessScore >= 5 and endlessScore % 5 == 0 then
     speed = endlessScore / 20 + 2.5
-    upgrades.SpawnUpgrade()
   end
       
   if (upgrades.speedState == "halfSpeed") then

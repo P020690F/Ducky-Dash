@@ -10,9 +10,8 @@ require "storyMenu"
 require "RotatePhone"
 require "VsEndScreen"
 
-
 function love.load()
-  --if arg[#arg] == "-debug" then require("mobdebug").start() end
+  if arg[#arg] == "-debug" then require("mobdebug").start() end
 
   screenWidth = 750/2
   screenHeight = 1337/2
@@ -29,7 +28,6 @@ function love.load()
   
   gamestate = "menu"
   DuckDataBase.load()
-  game.load()
   menu.load()
   sound.load()
   store.load()
@@ -86,7 +84,7 @@ function love.draw()
       love.graphics.setColor(255,255,255)
     end
   end
-  
+
   if gamestate == "local" then
     sound.play()
     if _G.paused then

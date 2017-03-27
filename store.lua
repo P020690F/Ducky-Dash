@@ -6,10 +6,6 @@ function load()
   --background placeholder
   bathtub = love.graphics.newImage("assets/Bathtub.png")
   
-  leftDuck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")
-  rightDuck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")
-  middleDuck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")
-  
   ArrowLeft = love.graphics.newImage("assets/LeftArrow.png")
   ArrowRight = love.graphics.newImage("assets/RightArrow.png")
   
@@ -211,7 +207,7 @@ function cycleSkins()
     rightDuck = null
     middleDuck = null
     collectgarbage()
-  leftDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(numDuckLeft) .. "_Front.png")
-  middleDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(lookingAtDuck) .. "_Front.png")
-  rightDuck = love.graphics.newImage("assets/Duck Skins/" .. DuckDataBase.getDuckByNumber(numDuckRight) .. "_Front.png")
+  leftDuck = DuckDataBase.getImgByNum(numDuckLeft)
+  middleDuck = DuckDataBase.getImgByNum(lookingAtDuck)
+  rightDuck = DuckDataBase.getImgByNum(numDuckRight)
 end

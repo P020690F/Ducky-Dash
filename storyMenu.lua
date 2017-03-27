@@ -8,7 +8,6 @@ function load()
   story3 = love.graphics.newImage("assets/level_select_3.png")
   story4 = love.graphics.newImage("assets/level_select_4.png")
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
-  
   buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)  
   backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
 end
@@ -32,6 +31,8 @@ function draw()
   love.graphics.setColor(255,255,255)  
   
   love.graphics.draw(mainImg, buttonQuad, 105 ,475)
+  
+  
 end  
 
 function mousepressed(x,y,button,istouch)
@@ -50,24 +51,18 @@ function clickLocations(x,y)
   if (x > 95 and x < 263) then   
     if(y < 381 and y > 331)then
       sound.playSqueak()
-      game.storyLevel = 1
-      main.gamestate = "story"
-      game.load()
-    elseif (y > 250 and y < 300 and _G.storyLevel > 2) then
+      main.gamestate = "cutscene"
+      sound.play()
+      cutscene.cutsceneState = 1.1
+    elseif (y > 250 and y < 300 and _G.storyLevel >= 2) then
       sound.playSqueak()
-      game.storyLevel = 2
-      main.gamestate = "story"
-      game.load()
-    elseif (y > 165 and y < 213 and _G.storyLevel > 3) then
+      main.gamestate = "cutscene"
+      sound.play()
+      cutscene.cutsceneState = 3.1
+    elseif (y > 165 and y < 213 and _G.storyLevel >= 3) then
       sound.playSqueak()
-      game.storyLevel = 3
-      main.gamestate = "story"
-      game.load()
-    elseif (y > 79 and y < 127 and _G.storyLevel > 4) then
+    elseif (y > 79 and y < 127 and _G.storyLevel >= 4) then
       sound.playSqueak()
-      game.storyLevel = 4
-      main.gamestate = "story"
-      game.load()
     end
   end
 end

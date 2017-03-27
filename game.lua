@@ -168,6 +168,11 @@ function updateStory()
           hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
           if (hitTest and v.Collidable == true) then
             duckLife = duckLife - 1
+            if DuckDataBase.currentDuck == "Cy_Duck" then
+                sound.playCy()
+            else  
+                sound.playSqueak()
+            end
             if duckLife == 2  then
               duckVerticalMove = "down"  
               hit = true
@@ -185,6 +190,7 @@ function updateStory()
             
           end  
         end
+          
       end
     end
   end  
@@ -235,6 +241,11 @@ function updateEndless()
           hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
           if (hitTest and v.Collidable == true) then
             duckLife = duckLife - 1
+             if DuckDataBase.currentDuck == "Cy_Duck" then
+                sound.playCy()
+            else  
+                sound.playSqueak()
+            end
             if duckLife == 2  then
               duckVerticalMove = "down"  
               hit = true
@@ -327,6 +338,11 @@ function updateLocal()
           hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
           if (hitTest) then
             duckLife = duckLife - 1
+            if DuckDataBase.currentDuck == "Cy_Duck" then
+                sound.playCy()
+            else  
+                sound.playSqueak()
+            end
             if duckLife == 2  then
               duckVerticalMove = "down"  
               hit = true

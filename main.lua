@@ -9,6 +9,7 @@ require "settingspage"
 require "storyMenu"
 require "RotatePhone"
 require "VsEndScreen"
+require "cutscene"
 
 function love.load()
   if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -40,6 +41,7 @@ function love.load()
   RotatePhone.load()
   VsEndScreen.load()
   upgrades.load()
+  cutscene.load()
  
   
   --global value
@@ -108,6 +110,7 @@ function love.draw()
   end
   
   if gamestate == "gameover" then
+    sound.play()
     game.drawGameOver()
   end  
   
@@ -117,6 +120,10 @@ function love.draw()
   
   if gamestate == "coopend" then
     VsEndScreen.draw()
+  end
+  
+  if gamestate == "cutscene" then
+    cutscene.draw()
   end
   
   if _G.paused then
@@ -179,6 +186,9 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "menu" and not _G.settings) then
     menu.touchpressed(id,x,y,sw,sh,pressure)
+  
+  elseif (gamestate == "cutscene") then
+    cutscene.touchpressed(id,x,y,sw,sh,pressure)
   end
 end
 
@@ -211,6 +221,9 @@ function love.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "menu" and not _G.settings) then
     menu.mousepressed(x,y,button,istouch)
+  
+  elseif (gamestate == "cutscene") then
+    cutscene.mousepressed(x,y,button,istouch)
   end
 end
 end --If Android End

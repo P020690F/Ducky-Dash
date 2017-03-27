@@ -14,6 +14,8 @@ function load()
     
    water = love.graphics.newImage("assets/Water.png")
    bathtub = love.graphics.newImage("assets/Bathtub.png")
+   parkImg = love.graphics.newImage("assets/Park_Level.png")
+   rainbowImg = love.graphics.newImage("assets/Rainbow_Level.png")
    backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
    gameover = love.graphics.newImage("assets/GameOverScreen.png")
    retryButton = love.graphics.newImage("assets/RetryButton.png")
@@ -66,6 +68,11 @@ function load()
  clickReadyTimer = 5 -- used in local co op to have a timer in between placing objects (both needed)
  clickDelay = 1.6
  imagaeloader = false
+ MoveToDrain = false
+ SpinRotate = 0
+ OriginSpin = 0
+ StepRight = true
+ 
  
  Ducky = {
  Tex = duckSkin,
@@ -84,7 +91,7 @@ function load()
  duckVerticalMove = "still"
  moverRot = math.pi
  
- duckLife = 2
+ duckLife = 3
  hit = false
  holdState = 0
  
@@ -145,38 +152,52 @@ function drawStory()
     love.graphics.draw(v.Tex,BlankQuad,v.PosX, v.PosY)
     end
   end
-  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height,math.deg(SpinRotate),1,1,OriginSpin,OriginSpin)
 end
 
 function updateStory()
   if not _G.paused then
-    InAllUpdateStates()
-    InBothStoryAndEndlessUpdate()
-    
-    if(upgrades.duckState == "vulnerable" and hit == false) then
-      for i,v in ipairs(Obstacles) do
-        hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-        if (hitTest and v.Collidable == true) then
-          duckLife = duckLife - 1
-          if duckLife == 1  then
-            duckVerticalMove = "down"  
-            hit = true
-            v.Collidable = false
-          elseif duckLife == 0 then
-            holdState = 2
-            main.gamestate = "gameover"           
-            sound.play()
-            _G.DuckBills = _G.DuckBills + endlessScore
-          end
-        end  
+    if MoveToDrain then
+      spinTowardsDrain()
+    else
+      InAllUpdateStates()
+      InBothStoryAndEndlessUpdate()
+      
+      if(upgrades.duckState == "vulnerable" and hit == false) then
+        for i,v in ipairs(Obstacles) do
+          hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+          if (hitTest and v.Collidable == true) then
+            duckLife = duckLife - 1
+            if duckLife == 2  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.Collidable = false
+            elseif duckLife == 1  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.Collidable = false
+            elseif duckLife == 0 then
+              holdState = 2
+              MoveToDrain = true      
+              sound.play()
+              _G.DuckBills = _G.DuckBills + endlessScore
+            end
+            
+          end  
+        end
       end
     end
   end  
 end
-
 function drawEndless()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  if (DuckDataBase.currentBackground == "Bath") then
+    love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+    love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  elseif (DuckDataBase.currentBackground == "Park") then
+    love.graphics.draw(parkImg, backgroundQuad, 0, 0)
+  elseif (DuckDataBase.currentBackground == "Rainbow") then
+    love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
+  end
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
@@ -197,41 +218,54 @@ function drawEndless()
     end
   end
   
-  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height,math.deg(SpinRotate),1,1,OriginSpin,OriginSpin)
   upgrades.Draw()
 end
 
 function updateEndless()
   if not _G.paused then
-    
-    InAllUpdateStates()
-    InBothStoryAndEndlessUpdate()
-    
-    if(upgrades.duckState == "vulnerable" and hit == false) then
-      for i,v in ipairs(Obstacles) do
-        hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-        if (hitTest and v.Collidable == true) then
-          duckLife = duckLife - 1
-          if duckLife == 1  then
-            duckVerticalMove = "down"  
-            hit = true
-            v.Collidable = false
-          elseif duckLife == 0 then
-            holdState = 1
-            main.gamestate = "gameover"
-            sound.play()
-            _G.DuckBills = _G.DuckBills + endlessScore
-          end
-          upgrades.upgradeY = 700
-        end    
+    if MoveToDrain then
+      spinTowardsDrain()
+    else
+      InAllUpdateStates()
+      InBothStoryAndEndlessUpdate()
+      
+      if(upgrades.duckState == "vulnerable" and hit == false) then
+        for i,v in ipairs(Obstacles) do
+          hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+          if (hitTest and v.Collidable == true) then
+            duckLife = duckLife - 1
+            if duckLife == 2  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.Collidable = false
+            elseif duckLife == 1  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.Collidable = false
+            elseif duckLife == 0 then
+              holdState = 1
+              MoveToDrain = true
+              sound.play()
+              _G.DuckBills = _G.DuckBills + endlessScore
+            end
+            
+          end    
+        end
       end
     end
   end
 end
 
 function drawLocal()
-  love.graphics.draw(bathtub, backgroundQuad, 0, 0)
-  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  if (DuckDataBase.currentBackground == "Bath") then
+    love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+    love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  elseif (DuckDataBase.currentBackground == "Park") then
+    love.graphics.draw(parkImg, backgroundQuad, 0, 0)
+  elseif (DuckDataBase.currentBackground == "Rainbow") then
+    love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
+  end
   love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
@@ -251,73 +285,71 @@ function drawLocal()
          love.graphics.draw(v.Tex,smallQuad,312, 80)
         end
   end
-  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
-  
-  
+  love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height,math.deg(SpinRotate),1,1,OriginSpin,OriginSpin)
 end
 
 function updateLocal()
   if not _G.paused then
-    InAllUpdateStates()
-    
-    if localScore >= 10 and localScore % 10 == 0 then
-      speed = localScore / 20 + 2.5
-    end
-    
-    for i,v in ipairs(Obstacles) do
-      if (v.InUse == true) then
-        v.PosY = v.PosY + (speed * speedMultiplier)
+    if MoveToDrain then
+      spinTowardsDrain()
+    else
+      InAllUpdateStates()
+      
+      if localScore >= 10 and localScore % 10 == 0 then
+        speed = localScore / 20 + 2.5
       end
-      if v.PosY > 500 then
-        v.InUse = false
-        
-        v.TexNumber = math.random(1,5)
-    if(v.TexNumber == 1) then
-        v.Tex = bubbles
-      elseif (v.TexNumber == 2) then
-        v.Tex = shampoo
-      elseif (v.TexNumber == 3) then
-        v.Tex = soap
-      elseif (v.TexNumber == 4) then
-        v.Tex = kids_shampoo
-      elseif (v.TexNumber == 5) then
-        v.Tex = submarine
-    end
-        v.PosY = -(i * 100)
-        localScore = localScore + 1
-      end
-    end
-    
-    if(upgrades.duckState == "vulnerable" and hit == false) then
-      for i,v in ipairs(Obstacles) do
-        hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-        if (hitTest) then
-          duckLife = duckLife - 1
-          if duckLife == 1  then
-            duckVerticalMove = "down"  
-            hit = true
+        for i,v in ipairs(Obstacles) do
+          if (v.InUse == true) then
+            v.PosY = v.PosY + (speed * speedMultiplier)
+          end
+          if v.PosY > 500 then
             v.InUse = false
-            v.PosY = -100
-          elseif duckLife == 0 then
-            if(localRound == 1) then
-              player1Score = localScore
-              localRound = 2
-              
-            elseif (localRound == 2) then
-              player2Score = localScore
-              localRound = 3
-          end
-          if (localRound == 2) then
-            RotatePhone.load()
-            main.gamestate = "localSwitch" -- LocalIntermidiateStage
-            VsEndScreen.player1Score = player1Score
             
-          elseif (localRound == 3) then
-            main.gamestate = "coopend" 
-            VsEndScreen.player2Score = player2Score
+            v.TexNumber = math.random(1,5)
+            if(v.TexNumber == 1) then
+              v.Tex = bubbles
+            elseif (v.TexNumber == 2) then
+              v.Tex = shampoo
+            elseif (v.TexNumber == 3) then
+              v.Tex = soap
+            elseif (v.TexNumber == 4) then
+              v.Tex = kids_shampoo
+            elseif (v.TexNumber == 5) then
+              v.Tex = submarine
+            end
+            v.PosY = -(i * 100)
+            localScore = localScore + 1
           end
-          end         
-        end  
+        end
+      
+      if(upgrades.duckState == "vulnerable" and hit == false) then
+        for i,v in ipairs(Obstacles) do
+          hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
+          if (hitTest) then
+            duckLife = duckLife - 1
+            if duckLife == 2  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.PosY = -100
+            elseif duckLife == 1  then
+              duckVerticalMove = "down"  
+              hit = true
+              v.InUse = false
+              v.PosY = -100
+            elseif duckLife == 0 then
+              MoveToDrain = true
+              if(localRound == 1) then
+                player1Score = localScore
+                localRound = 2
+                
+              elseif (localRound == 2) then
+                player2Score = localScore
+                localRound = 3
+              end
+              
+            end         
+          end  
+        end
       end
     end
   end 
@@ -355,7 +387,7 @@ function clickLocations (x,y)
     end
   end
 
-  if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and        clickReady == true then
+  if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
     -- place object in position left
     objectfound = false
     for i,v in ipairs(Obstacles) do
@@ -492,18 +524,33 @@ function InAllUpdateStates()
   end
     
   if duckVerticalMove == "down" then
-    if duckLife == 1 then
+    if duckLife == 2 then
       Ducky.PosY =  Ducky.PosY + 5
       if Ducky.PosY == 400 then
         duckVerticalMove = "still"
         hit = false
       end
+    elseif duckLife == 1 then
+      Ducky.PosY =  Ducky.PosY + 5
+      if Ducky.PosY == 450 then
+        duckVerticalMove = "still"
+        hit = false
+      end
     end
   end
-  if duckVerticalMove == "up" then     
-    Ducky.PosY =  Ducky.PosY - 5
-    if Ducky.PosY == 350 then
-      duckVerticalMove = "still"
+  if duckVerticalMove == "up" then
+    if duckLife == 2 then
+      Ducky.PosY =  Ducky.PosY - 5
+      if Ducky.PosY == 350 then
+        duckVerticalMove = "still"
+        hit = false
+      end
+    elseif duckLife == 1 then
+      Ducky.PosY =  Ducky.PosY - 5
+      if Ducky.PosY == 400 then
+        duckVerticalMove = "still"
+        hit = false
+      end
     end
   end
     
@@ -566,4 +613,44 @@ function InBothStoryAndEndlessUpdate()
        v.Collidable = true
     end
   end
+end
+
+
+function spinTowardsDrain()
+  if (StepRight) then
+    Ducky.PosX= Ducky.PosX + 50
+    StepRight = false
+  end
+  
+  if (Ducky.PosY < 550) then
+    
+    Ducky.PosY = Ducky.PosY + 2
+    SpinRotate = SpinRotate + 0.01
+    OriginSpin = 50
+    
+    if (Ducky.Position == "left") then
+      Ducky.PosX = Ducky.PosX + 1
+    
+    elseif (Ducky.Position == "right") then
+      Ducky.PosX = Ducky.PosX - 1
+    end
+    
+    
+    
+  else 
+    if (main.gamestate == "local") then
+      if (localRound == 2) then
+          RotatePhone.load()
+          main.gamestate = "localSwitch" -- LocalIntermidiateStage
+          VsEndScreen.player1Score = player1Score
+        elseif (localRound == 3) then
+          main.gamestate = "coopend" 
+          VsEndScreen.player2Score = player2Score
+      end
+       
+    else
+      main.gamestate = "gameover" 
+    end
+  end
+
 end

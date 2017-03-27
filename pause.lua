@@ -17,8 +17,12 @@ function draw()
   love.graphics.print(love.mouse.getY(), 50 , 10)
   
   love.graphics.draw(resumeImg, buttonQuad, 125/2 ,0)
-  love.graphics.draw(retryImg, buttonQuad, 125/2 ,250/2)
-  love.graphics.draw(settingsImg, buttonQuad, 125/2 ,500/2)
+  if not(main.gamestate == "local") then
+    love.graphics.draw(retryImg, buttonQuad, 125/2 ,250/2)
+    love.graphics.draw(settingsImg, buttonQuad, 125/2 ,500/2)
+  elseif (main.gamestate == "local") then
+    love.graphics.draw(settingsImg, buttonQuad, (125/2),(500/2)-63)
+  end
   love.graphics.draw(mainImg, buttonQuad, 125/2 ,750/2)
   
 end
@@ -33,15 +37,20 @@ function mousepressed(x,y,button, istouch)
       _G.paused = false
     end
   
-    if y > 196 and y < 302 then
+    if y > 196 and y < 302 and not (main.gamestate == "local") then
       -- retry
       sound.playSqueak()
       game.load()
-      _G.paused = false
-   
+      _G.paused = false 
     end
   
-    if y > 320 and y < 426 then
+    if y > 320 and y < 426 and not (main.gamestate == "local")then
+      -- settings
+      sound.playSqueak()
+      _G.settings = true
+    end
+    
+    if y > 257 and y < 363 and main.gamestate == "local" then
       -- settings
       sound.playSqueak()
       _G.settings = true
@@ -67,18 +76,23 @@ function touchpressed(id,x,y,sw,sh,pressure)
       _G.paused = false
     end
   
-    if y > 196 and y < 302 then
+    if y > 196 and y < 302 and not main.gamestate == "local" then
       -- retry
       sound.playSqueak()
       game.load()
-      _G.paused = false
-
+      _G.paused = false 
     end
   
-    if y > 320 and y < 426 then
+    if y > 320 and y < 426 and not main.gamestate == "local"then
       -- settings
       sound.playSqueak()
-     _G.settings = true
+      _G.settings = true
+    end
+    
+    if y > 257 and y < 363 and main.gamestate == "local" then
+      -- settings
+      sound.playSqueak()
+      _G.settings = true
     end
   
     if y > 446 and y < 552 then

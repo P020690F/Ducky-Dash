@@ -25,6 +25,8 @@ function love.load()
     scaley = 1
   end
   love.window.setMode(screenWidth * scalex, screenHeight * scaley)
+  background = love.graphics.newImage("assets/Placeholder_Background.png")
+  backgroundQuad = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   
   gamestate = "menu"
   DuckDataBase.load()
@@ -166,7 +168,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
     VsEndScreen.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "store") then
-    store.pressStoreHub(id,x,y,sw,sh,pressure)
+    store.clickStoreHub(x,y)
   
   elseif (_G.paused and not _G.settings) then
     pause.touchpressed(id,x,y,sw,sh,pressure)
@@ -198,7 +200,7 @@ function love.mousepressed(x,y,button,istouch)
     VsEndScreen.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "store") then
-    store.clickStoreHub(x,y,button,istouch)
+    store.clickStoreHub(x,y)
     
   elseif (_G.paused and not _G.settings) then
     pause.mousepressed(x,y,button,istouch)

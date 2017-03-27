@@ -39,6 +39,8 @@ function load()
 
    bubbles= love.graphics.newImage("assets/bubbles.png")
    bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+   
+   BlankQuad = love.graphics.newQuad(0,0,0,0,0,0)
  end
  currentDuckFrame = 2
  currentWaterFrame = 1
@@ -102,6 +104,7 @@ function load()
    tempObject.PosY = -(i * 100)
    tempObject.Width = 50
    tempObject.Height = 70
+   tempObject.Collidable = true
    table.insert(Obstacles, tempObject)
  end
 end
@@ -150,12 +153,20 @@ function drawEndless()
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
   love.graphics.print("Score: ", 10, 600)
+  
+   --[[ for i,v in ipairs(Obstacles) do
+  love.graphics.print("Obj " .. i .. ":" .. v.PosY, 10 , 50 * i)  -- debug obstacle positions
+  end --]]
   love.graphics.print(endlessScore, 80, 600)
   love.graphics.setColor(255,255,255)
   --love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 100, 10)
   
   for i,v in ipairs(Obstacles) do
+    if (v.Collidable == true) then
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+    elseif (v.Collidable == false) then
+    love.graphics.draw(v.Tex,BlankQuad,v.PosX, v.PosY)
+    end
   end
   
   love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
@@ -171,12 +182,13 @@ function updateEndless()
     if(upgrades.duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-        if (hitTest) then
+        if (hitTest and v.Collidable == true) then
           duckLife = duckLife - 1
           if duckLife == 1  then
             duckVerticalMove = "down"  
             hit = true
-            v.PosY = -100
+            --v.PosY = -(i * 100 + 200)
+            v.Collidable = false
           elseif duckLife == 0 then
             holdState = 1
             main.gamestate = "gameover"
@@ -466,6 +478,7 @@ function InBothStoryAndEndlessUpdate()
   end
     
     for i,v in ipairs(Obstacles) do
+      
       v.PosY = v.PosY + (speed * speedMultiplier)
     if v.PosY > 500 then
          v.Lane = math.random(1,3)
@@ -479,13 +492,15 @@ function InBothStoryAndEndlessUpdate()
         v.PosX = RightPoint.PosX
       end
          
-      v.PosY = -(i * 100)
+      v.PosY = (v.PosY - 600 )
+     
           
-      if(upgrades.pointState == "normal") then
+      if(upgrades.pointState == "normal" and v.Collidable == true) then
         endlessScore = endlessScore + 1
-      else
+      elseif(upgrades.pointState == "doublePoints" and v.Collidable == true) then
         endlessScore = endlessScore + 2
       end
+       v.Collidable = true
     end
   end
 end

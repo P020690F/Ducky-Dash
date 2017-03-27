@@ -12,8 +12,8 @@ function load()
   isActive = false
   isSpawned = false
   upgradeType = "none"
-  upgradeTex = love.graphics.newImage("assets/lifeline.png")
   upgradeQuad = love.graphics.newQuad(1,1,100,100,100,100)
+  upgradeTex = "assets/invincibility.png"
   lifeLineUpgrade = love.graphics.newImage("assets/lifeline.png")
   invincibilityUpgrade = love.graphics.newImage("assets/invincibility.png")
   x2PointsUpgrade = love.graphics.newImage("assets/doublepoints.png")
@@ -26,14 +26,20 @@ function load()
   upgradeY = -100
   upgradeDrop = love.math.random(1,4)
   upgradeLane = love.math.random(1,3)
+  
+  upgradeSpTimer = 0
+  upgradeAcTimer = 0
+  timerStep = love.math.random(10,30)
 end
 
 function Update()
+  upgradeSpTimer = upgradeSpTimer + 1 * love.timer.getDelta()
   if (isSpawned == false) then
     if (isActive == false) then
       if(main.gamestate == "endless") then
-        if (game.endlessScore >= 10 and game.endlessScore % 10 == 0) then
+        if (upgradeSpTimer > timerStep) then
           SpawnUpgrade()
+          timerStep = love.math.random(5,10)
         end
       end
     end
@@ -44,6 +50,8 @@ function Update()
       else
         upgradeY = 0
         isSpawned = false
+        upgradeSpTimer = 0
+        timerStep = love.math.random(10,30)
       end
     end
   end
@@ -58,46 +66,70 @@ function Update()
       if (upgradeType == "Invincibility") then
       Invincibility()
       elseif (upgradeType == "LifeLine") then
-      LifeLine()
+        if (game.duckLife == 1) then
+        LifeLine()
+        end
       elseif (upgradeType == "x2Points") then
       DoublePoints()
-      else
+    else
       HalfSpeed()
       end
     end
   end
 end  
 function DoublePoints()
-  if (game.endlessScore >= 20 and game.endlessScore % 20 == 0) then
+  if (upgradeAcTimer > timerStep) then
     pointState = "normal"
     isActive = false
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
   else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     pointState = "doublePoints"
   end
+
 end
 
 function LifeLine()
+  if (game.duckLife == 1) then
+  game.duckLife = game.duckLife + 1 
+  game.duckVerticalMove = "up"  
+  game.hit = false
+  upgradeAcTimer = 0
+  upgradeSpTimer = 0
+  timerStep = love.math.random(10,30)
   isActive = false
 end
+
+end
 function Invincibility()
-  if (game.endlessScore >= 10 and game.endlessScore % 10 == 0) then
+  if (upgradeAcTimer > timerStep) then
     duckState = "vulnerable"
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
     isActive = false
   else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     duckState = "invulnerable"
   end
 end
 function HalfSpeed()
-  if (game.endlessScore >= 10 and game.endlessScore % 10 == 0) then
+  if (upgradeAcTimer > timerStep) then
     speedState = "normal"
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
     isActive = false
   else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     speedState = "halfSpeed"
   end
 end
 
 function SpawnUpgrade()
-  upgradeDrop = love.math.random(1,3)
+  upgradeDrop = love.math.random(1,4)
   upgradeLane = love.math.random(1,3)
   if(upgradeLane == 1) then
     upgradeX = LeftPoint
@@ -106,19 +138,25 @@ function SpawnUpgrade()
   elseif(upgradeLane == 3) then
     upgradeX = RightPoint
   end
-  if (upgradeDrop == 1) then
+  if (upgradeDrop == 1 and game.duckLife == 1) then
     upgradeType = "LifeLine"
     upgradeTex = lifeLineUpgrade
     upgradeQuad = lifeLineQuad
-  elseif (upgradeDrop == 2) then
+  end
+  if (upgradeDrop == 1 and game.duckLife == 2) then 
+    upgradeDrop = love.math.random(2,4)
+  end
+  if (upgradeDrop == 2) then
     upgradeType = "Invincibility"
     upgradeTex = invincibilityUpgrade
     upgradeQuad = invincibilityQuad
-  elseif(upgradeDrop == 3) then
+  end
+  if(upgradeDrop == 3) then
     upgradeType = "x2Points"
     upgradeTex = x2PointsUpgrade
     upgradeQuad = x2PointsQuad
-  else
+  end
+  if(upgradeDrop == 4) then
     upgradeType = "HalfSpeed"
     upgradeTex = halfSpeedUpgrade
     upgradeQuad = halfSpeedQuad

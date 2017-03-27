@@ -191,7 +191,6 @@ function updateEndless()
             sound.play()
             _G.DuckBills = _G.DuckBills + endlessScore
           end
-          upgrades.upgradeY = 700
         end    
       end
     end

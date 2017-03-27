@@ -8,6 +8,7 @@ function load()
   story1Cutscene1 = love.graphics.newImage("assets/Story_Page_1.png")
   story1Cutscene2 = love.graphics.newImage("assets/Story_Page_2.png")
   story2Cutscene1 = love.graphics.newImage("assets/Story_Page_3.png")
+  story3Cutscene1 = love.graphics.newImage("assets/Story_Page_4.png")
   
   timer = 0
   cutsceneState = 1.1
@@ -29,6 +30,14 @@ function load()
   story2Cutscene1Frames[2] = love.graphics.newQuad(0,234,188,207,story2Cutscene1:getDimensions())
   story2Cutscene1Frames[3] = love.graphics.newQuad(0,0,375,441,story2Cutscene1:getDimensions())
   story2Cutscene1Frames[4] = love.graphics.newQuad(0,0,375,669,story2Cutscene1:getDimensions())
+  
+  story3Cutscene1Frames = {}
+  story3Cutscene1Frames[1] = love.graphics.newQuad(0,0,375,214,story3Cutscene1:getDimensions())
+  story3Cutscene1Frames[2] = love.graphics.newQuad(0,215,187,127,story3Cutscene1:getDimensions())
+  story3Cutscene1Frames[3] = love.graphics.newQuad(0,0,375,342,story3Cutscene1:getDimensions())
+  story3Cutscene1Frames[4] = love.graphics.newQuad(0,343,187,132,story3Cutscene1:getDimensions())
+  story3Cutscene1Frames[5] = love.graphics.newQuad(0,0,375,475,story3Cutscene1:getDimensions())
+  story3Cutscene1Frames[6] = love.graphics.newQuad(0,0,375,669,story3Cutscene1:getDimensions())
 end
 
 function draw()
@@ -139,6 +148,61 @@ function draw()
     end
   end
   
+  if cutsceneState == 4.1 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[1],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 4.2
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 4.2 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[1],0,0)
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[2],0,215)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 4.3
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 4.3 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[3],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 4.4
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 4.4 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[3],0,0)
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[4],0,343)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 4.5
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 4.5 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[5],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 4.6
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 4.6 then
+    love.graphics.draw(story3Cutscene1, story3Cutscene1Frames[6],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      love.graphics.draw(RotatePhone.asdf, buttonQuad,220,545)
+    end
+  end
+  
   
   
   
@@ -170,6 +234,11 @@ function clickLocations(x,y)
     main.gamestate = "story"
     game.load()
   end
+  
+  if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 4.6) then
+    cutsceneState = 5.1
+    timer = 0
+  end 
 end
   
 end  

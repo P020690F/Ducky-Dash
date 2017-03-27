@@ -19,12 +19,7 @@ function load()
   effectSliderXPos = 263
 end
 
-function draw()
-  x = love.mouse.getX()
-  love.graphics.print(x, 10 , 10)
-  love.graphics.print(love.mouse.getY(), 50 , 10)
-  love.graphics.print(sliderXPos, 100 , 10)
-  
+function draw()  
   love.graphics.draw(settingsImg, buttonQuad, 125/2 ,-20)
   love.graphics.draw(mainImg, buttonQuad, 125/2 ,750/2)
   

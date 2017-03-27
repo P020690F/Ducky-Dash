@@ -12,9 +12,6 @@ function load()
 end
 
 function draw()
-  x = love.mouse.getX()
-  love.graphics.print(x, 10 , 10)
-  love.graphics.print(love.mouse.getY(), 50 , 10)
   
   love.graphics.draw(resumeImg, buttonQuad, 125/2 ,0)
   if not(main.gamestate == "local") then

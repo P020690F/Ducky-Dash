@@ -26,6 +26,12 @@ function load()
   ownBath = true
   ownPark = false
   ownRainbow = true
+  
+  numLifeLine = 0
+  numInvincability = 0
+  numDoublePoints = 0
+  numHalfSpeed = 0
+  
 
   Standard_Duck = love.graphics.newImage("assets/Duck Skins/Standard_Duck_Front.png")
   Punk_Duck = love.graphics.newImage("assets/Duck Skins/Punk_Duck_Front.png")

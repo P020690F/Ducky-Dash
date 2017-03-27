@@ -1,6 +1,7 @@
 module("store", package.seeall)
 require "main"
 require "DuckDataBase"
+require "upgrades"
 
 function load()
   
@@ -9,8 +10,8 @@ function load()
   ArrowRight = love.graphics.newImage("assets/RightArrow.png")
   
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
-  PowerUpImg = love.graphics.newImage("assets/Power_Ups_button.png")
-  selectImg = love.graphics.newImage("assets/Select_button.png")
+  PowerUpImg = love.graphics.newImage("assets/Power_Ups_Button.png")
+  selectImg = love.graphics.newImage("assets/Select_Button.png")
   buyImg = love.graphics.newImage("assets/Buy_Button.png")
   DuckStoreImg = love.graphics.newImage("assets/Duck_Button.png")
   DuckBillsImg = love.graphics.newImage("assets/Money.png")
@@ -23,7 +24,7 @@ function load()
   ArrowQuad = love.graphics.newQuad(1,1,75,75,75,75)
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
   centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
-  
+  upgradeQuad = love.graphics.newQuad(1,1,150,150,150,150)
   miniBackgroundQuad = love.graphics.newQuad(1,1,750/7,1337/7,750/7,1337/7)
   
   bathTubImg = love.graphics.newImage("assets/Bathtub.png")
@@ -50,13 +51,6 @@ function drawStoreHub()
   love.graphics.setFont(storeFont)
   love.graphics.print("Duck Bills: " .. _G.DuckBills, 265,70)
   love.graphics.setColor(255,255,255) 
-   
-  xstring = ("asd" and love.mouse.getX())
-  ystring = ("asd" and love.mouse.getY())
-  love.graphics.setColor(255,0,0)
-  love.graphics.print(xstring, 120,100)
-  love.graphics.print(ystring, 120,150)
-  love.graphics.setColor(255,255,255)  
   
   if (storeState == "Duck") then
     drawDuckSelect()
@@ -152,6 +146,24 @@ end
 function drawPowerUpStore()
   love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
   love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+  
+  love.graphics.draw(upgrades.lifeLineUpgrade, upgradeQuad,50, 120)
+  love.graphics.draw(upgrades.invincibilityUpgrade, upgradeQuad,200, 120)
+  love.graphics.draw(upgrades.x2PointsUpgrade, upgradeQuad,50, 340)
+  love.graphics.draw(upgrades.halfSpeedUpgrade, upgradeQuad,200, 340)
+  
+  love.graphics.setColor(0,0,255)
+  love.graphics.print("Own: ".. DuckDataBase.numLifeLine,90,280)
+  love.graphics.print("Own: ".. DuckDataBase.numInvincability,250,280)
+  love.graphics.print("Own: ".. DuckDataBase.numDoublePoints,90,490)
+  love.graphics.print("Own: ".. DuckDataBase.numHalfSpeed,250,490)
+  love.graphics.setColor(255,255,255)
+  
+  love.graphics.draw(buyImg, smallButtonQuad, 90 ,290) --75,290 x+15
+  love.graphics.draw(buyImg, smallButtonQuad, 250 ,290)
+  love.graphics.draw(buyImg, smallButtonQuad, 90 ,500) 
+  love.graphics.draw(buyImg, smallButtonQuad, 250 ,500)--220,540
+  
 end
 
 function drawBackgroundStore()
@@ -247,7 +259,27 @@ function clickDuckSelect(x,y)
 end
 
 function clickPowerUpStore(x,y)
- 
+ if(x > 97 and x  < 145 and y > 308 and  y < 330) then
+    if(_G.DuckBills >= 0) then
+      _G.DuckBills = _G.DuckBills - 0
+      DuckDataBase.numLifeLine = DuckDataBase.numLifeLine + 1
+    end
+  elseif(x > 262 and x  < 310 and y > 308 and  y < 330) then
+    if(_G.DuckBills >= 0) then
+      _G.DuckBills = _G.DuckBills - 0
+      DuckDataBase.numInvincability = DuckDataBase.numInvincability + 1
+    end
+  elseif(x > 97 and x  < 145 and y > 518 and  y < 540) then
+    if(_G.DuckBills >= 0) then
+      _G.DuckBills = _G.DuckBills - 0
+      DuckDataBase.numDoublePoints = DuckDataBase.numDoublePoints + 1
+    end
+  elseif(x > 262 and x  < 310 and y > 518 and  y < 540) then
+    if(_G.DuckBills >= 0) then
+      _G.DuckBills = _G.DuckBills - 0
+      DuckDataBase.numHalfSpeed = DuckDataBase.numHalfSpeed + 1
+    end
+  end
 end
 
 function clickBackgroundStore(x,y)

@@ -92,7 +92,7 @@ function DoublePoints()
 end
 
 function LifeLine()
-  if (game.duckLife == 1) then
+  if (game.duckLife == 1 or game.duckLife == 2) then
   game.duckLife = game.duckLife + 1 
   game.duckVerticalMove = "up"  
   game.hit = false
@@ -138,12 +138,12 @@ function SpawnUpgrade()
   elseif(upgradeLane == 3) then
     upgradeX = RightPoint
   end
-  if (upgradeDrop == 1 and game.duckLife == 1) then
+  if (upgradeDrop == 1 and not (game.duckLife == 3)) then
     upgradeType = "LifeLine"
     upgradeTex = lifeLineUpgrade
     upgradeQuad = lifeLineQuad
   end
-  if (upgradeDrop == 1 and game.duckLife == 2) then 
+  if (upgradeDrop == 1 and game.duckLife == 3) then 
     upgradeDrop = love.math.random(2,4)
   end
   if (upgradeDrop == 2) then

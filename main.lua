@@ -39,6 +39,7 @@ function love.load()
   storyMenu.load()
   RotatePhone.load()
   VsEndScreen.load()
+  upgrades.load()
  
   
   --global value

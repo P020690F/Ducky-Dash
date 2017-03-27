@@ -36,27 +36,27 @@ function draw()
   love.graphics.draw(textBox,textBoxQuad,75,275)
   love.graphics.setColor(0,0,255)
   if (player1Score == player2Score) then
-    --print draw text
+    love.graphics.print("The result was a draw!",90,390)
   else
     love.graphics.print("The Winner",145,360)
     love.graphics.print("is",195,390)
     
     if (player1Score > player2Score) then
-      love.graphics.print("Player 1",170,420)
+      love.graphics.print("Player 1!",170,420)
     else
-      love.graphics.print("Player 2",170,420)
+      love.graphics.print("Player 2!",170,420)
     end
   end
   love.graphics.setColor(255,255,255)  
   
   
   
-  xstring = ("asd" and love.mouse.getX())
-  ystring = ("asd" and love.mouse.getY())
-  love.graphics.setColor(255,0,0)
-  love.graphics.print(xstring, 120,100)
-  love.graphics.print(ystring, 120,150)
-  love.graphics.setColor(255,255,255)  
+  --xstring = ("asd" and love.mouse.getX())
+  --ystring = ("asd" and love.mouse.getY())
+  --love.graphics.setColor(255,0,0)
+  --love.graphics.print(xstring, 120,100)
+  --love.graphics.print(ystring, 120,150)
+  --love.graphics.setColor(255,255,255)  
   
   
   

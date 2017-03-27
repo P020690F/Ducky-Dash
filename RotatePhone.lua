@@ -26,20 +26,7 @@ function draw()
     love.graphics.print("rotate phone to swap roles",60,100,math.rad(180),1,1,266,5)
     love.graphics.print("rotate phone to swap roles",60,500)
  
-  
     love.graphics.draw(phoneImg, phoneQuad,200,300,math.rad(rotate),1,1,100,150)
-  
-  
-  
-  xstring = ("asd" and love.mouse.getX())
-  ystring = ("asd" and love.mouse.getY())
-  love.graphics.setColor(255,0,0)
-  love.graphics.print(xstring, 120,100)
-  love.graphics.print(ystring, 120,150)
-  love.graphics.setColor(255,255,255)  
-  
-  
-  
 end  
 function update()
   if rotate < 180 then

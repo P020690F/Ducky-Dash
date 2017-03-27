@@ -22,17 +22,7 @@ function draw()
   elseif ( _G.storyLevel == 4 ) then
     love.graphics.draw(story4, backgroundQuad, 0, 0)
   end
-  
-  xstring = ("asd" and love.mouse.getX())
-  ystring = ("asd" and love.mouse.getY())
-  love.graphics.setColor(255,0,0)
-  love.graphics.print(xstring, 120,100)
-  love.graphics.print(ystring, 120,150)
-  love.graphics.setColor(255,255,255)  
-  
   love.graphics.draw(mainImg, buttonQuad, 105 ,475)
-  
-  
 end  
 
 function mousepressed(x,y,button,istouch)
@@ -61,6 +51,9 @@ function clickLocations(x,y)
       cutscene.cutsceneState = 3.1
     elseif (y > 165 and y < 213 and _G.storyLevel >= 3) then
       sound.playSqueak()
+      main.gamestate = "cutscene"
+      sound.play()
+      cutscene.cutsceneState = 4.1
     elseif (y > 79 and y < 127 and _G.storyLevel >= 4) then
       sound.playSqueak()
     end

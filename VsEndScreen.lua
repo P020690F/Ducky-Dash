@@ -5,7 +5,6 @@ require "game"
 function load()
   story1 = love.graphics.newImage("assets/level_select_1.png")
   
-  
   hsdfh = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   
   replayImg = love.graphics.newImage("assets/Replay_button.png")
@@ -15,30 +14,12 @@ function load()
   
   player1Score= 0
   player2Score= 0
-  
-  
 end
 
 function draw()
-  
-
-  
-    love.graphics.draw(story1,hsdfh,0,0)
-    love.graphics.draw(mainImg,buttonQuad,50,500)
-    love.graphics.draw(replayImg,buttonQuad,200,500)
-    
-  
-  
-  
-  xstring = ("asd" and love.mouse.getX())
-  ystring = ("asd" and love.mouse.getY())
-  love.graphics.setColor(255,0,0)
-  love.graphics.print(xstring, 120,100)
-  love.graphics.print(ystring, 120,150)
-  love.graphics.setColor(255,255,255)  
-  
-  
-  
+  love.graphics.draw(story1,hsdfh,0,0)
+  love.graphics.draw(mainImg,buttonQuad,50,500)
+  love.graphics.draw(replayImg,buttonQuad,200,500)
 end  
 
 function mousepressed(x,y,button,istouch)
@@ -58,7 +39,5 @@ function clickLocations(x,y)
       main.gamestate = "local"
    
     end
-  
-  
   end
 end

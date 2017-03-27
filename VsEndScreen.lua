@@ -8,7 +8,7 @@ function load()
   
   hsdfh = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
   
-  replayImg = love.graphics.newImage("assets/Replay_button.png")
+  replayImg = love.graphics.newImage("assets/Replay_Button.png")
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
   
   buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)

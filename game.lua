@@ -37,11 +37,22 @@ function load()
    waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
    waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
 
-   bubbles= love.graphics.newImage("assets/bubbles.png")
-   bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
-   
-   BlankQuad = love.graphics.newQuad(0,0,0,0,0,0)
+  bubbles = love.graphics.newImage("assets/bubbles.png")
+  shampoo = love.graphics.newImage("assets/shampoo.png")
+  soap = love.graphics.newImage("assets/soap.png")
+  submarine = love.graphics.newImage("assets/submarine.png")
+  kids_shampoo = love.graphics.newImage("assets/kids_shampoo.png")
+  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+  
+  smallQuad = love.graphics.newQuad(1,1,50,50,50,50)
+  BlankQuad = love.graphics.newQuad(0,0,0,0,0,0)
+  
  end
+ 
+ local theSeed = os.time()
+ math.randomseed( theSeed )
+
+ 
  currentDuckFrame = 2
  currentWaterFrame = 1
  timer = 0
@@ -85,8 +96,21 @@ function load()
  Obstacles = {}
  for i = 1, 5 do
    local tempObject = {}
-   tempObject.Tex = bubbles
+  
    tempObject.Lane = math.random(1,3) --Random Number to decide which Lane the obstacle is in
+   tempObject.TexNumber = math.random(1,5)
+   
+   if(tempObject.TexNumber == 1) then
+     tempObject.Tex = bubbles
+   elseif (tempObject.TexNumber == 2) then
+     tempObject.Tex = shampoo
+    elseif (tempObject.TexNumber == 3) then
+      tempObject.Tex = soap
+    elseif (tempObject.TexNumber == 4) then
+      tempObject.Tex = kids_shampoo
+    elseif (tempObject.TexNumber == 5) then
+      tempObject.Tex = submarine
+    end
    
    if (tempObject.Lane == 1) then
      tempObject.PosX = LeftPoint.PosX
@@ -115,7 +139,11 @@ function drawStory()
   love.graphics.setFont(scoreFont)
   
   for i,v in ipairs(Obstacles) do
+    if (v.Collidable == true) then
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+    elseif (v.Collidable == false) then
+    love.graphics.draw(v.Tex,BlankQuad,v.PosX, v.PosY)
+    end
   end
   love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
 end
@@ -128,12 +156,12 @@ function updateStory()
     if(upgrades.duckState == "vulnerable" and hit == false) then
       for i,v in ipairs(Obstacles) do
         hitTest = CheckCollision(v.PosX, v.PosY, v.Width, v.Height, Ducky.PosX, Ducky.PosY, Ducky.Width, Ducky.Height)
-        if (hitTest) then
+        if (hitTest and v.Collidable == true) then
           duckLife = duckLife - 1
           if duckLife == 1  then
             duckVerticalMove = "down"  
             hit = true
-            v.PosY = -100
+            v.Collidable = false
           elseif duckLife == 0 then
             holdState = 2
             main.gamestate = "gameover"           
@@ -187,7 +215,6 @@ function updateEndless()
           if duckLife == 1  then
             duckVerticalMove = "down"  
             hit = true
-            --v.PosY = -(i * 100 + 200)
             v.Collidable = false
           elseif duckLife == 0 then
             holdState = 1
@@ -214,10 +241,19 @@ function drawLocal()
   love.graphics.setColor(255,255,255)
   -- wanna draw the new layout for co op mode
   
+ 
+  objectfound = false
   for i,v in ipairs(Obstacles) do
     love.graphics.draw(v.Tex,bubblesQuad,v.PosX, v.PosY)
+    
+        if (v.InUse == false and objectfound == false) then 
+         objectfound = true
+         love.graphics.draw(v.Tex,smallQuad,312, 80)
+        end
   end
   love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height)
+  
+  
 end
 
 function updateLocal()
@@ -234,6 +270,19 @@ function updateLocal()
       end
       if v.PosY > 500 then
         v.InUse = false
+        
+        v.TexNumber = math.random(1,5)
+    if(v.TexNumber == 1) then
+        v.Tex = bubbles
+      elseif (v.TexNumber == 2) then
+        v.Tex = shampoo
+      elseif (v.TexNumber == 3) then
+        v.Tex = soap
+      elseif (v.TexNumber == 4) then
+        v.Tex = kids_shampoo
+      elseif (v.TexNumber == 5) then
+        v.Tex = submarine
+    end
         v.PosY = -(i * 100)
         localScore = localScore + 1
       end
@@ -491,6 +540,20 @@ function InBothStoryAndEndlessUpdate()
       if (v.Lane == 3) then
         v.PosX = RightPoint.PosX
       end
+      
+      v.TexNumber = math.random(1,5)
+   
+    if(v.TexNumber == 1) then
+     v.Tex = bubbles
+      elseif (v.TexNumber == 2) then
+     v.Tex = shampoo
+      elseif (v.TexNumber == 3) then
+      v.Tex = soap
+      elseif (v.TexNumber == 4) then
+      v.Tex = kids_shampoo
+      elseif (v.TexNumber == 5) then
+      v.Tex = submarine
+    end
          
       v.PosY = (v.PosY - 600 )
      

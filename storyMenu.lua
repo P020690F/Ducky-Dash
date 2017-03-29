@@ -56,6 +56,9 @@ function clickLocations(x,y)
       cutscene.cutsceneState = 4.1
     elseif (y > 79 and y < 127 and _G.storyLevel >= 4) then
       sound.playSqueak()
+      main.gamestate = "cutscene"
+      sound.play()
+      cutscene.cutsceneState = 6.1
     end
   end
 end

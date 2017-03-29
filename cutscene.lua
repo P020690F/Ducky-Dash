@@ -223,16 +223,20 @@ function clickLocations(x,y)
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 2.5) then
     timer = 0
-    game.storyLevel = 1
+    
     main.gamestate = "story"
     game.load()
+    game.storyLevel = 1
+    _G.holdStoryLevel = 1
   end 
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 3.4) then
     timer = 0
-    game.storyLevel = 2
+    
     main.gamestate = "story"
     game.load()
+    game.storyLevel = 2
+    _G.holdStoryLevel = 2
   end
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 4.6) then

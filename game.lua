@@ -11,6 +11,7 @@ function load()
   upgrades.load()
   duckSkin = DuckDataBase.getSpriteByCurrentDuck()
   if(imagaeloader == nil) then
+   endstory = love.graphics.newImage("assets/level_end_screen.png")
    water = love.graphics.newImage("assets/Water.png")
    bathtub = love.graphics.newImage("assets/Bathtub.png")
    parkImg = love.graphics.newImage("assets/Park_Level.png")
@@ -19,6 +20,7 @@ function load()
    gameover = love.graphics.newImage("assets/GameOverScreen.png")
    retryButton = love.graphics.newImage("assets/RetryButton.png")
    mainmenuButton = love.graphics.newImage("assets/MainMenuButton.png")
+   continueButton = love.graphics.newImage("assets/Continue_Button.png")
    buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)
    scoreBG = love.graphics.newImage("assets/ScoreBox.png")
    scoreQuad = love.graphics.newQuad(1,1,125,100,125,100)
@@ -159,17 +161,17 @@ function updateStory()
       if (_G.storyLevel == 1) then
         _G.storyLevel = 2
       end
-      main.gamestate = "storySelect"
+      main.gamestate = "finishStoryLevel"
     elseif (storyLevel == 2 and endlessScore >= 40) then
       if (_G.storyLevel == 2) then
         _G.storyLevel = 3
       end
-        main.gamestate = "storySelect"
+        main.gamestate = "finishStoryLevel"
     elseif (storyLevel == 3 and endlessScore >= 60) then
       if (_G.storyLevel == 3) then
         _G.storyLevel = 4
       end
-        main.gamestate = "storySelect"
+        main.gamestate = "finishStoryLevel"
     end
     if MoveToDrain then
       spinTowardsDrain()
@@ -390,7 +392,7 @@ function drawGameOver()
   love.graphics.draw(retryButton, buttonQuad, 30, 475)
   love.graphics.draw(mainmenuButton, buttonQuad, 200, 475)
   love.graphics.print("Score: " .. endlessScore,200,200)
-  love.graphics.draw(scoreBG,gameOverTextQuad,0,300)
+  love.graphics.draw(scoreBG,gameOverTextQuad,5,300)
   AddFact()
 end  
 
@@ -403,10 +405,10 @@ function touchpressed(id,x,y,sw,sh,pressure)
 end
 
 function clickLocations (x,y)
-  if (Ducky.Position == "left" and x > Ducky.PosX and y > 270) then
+  if (Ducky.Position == "left" and (x > (Ducky.PosX + Ducky.Width/2)) and ((y > 270 and main.gamestate == "loacl") or (y > 100))) then
     Ducky.Position = "middle"
     duckHorizontalMove = "right"
-  elseif (Ducky.Position == "right" and x < Ducky.PosX and y > 270) then
+  elseif (Ducky.Position == "right" and (x < (Ducky.PosX + Ducky.Width/2)) and ((y > 270 and main.gamestate == "loacl") or (y > 100))) then
     Ducky.Position = "middle"
     duckHorizontalMove = "left"
   elseif (Ducky.Position == "middle") then
@@ -497,8 +499,10 @@ function clickLocations (x,y)
       main.gamestate = "endless" 
     elseif holdState == 2 then
       main.gamestate = "story"
+      
     end
     game.load()
+    storyLevel = _G.holdStoryLevel
   elseif x >= 200 and x < 350 and y >= 475 and y < 625 and main.gamestate == "gameover" then
     sound.playSqueak()
     main.gamestate = "menu"
@@ -508,6 +512,11 @@ function clickLocations (x,y)
   if (x > 644/2 and y > 1239/2 and x < 695/2 and y < 1311 and main.gamestate ~= "gameover") then
     sound.playSqueak()
     _G.paused = true
+  end
+  
+  if (x >= 10 and x < 160 and y >= 100 and y < 250 and main.gamestate == "finishStoryLevel") then
+    storyMenu.load()
+    main.gamestate = "storySelect"
   end
 end
 
@@ -689,50 +698,54 @@ function AddFact()
   love.graphics.setFont(overFont)
   
   if (factNum == 1) then
-    love.graphics.print("The original rubber duck was solid",30 ,420)
-    love.graphics.print("rubber and was meant to be used as",20 ,435)
-    love.graphics.print("a chew toy.",120 ,450)
+    love.graphics.print("The original rubber duck was solid",35 ,420)
+    love.graphics.print("rubber and was meant to be used as",25 ,435)
+    love.graphics.print("a chew toy.",125 ,450)
   elseif (factNum == 2) then
-    love.graphics.print("The first appearance of the rubber ",30 ,410)
-    love.graphics.print("duck we all know and love was around ",15 ,425)
-    love.graphics.print("the 1940s and was created",70 ,440)
-    love.graphics.print("by Peter Ganine.",110 ,455)
+    love.graphics.print("The first appearance of the rubber ",35 ,410)
+    love.graphics.print("duck we all know and love was around ",20 ,425)
+    love.graphics.print("the 1940s and was created",75 ,440)
+    love.graphics.print("by Peter Ganine.",115 ,455)
   elseif (factNum == 3) then
-    love.graphics.print("The rubber duck was in-duck-ted ",30 ,420)
-    love.graphics.print("into the Toy Hall of Fame in 2013.",30 ,440)
+    love.graphics.print("The rubber duck was in-duck-ted ",35 ,420)
+    love.graphics.print("into the Toy Hall of Fame in 2013.",35 ,440)
   elseif (factNum == 4) then
-    love.graphics.print("The biggest rubber duck in the world",15 ,420)
-    love.graphics.print("is 19m tall, somehow I doubt that ",30 ,435)
-    love.graphics.print("would fit in a bathtub.",70 ,450)
+    love.graphics.print("The biggest rubber duck in the world",20 ,420)
+    love.graphics.print("is 19m tall, somehow I doubt that ",35 ,435)
+    love.graphics.print("would fit in a bathtub.",75 ,450)
   elseif (factNum == 5) then
-    love.graphics.print("In 1992 a cargo ship carrying 29",30 ,405)
-    love.graphics.print("29,000 rubber ducks spilled its",32 ,420)
-    love.graphics.print("shipment into the ocean, even now",30 ,435)
-    love.graphics.print("rubber ducks are still being washed",25 ,450)
-    love.graphics.print("ashore all over the world.",60 ,465)
+    love.graphics.print("In 1992 a cargo ship carrying 29",35 ,405)
+    love.graphics.print("29,000 rubber ducks spilled its",37,420)
+    love.graphics.print("shipment into the ocean, even now",35 ,435)
+    love.graphics.print("rubber ducks are still being washed",30 ,450)
+    love.graphics.print("ashore all over the world.",65 ,465)
   elseif (factNum == 6) then
-    love.graphics.print("People around the world hold rubber ",30 ,405)
-    love.graphics.print("duck races by dumping thousands of ",32 ,420)
-    love.graphics.print("ducks into waterways and seeing",35 ,435)
-    love.graphics.print("which duck comes first.",70 ,450)
+    love.graphics.print("People around the world hold rubber ",35 ,405)
+    love.graphics.print("duck races by dumping thousands of ",37 ,420)
+    love.graphics.print("ducks into waterways and seeing",40 ,435)
+    love.graphics.print("which duck comes first.",75 ,450)
   elseif (factNum == 7) then
-    love.graphics.print("Charlotte Lee is the proud owner of",30 ,410)
-    love.graphics.print("5,631 unique rubber ducks, that’s the",20 ,430)
-    love.graphics.print("world record number of ducks",40 ,450)
-    love.graphics.print("owned by one person.",70 ,470)
+    love.graphics.print("Charlotte Lee is the proud owner of",35 ,410)
+    love.graphics.print("5,631 unique rubber ducks, that’s the",25 ,430)
+    love.graphics.print("world record number of ducks",45 ,450)
+    love.graphics.print("owned by one person.",75 ,470)
   elseif (factNum == 8) then
-    love.graphics.print("January 13th is National Rubber",40 ,410)
-    love.graphics.print("Duck Day, make sure to take a long",25 ,430)
-    love.graphics.print("bath with your favorite ducky friend.",20 ,450)
+    love.graphics.print("January 13th is National Rubber",45 ,410)
+    love.graphics.print("Duck Day, make sure to take a long",30 ,430)
+    love.graphics.print("bath with your favorite ducky friend.",25 ,450)
   
   elseif (factNum == 9) then
-    love.graphics.print("The queen of England has a",50 ,410)
-    love.graphics.print("one-of-a-kind rubber duck that ",40 ,430)
-    love.graphics.print("wears its own crown.",80 ,450)
+    love.graphics.print("The queen of England has a",55 ,410)
+    love.graphics.print("one-of-a-kind rubber duck that ",45 ,430)
+    love.graphics.print("wears its own crown.",85 ,450)
 
   elseif (factNum == 10) then
-    love.graphics.print("100% of people that see a squeaky duck",5 ,420)
-    love.graphics.print(" feel nothing but the urge to squeak it.",10 ,440)
+    love.graphics.print("100% of people that see a squeaky duck",10 ,420)
+    love.graphics.print(" feel nothing but the urge to squeak it.",15 ,440)
   end
   love.graphics.setColor(255,255,255)
+end
+function finishStoryLevel()
+  love.graphics.draw(endstory,backgroundQuad,0,0)
+  love.graphics.draw(continueButton,buttonQuad,10,100)
 end

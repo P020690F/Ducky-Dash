@@ -15,6 +15,7 @@ function load()
   buyImg = love.graphics.newImage("assets/Buy_Button.png")
   DuckStoreImg = love.graphics.newImage("assets/Duck_Button.png")
   DuckBillsImg = love.graphics.newImage("assets/Money.png")
+  BackgroundImg = love.graphics.newImage("assets/Backgrounds_Button.png")
   
   storeFont = love.graphics.newFont(15)
   
@@ -116,7 +117,7 @@ function drawDuckSelect()
   
   love.graphics.draw(middleDuck, centreDuckQuad, 125/2 ,225)
   love.graphics.draw(PowerUpImg, mainButtonQuad, 10 ,-20)
-  love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+  love.graphics.draw(BackgroundImg, mainButtonQuad, 120 ,-20)
   
   
   if(DuckDataBase.returnDuckOwnership(lookingAtDuck)) then
@@ -145,7 +146,7 @@ end
 
 function drawPowerUpStore()
   love.graphics.draw(DuckStoreImg, mainButtonQuad, 10 ,-20)
-  love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
+  love.graphics.draw(BackgroundImg, mainButtonQuad, 120 ,-20)
   
   love.graphics.draw(upgrades.lifeLineUpgrade, upgradeQuad,50, 120)
   love.graphics.draw(upgrades.invincibilityUpgrade, upgradeQuad,200, 120)

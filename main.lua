@@ -52,6 +52,7 @@ function love.load()
    _G.effectVolume = 1.0
    _G.DuckBills = 0
    _G.storyLevel = 1
+   _G.holdStoryLevel =0
 end
 
 function love.draw()
@@ -137,6 +138,10 @@ function love.draw()
   if _G.settings then
     settingspage.draw()   
   end 
+  
+  if gamestate == "finishStoryLevel" then
+    game.finishStoryLevel()
+  end
 end
 
 function love.update()
@@ -160,7 +165,7 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   x = x * screenWidth
   y = y * screenHeight
   
-  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local" or gamestate == "finishStoryLevel")) then
     game.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "gameover") then
@@ -195,7 +200,7 @@ end
 else --If Android else
   
 function love.mousepressed(x,y,button,istouch) 
-  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local" or gamestate == "finishStoryLevel")) then
     game.mousepressed(x,y,button,istouch) 
     
   elseif (gamestate == "gameover") then

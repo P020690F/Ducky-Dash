@@ -78,6 +78,7 @@ function touchpressed(id,x,y,sw,sh,pressure)
       sound.playSqueak()
       game.load()
       _G.paused = false 
+      storyLevel = _G.holdStoryLevel
     end
   
     if y > 320 and y < 426 and not main.gamestate == "local"then

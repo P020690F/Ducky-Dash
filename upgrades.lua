@@ -13,7 +13,7 @@ function load()
   isSpawned = false
   upgradeType = "none"
   upgradeQuad = love.graphics.newQuad(1,1,100,100,100,100)
-  upgradeTex = "assets/invincibility.png"
+  upgradeTex = nil
   lifeLineUpgrade = love.graphics.newImage("assets/lifeline.png")
   invincibilityUpgrade = love.graphics.newImage("assets/invincibility.png")
   x2PointsUpgrade = love.graphics.newImage("assets/doublepoints.png")
@@ -77,6 +77,7 @@ function Update()
     end
   end
 end  
+
 function DoublePoints()
   if (upgradeAcTimer > timerStep) then
     pointState = "normal"

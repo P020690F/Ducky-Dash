@@ -11,7 +11,6 @@ function load()
   upgrades.load()
   duckSkin = DuckDataBase.getSpriteByCurrentDuck()
   if(imagaeloader == nil) then
-    
    water = love.graphics.newImage("assets/Water.png")
    bathtub = love.graphics.newImage("assets/Bathtub.png")
    parkImg = love.graphics.newImage("assets/Park_Level.png")
@@ -40,22 +39,19 @@ function load()
    waterFrames[2] = love.graphics.newQuad(375,0,375,669,water:getDimensions())
    waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
    waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
-
-  bubbles = love.graphics.newImage("assets/bubbles.png")
-  shampoo = love.graphics.newImage("assets/shampoo.png")
-  soap = love.graphics.newImage("assets/soap.png")
-  submarine = love.graphics.newImage("assets/submarine.png")
-  kids_shampoo = love.graphics.newImage("assets/kids_shampoo.png")
-  bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
-  
-  smallQuad = love.graphics.newQuad(1,1,50,50,50,50)
-  BlankQuad = love.graphics.newQuad(0,0,0,0,0,0)
-  
+   
+   bubbles = love.graphics.newImage("assets/bubbles.png")
+   shampoo = love.graphics.newImage("assets/shampoo.png")
+   soap = love.graphics.newImage("assets/soap.png")
+   submarine = love.graphics.newImage("assets/submarine.png")
+   kids_shampoo = love.graphics.newImage("assets/kids_shampoo.png")
+   bubblesQuad = love.graphics.newQuad(1,1,100,100,100,100)
+    
+   smallQuad = love.graphics.newQuad(1,1,50,50,50,50)
+   BlankQuad = love.graphics.newQuad(0,0,0,0,0,0)
  end
  
- local theSeed = os.time()
- math.randomseed( theSeed )
-
+ math.randomseed(os.time())
  
  currentDuckFrame = 2
  currentWaterFrame = 1

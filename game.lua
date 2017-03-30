@@ -405,19 +405,21 @@ function touchpressed(id,x,y,sw,sh,pressure)
 end
 
 function clickLocations (x,y)
-  if (Ducky.Position == "left" and (x > (Ducky.PosX + Ducky.Width/2)) and ((y > 270 and main.gamestate == "loacl") or (y > 100))) then
-    Ducky.Position = "middle"
-    duckHorizontalMove = "right"
-  elseif (Ducky.Position == "right" and (x < (Ducky.PosX + Ducky.Width/2)) and ((y > 270 and main.gamestate == "loacl") or (y > 100))) then
-    Ducky.Position = "middle"
-    duckHorizontalMove = "left"
-  elseif (Ducky.Position == "middle") then
-    if (x < Ducky.PosX  and y > 270) then
-      Ducky.Position = "left"
-      duckHorizontalMove = "left"
-    elseif (x > Ducky.PosX and y > 270) then
-      Ducky.Position = "right"
+  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless"))) then
+    if (Ducky.Position == "left" and (x > (Ducky.PosX + Ducky.Width/2))) then
+      Ducky.Position = "middle"
       duckHorizontalMove = "right"
+    elseif (Ducky.Position == "right" and (x < (Ducky.PosX + Ducky.Width/2))) then
+      Ducky.Position = "middle"
+      duckHorizontalMove = "left"
+    elseif (Ducky.Position == "middle") then
+      if (x < Ducky.PosX + Ducky.Width/2) then
+        Ducky.Position = "left"
+        duckHorizontalMove = "left"
+      elseif (x > Ducky.PosX + Ducky.Width/2) then
+        Ducky.Position = "right"
+        duckHorizontalMove = "right"
+      end
     end
   end
 
@@ -528,6 +530,7 @@ function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
          y2 < y1+h1
 end
 
+
 function InAllUpdateStates()
   if duckHorizontalMove == "left" then
     if Ducky.Position == "left" then
@@ -602,6 +605,7 @@ function InAllUpdateStates()
   end 
 end
 
+
 function InBothStoryAndEndlessUpdate()
   upgrades.Update()
   if endlessScore >= 5 and endlessScore % 5 == 0 then
@@ -613,7 +617,7 @@ function InBothStoryAndEndlessUpdate()
   else
     speedMultiplier = 1
   end
-    
+  
     for i,v in ipairs(Obstacles) do
       
       v.PosY = v.PosY + (speed * speedMultiplier)
@@ -693,6 +697,8 @@ function spinTowardsDrain()
   end
 
 end
+
+
 function AddFact()
   love.graphics.setColor(0,0,255)
   love.graphics.setFont(overFont)
@@ -745,6 +751,8 @@ function AddFact()
   end
   love.graphics.setColor(255,255,255)
 end
+
+
 function finishStoryLevel()
   love.graphics.draw(endstory,backgroundQuad,0,0)
   love.graphics.draw(continueButton,buttonQuad,10,100)

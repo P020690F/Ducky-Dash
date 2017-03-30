@@ -167,7 +167,9 @@ isSpawned = true
 end
 function Draw()
   if(isSpawned == true) then
-  love.graphics.draw(upgradeTex,upgradeQuad,upgradeX, upgradeY)
+    if not(upgradeTex == nil) then
+      love.graphics.draw(upgradeTex,upgradeQuad,upgradeX, upgradeY)
+    end
   end
 end
 

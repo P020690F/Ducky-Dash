@@ -55,6 +55,8 @@ function load()
  
  math.randomseed(os.time())
  
+ obstacleReset = 500
+ 
  currentDuckFrame = 2
  currentWaterFrame = 1
  timer = 0
@@ -132,9 +134,9 @@ function load()
    end
  
    tempObject.InUse = false
-   tempObject.PosY = -(i * 100)
+   tempObject.PosY = -(i * 150)
    tempObject.Width = 50
-   tempObject.Height = 70
+   tempObject.Height = 50
    tempObject.Collidable = true
    table.insert(Obstacles, tempObject)
  end
@@ -329,7 +331,7 @@ function updateLocal()
           if (v.InUse == true) then
             v.PosY = v.PosY + (speed * speedMultiplier)
           end
-          if v.PosY > 500 then
+          if v.PosY > obstacleReset then
             v.InUse = false
             
             v.TexNumber = math.random(1,5)
@@ -361,6 +363,7 @@ function updateLocal()
             end
             if duckLife == 2  then
               duckVerticalMove = "down"  
+              v.InUse = false
               hit = true
               v.PosY = -100
             elseif duckLife == 1  then
@@ -621,7 +624,7 @@ function InBothStoryAndEndlessUpdate()
     for i,v in ipairs(Obstacles) do
       
       v.PosY = v.PosY + (speed * speedMultiplier)
-    if v.PosY > 500 then
+    if v.PosY > obstacleReset then
          v.Lane = math.random(1,3)
       if (v.Lane == 1) then
         v.PosX = LeftPoint.PosX
@@ -647,7 +650,7 @@ function InBothStoryAndEndlessUpdate()
       v.Tex = submarine
     end
          
-      v.PosY = (v.PosY - 600 )
+      v.PosY = -250 -- (i * 100) -- i = 0 , -500
      
           
       if(upgrades.pointState == "normal" and v.Collidable == true) then

@@ -36,10 +36,32 @@ end
 
 function mousepressed(x,y,button, istouch)
   clickLocations(x,y) 
+  
+  -- store x 
+  local x1 = x
+  
+end
+
+function mousereleased(x,y,button, istouch)
+
+-- store x 2
+  local x2 = x
+
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
   clickLocations(x,y)
+  
+  -- store x 
+  local x = x
+ 
+end
+
+function touchreleased(id,x,y,sw,sh,pressure)
+
+  -- store x 2
+  local x2 = x
+
 end
 
 function clickLocations(x,y)

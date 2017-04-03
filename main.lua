@@ -197,6 +197,17 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   end
 end
 
+function love.touchreleased(id,x,y,dx,dy,pressure)
+  x = x * screenWidth
+  y = y * screenHeight
+  
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local" or gamestate == "finishStoryLevel")) then
+    game.touchreleased(id,x,y,sw,sh,pressure)
+  elseif (_G.settings) then
+    settingspage.touchreleased(id,x,y,sw,sh,pressure)
+  end
+end
+
 else --If Android else
   
 function love.mousepressed(x,y,button,istouch) 
@@ -229,6 +240,14 @@ function love.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "cutscene") then
     cutscene.mousepressed(x,y,button,istouch)
+  end
+end
+
+function love.mousereleased(x,y,button,istouch)
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local") then
+    game.mousereleased(x,y,button,istouch) 
+  elseif (_G.settings) then
+    settingspage.mousereleased(x,y,button,istouch)
   end
 end
 end --If Android End

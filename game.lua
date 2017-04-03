@@ -75,6 +75,8 @@ function load()
  OriginSpin = 0
  StepRight = true
  
+ startx = 0
+ endx = 0
  
  Ducky = {
  Tex = duckSkin,
@@ -381,7 +383,6 @@ function updateLocal()
                 player2Score = localScore
                 localRound = 3
               end
-              
             end         
           end  
         end
@@ -401,14 +402,67 @@ end
 
 function mousepressed(x,y,button,istouch)
   clickLocations(x,y)
+  
+  -- store x
+  startx = x
+end
+
+function mousereleased(x,y,button, istouch)
+  
+  -- store x 2
+  endx = x
+  
+  if (endx - startx > 0) then
+    if (Ducky.Position == "left") then
+      Ducky.Position = "middle"
+      duckHorizontalMove = "right"
+    elseif (Ducky.Position == "middle") then
+      Ducky.Position = "right"
+      duckHorizontalMove = "right"
+    end
+  elseif(endx - startx < 0 ) then
+    if (Ducky.Position == "right") then
+      Ducky.Position = "middle"
+      duckHorizontalMove = "left"
+    elseif (Ducky.Position == "middle") then
+      Ducky.Position = "left"
+      duckHorizontalMove = "left"
+    end
+  end
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
   clickLocations(x,y)
+  
+  -- store x
+  startx = x
+end
+
+function touchreleased(id,x,y,sw,sh,pressure)
+    -- store x 2
+  endx = x
+  
+  if (endx - startx > 0) then
+    if (Ducky.Position == "left") then
+      Ducky.Position = "middle"
+      duckHorizontalMove = "right"
+    elseif (Ducky.Position == "middle") then
+      Ducky.Position = "right"
+      duckHorizontalMove = "right"
+    end
+  elseif(endx - startx < 0 ) then
+    if (Ducky.Position == "right") then
+      Ducky.Position = "middle"
+      duckHorizontalMove = "left"
+    elseif (Ducky.Position == "middle") then
+      Ducky.Position = "left"
+      duckHorizontalMove = "left"
+    end
+  end
 end
 
 function clickLocations (x,y)
-  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless"))) then
+  --[[if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless"))) then
     if (Ducky.Position == "left" and (x > (Ducky.PosX + Ducky.Width/2))) then
       Ducky.Position = "middle"
       duckHorizontalMove = "right"
@@ -424,7 +478,7 @@ function clickLocations (x,y)
         duckHorizontalMove = "right"
       end
     end
-  end
+  end]]--
 
   if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
     -- place object in position left

@@ -18,6 +18,11 @@ function load()
   textBox = love.graphics.newImage("assets/ScoreBox.png")
   textBoxQuad = love.graphics.newQuad(1,1,250,260,250,260)
   
+  platform = love.graphics.newImage("assets/platform.png")
+  winPlatQuad = love.graphics.newQuad(1,1,200,100,200,100)
+  losePlatQuad = love.graphics.newQuad(1,1,75,75,75,75)
+  drawPlatQuad = love.graphics.newQuad(1,1,120,120,120,120)
+  
   player1Score= 0
   player2Score= 0
   
@@ -31,23 +36,29 @@ function draw()
   love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
   love.graphics.draw(mainImg,buttonQuad,50,500)
   love.graphics.draw(replayImg,buttonQuad,200,500)
-  love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),winDuckQuad,0,50)
-  love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,250,250)
   love.graphics.draw(textBox,textBoxQuad,75,275)
-  love.graphics.setColor(0,0,255)
+  
   if (player1Score == player2Score) then
+    love.graphics.setColor(0,0,255)
     love.graphics.print("The result was a draw!",90,390)
+    love.graphics.setColor(255,255,255)  
   else
+    
+    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),winDuckQuad,0,50)
+    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,250,250)
+    love.graphics.draw(platform,winPlatQuad,0,300)
+    love.graphics.draw(platform,losePlatQuad,250,325)
+    love.graphics.setColor(0,0,255)
     love.graphics.print("The Winner",145,360)
     love.graphics.print("is",195,390)
-    
     if (player1Score > player2Score) then
       love.graphics.print("Player 1!",170,420)
     else
       love.graphics.print("Player 2!",170,420)
     end
+    love.graphics.setColor(255,255,255)  
   end
-  love.graphics.setColor(255,255,255)  
+  
   
   
   

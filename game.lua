@@ -441,21 +441,23 @@ function touchreleased(id,x,y,sw,sh,pressure)
     -- store x 2
   endx = x
   
-  if (endx - startx > 0) then
-    if (Ducky.Position == "left") then
-      Ducky.Position = "middle"
-      duckHorizontalMove = "right"
-    elseif (Ducky.Position == "middle") then
-      Ducky.Position = "right"
-      duckHorizontalMove = "right"
-    end
-  elseif(endx - startx < 0 ) then
-    if (Ducky.Position == "right") then
-      Ducky.Position = "middle"
-      duckHorizontalMove = "left"
-    elseif (Ducky.Position == "middle") then
-      Ducky.Position = "left"
-      duckHorizontalMove = "left"
+  if not (startx == nil) then
+    if (endx - startx > 0) then
+      if (Ducky.Position == "left") then
+        Ducky.Position = "middle"
+        duckHorizontalMove = "right"
+      elseif (Ducky.Position == "middle") then
+        Ducky.Position = "right"
+        duckHorizontalMove = "right"
+      end
+    elseif(endx - startx < 0 ) then
+      if (Ducky.Position == "right") then
+        Ducky.Position = "middle"
+        duckHorizontalMove = "left"
+      elseif (Ducky.Position == "middle") then
+        Ducky.Position = "left"
+        duckHorizontalMove = "left"
+      end
     end
   end
 end

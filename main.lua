@@ -244,7 +244,7 @@ function love.mousepressed(x,y,button,istouch)
 end
 
 function love.mousereleased(x,y,button,istouch)
-  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local") then
+  if ((not _G.paused) and (gamestate == "endless" or  gamestate == "story" or gamestate == "local")) then
     game.mousereleased(x,y,button,istouch) 
   elseif (_G.settings) then
     settingspage.mousereleased(x,y,button,istouch)

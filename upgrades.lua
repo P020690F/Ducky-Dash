@@ -1,6 +1,6 @@
 module("upgrades", package.seeall)
 require "main"
-
+require "DuckDataBase"
 function load()
   LeftPoint = 50
   MiddlePoint = 130
@@ -12,8 +12,14 @@ function load()
   isActive = false
   isSpawned = false
   upgradeType = "none"
+  purchQuadI = love.graphics.newQuad(1,1,70,70,70,70)
+  purchQuadL = love.graphics.newQuad(1,1,70,70,70,70)
+  purchQuadX2 = love.graphics.newQuad(1,1,70,70,70,70)
+  purchQuadHS = love.graphics.newQuad(1,1,70,70,70,70)
   upgradeQuad = love.graphics.newQuad(1,1,100,100,100,100)
   upgradeTex = nil
+  purchTank = love.graphics.newQuad(1,1,750/2,1337/2,750/2,1337/2)
+  purchImage = love.graphics.newImage("assets/power_up_box.png")
   lifeLineUpgrade = love.graphics.newImage("assets/lifeline.png")
   invincibilityUpgrade = love.graphics.newImage("assets/invincibility.png")
   x2PointsUpgrade = love.graphics.newImage("assets/doublepoints.png")
@@ -165,12 +171,73 @@ function SpawnUpgrade()
 end
 isSpawned = true
 end
+
+function purchInv()
+  if (upgradeAcTimer > 20) then
+    duckState = "vulnerable"
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
+    isActive = false
+  else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
+    duckState = "invulnerable"
+  end
+  DuckDataBase.numInvincability = DuckDataBase.numInvincability -1
+end
+
+function purchLifeLine()
+  if (game.duckLife == 1 or game.duckLife == 2) then
+  game.duckLife = 3 
+  game.duckVerticalMove = "up"  
+  game.hit = false
+  upgradeAcTimer = 0
+  upgradeSpTimer = 0
+  timerStep = love.math.random(10,30)
+  isActive = false
+  end
+end
+function purchX2()
+    if (upgradeAcTimer > 20) then
+    pointState = "normal"
+    isActive = false
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
+  else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
+    pointState = "doublePoints"
+  end
+end
+function purchHalfSpeed()
+  if (upgradeAcTimer > 20) then
+    speedState = "normal"
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
+    isActive = false
+  else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
+    speedState = "halfSpeed"
+  end
+end
 function Draw()
   if(isSpawned == true) then
     if not(upgradeTex == nil) then
       love.graphics.draw(upgradeTex,upgradeQuad,upgradeX, upgradeY)
     end
   end
+  love.graphics.draw(purchImage,purchTank,0,0)
+  love.graphics.draw(invincibilityUpgrade,purchQuadI,590/2,50/2)
+  love.graphics.draw(lifeLineUpgrade,purchQuadL,590/2,250/2)
+  love.graphics.draw(x2PointsUpgrade,purchQuadX2,590/2,450/2)
+  love.graphics.draw(halfSpeedUpgrade,purchQuadHS,590/2,650/2)
+  love.graphics.setColor(0,0,0)
+  love.graphics.print(DuckDataBase.numInvincability,700/2, 200/2)
+  love.graphics.print(DuckDataBase.numLifeLine,700/2, 400/2)
+  love.graphics.print(DuckDataBase.numDoublePoints,700/2, 600/2)
+  love.graphics.print(DuckDataBase.numHalfSpeed,700/2, 800/2)
+  love.graphics.setColor(255,255,255)
 end
 
 function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)

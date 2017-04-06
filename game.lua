@@ -176,6 +176,10 @@ function updateStory()
         _G.storyLevel = 4
       end
         main.gamestate = "finishStoryLevel"
+    elseif (storyLevel == 4 and endlessScore >= 80) then
+      _G.completedStory = true
+      cutscene.cutsceneState = 8.1
+      main.gamestate = "cutscene"
     end
     if MoveToDrain then
       spinTowardsDrain()

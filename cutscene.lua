@@ -12,6 +12,8 @@ function load()
   story3Cutscene2 = love.graphics.newImage("assets/Story_Page_5.png")
   story4Cutscene1 = love.graphics.newImage("assets/Story_Page_6.png")
   story4Cutscene2 = love.graphics.newImage("assets/Story_Page_7.png")
+  story4Cutscene3 = love.graphics.newImage("assets/Story_Page_8.png")
+  story4Cutscene4 = love.graphics.newImage("assets/Story_Page_9.png")
   
   timer = 0
   cutsceneState = 1.1
@@ -58,6 +60,11 @@ function load()
   story4Cutscene2Frames[2] = love.graphics.newQuad(0,0,375,195,story4Cutscene2:getDimensions())
   story4Cutscene2Frames[3] = love.graphics.newQuad(0,0,375,443,story4Cutscene2:getDimensions())
   story4Cutscene2Frames[4] = love.graphics.newQuad(0,0,375,669,story4Cutscene2:getDimensions())
+  
+  story4Cutscene3Frames = {}
+  story4Cutscene3Frames[1] = love.graphics.newQuad(0,0,375,228,story4Cutscene3:getDimensions())
+  story4Cutscene3Frames[2] = love.graphics.newQuad(0,0,375,446,story4Cutscene3:getDimensions())
+  story4Cutscene3Frames[3] = love.graphics.newQuad(0,0,375,669,story4Cutscene3:getDimensions())
   
 end
 
@@ -322,6 +329,40 @@ function draw()
     end
   end
   
+  if cutsceneState == 8.1 then
+    love.graphics.draw(story4Cutscene3, story4Cutscene3Frames[1],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 8.2
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 8.2 then
+    love.graphics.draw(story4Cutscene3, story4Cutscene3Frames[2],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      cutsceneState = 8.3
+      timer = 0 
+    end
+  end
+  
+  if cutsceneState == 8.3 then
+    love.graphics.draw(story4Cutscene3, story4Cutscene3Frames[3],0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      love.graphics.draw(RotatePhone.asdf, buttonQuad,220,545)
+    end
+  end
+  
+  if cutsceneState == 9.1 then
+    love.graphics.draw(story4Cutscene4,0,0)
+    timer = timer + 1 * love.timer.getDelta()
+    if timer > 2.5 then
+      love.graphics.draw(RotatePhone.asdf, buttonQuad,220,545)
+    end
+  end
+  
 function mousepressed(x,y,button,istouch)
   clickLocations(x,y)
 end
@@ -340,20 +381,20 @@ function clickLocations(x,y)
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 2.5) then
     timer = 0
-    
     main.gamestate = "story"
     game.load()
     game.storyLevel = 1
     _G.holdStoryLevel = 1
+    _G.storyLevel = 1
   end 
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 3.4) then
     timer = 0
-    
     main.gamestate = "story"
     game.load()
     game.storyLevel = 2
     _G.holdStoryLevel = 2
+    _G.storyLevel = 2
   end
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 4.6) then
@@ -363,9 +404,11 @@ function clickLocations(x,y)
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 5.3) then
     timer = 0
-    game.storyLevel = 3
     main.gamestate = "story"
     game.load()
+    game.storyLevel = 3
+    _G.holdStoryLevel = 3
+    _G.storyLevel = 3
   end 
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 6.4) then
@@ -375,10 +418,21 @@ function clickLocations(x,y)
   
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 7.4) then
     timer = 0
-    game.storyLevel = 4
     main.gamestate = "story"
     game.load()
+    game.storyLevel = 4
+    _G.holdStoryLevel = 4
+    _G.storyLevel = 4
   end 
+  
+  if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 8.3) then
+    cutsceneState = 9.1
+    timer = 0
+  else if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 9.1) then
+    timer = 0
+    main.gamestate = "menu"
+  end 
+  end
 end
   
 end  

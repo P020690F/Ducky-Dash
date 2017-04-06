@@ -331,6 +331,8 @@ function touchpressed(id,x,y,sw,sh,pressure)
 end
 
 function clickLocations(x,y)
+  timer = 2.5
+  
   if (x > 234 and x < 353 and y > 589 and y < 647 and cutsceneState == 1.3) then
     cutsceneState = 2.1
     timer = 0

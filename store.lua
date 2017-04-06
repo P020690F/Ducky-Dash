@@ -16,21 +16,23 @@ function load()
   DuckStoreImg = love.graphics.newImage("assets/Duck_Button.png")
   DuckBillsImg = love.graphics.newImage("assets/Money.png")
   BackgroundImg = love.graphics.newImage("assets/Backgrounds_Button.png")
+  PriceBoxImg = love.graphics.newImage("assets/PriceBox.png")
   
   storeFont = love.graphics.newFont(15)
   
   mainButtonQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
-  smallButtonQuad = love.graphics.newQuad(1,1,250/4,250/4,250/4,250/4)
+  smallButtonQuad = love.graphics.newQuad(1,1,250/3,250/3,250/3,250/3)
   DuckBillQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
   ArrowQuad = love.graphics.newQuad(1,1,75,75,75,75)
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
   centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
-  upgradeQuad = love.graphics.newQuad(1,1,150,150,150,150)
+  upgradeQuad = love.graphics.newQuad(1,1,120,120,120,120)
   miniBackgroundQuad = love.graphics.newQuad(1,1,750/7,1337/7,750/7,1337/7)
   
   bathTubImg = love.graphics.newImage("assets/Bathtub.png")
   parkImg = love.graphics.newImage("assets/Park_Level.png")
   rainbowImg = love.graphics.newImage("assets/Rainbow_Level.png")
+  bathTubWaterImg = love.graphics.newImage("assets/StoreWater.png")
   
   storeState = "Duck"
 
@@ -47,10 +49,12 @@ end
 function drawStoreHub()
   love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
   love.graphics.draw(mainImg, mainButtonQuad,10, 550)
-  love.graphics.draw(DuckBillsImg, DuckBillQuad,250,-15)
-  love.graphics.setColor(0,255,0)
+  love.graphics.draw(PriceBoxImg, mainButtonQuad,250,15)
+  love.graphics.draw(DuckBillsImg, DuckBillQuad,250,-19)
+  love.graphics.setColor(0,0,255)
   love.graphics.setFont(storeFont)
-  love.graphics.print("Duck Bills: " .. _G.DuckBills, 265,70)
+  love.graphics.print("Duck Bills: ", 275,62)
+  love.graphics.print( _G.DuckBills, 305,77)
   love.graphics.setColor(255,255,255) 
   
   if (storeState == "Duck") then
@@ -127,9 +131,10 @@ function drawDuckSelect()
     love.graphics.draw(selectImg, mainButtonQuad, 125 ,430)
     love.graphics.setColor(255,255,255)
   else
+    love.graphics.draw(PriceBoxImg, mainButtonQuad, 125 ,460)
     love.graphics.draw(buyImg, mainButtonQuad, 125 ,430)
-    love.graphics.setColor(0,255,0)
-    love.graphics.print("500",175,520)
+    love.graphics.setColor(0,0,255)
+    love.graphics.print("500",170,520)
     love.graphics.setColor(255,255,255)
   end
   
@@ -172,6 +177,7 @@ function drawBackgroundStore()
   love.graphics.draw(PowerUpImg, mainButtonQuad, 120 ,-20)
   
   love.graphics.draw(bathTubImg, miniBackgroundQuad,50, 100)
+  love.graphics.draw(bathTubWaterImg, miniBackgroundQuad,50, 100)
   love.graphics.draw(parkImg, miniBackgroundQuad,200, 100)
   love.graphics.draw(rainbowImg, miniBackgroundQuad,50, 350)
   

@@ -19,7 +19,7 @@ function load()
   textBoxQuad = love.graphics.newQuad(1,1,250,260,250,260)
   
   platform = love.graphics.newImage("assets/platform.png")
-  winPlatQuad = love.graphics.newQuad(1,1,200,100,200,100)
+  winPlatQuad = love.graphics.newQuad(1,1,150,150,150,150)
   losePlatQuad = love.graphics.newQuad(1,1,75,75,75,75)
   drawPlatQuad = love.graphics.newQuad(1,1,120,120,120,120)
   
@@ -44,10 +44,10 @@ function draw()
     love.graphics.setColor(255,255,255)  
   else
     
-    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),winDuckQuad,0,50)
-    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,250,250)
-    love.graphics.draw(platform,winPlatQuad,0,300)
-    love.graphics.draw(platform,losePlatQuad,250,325)
+    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),winDuckQuad,0,20)
+    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,250,235)
+    love.graphics.draw(platform,winPlatQuad,40,200)
+    love.graphics.draw(platform,losePlatQuad,250,280)
     love.graphics.setColor(0,0,255)
     love.graphics.print("The Winner",145,360)
     love.graphics.print("is",195,390)

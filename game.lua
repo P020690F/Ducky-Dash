@@ -75,7 +75,7 @@ function load()
  OriginSpin = 0
  StepRight = true
  
- startx = 0
+ startx = nil
  endx = 0
  
  Ducky = {
@@ -207,14 +207,13 @@ function updateStory()
               sound.play()
               _G.DuckBills = _G.DuckBills + endlessScore
             end
-            
           end  
         end
-          
       end
     end
   end  
 end
+
 function drawEndless()
   if (DuckDataBase.currentBackground == "Bath") then
     love.graphics.draw(bathtub, backgroundQuad, 0, 0)
@@ -280,7 +279,6 @@ function updateEndless()
               sound.play()
               _G.DuckBills = _G.DuckBills + endlessScore
             end
-            
           end    
         end
       end
@@ -411,22 +409,23 @@ function mousereleased(x,y,button, istouch)
   
   -- store x 2
   endx = x
-  
-  if (endx - startx > 0) then
-    if (Ducky.Position == "left") then
-      Ducky.Position = "middle"
-      duckHorizontalMove = "right"
-    elseif (Ducky.Position == "middle") then
-      Ducky.Position = "right"
-      duckHorizontalMove = "right"
-    end
-  elseif(endx - startx < 0 ) then
-    if (Ducky.Position == "right") then
-      Ducky.Position = "middle"
-      duckHorizontalMove = "left"
-    elseif (Ducky.Position == "middle") then
-      Ducky.Position = "left"
-      duckHorizontalMove = "left"
+  if not (startx == nil) then
+    if (endx - startx > 50) then
+      if (Ducky.Position == "left") then
+        Ducky.Position = "middle"
+        duckHorizontalMove = "right"
+      elseif (Ducky.Position == "middle") then
+        Ducky.Position = "right"
+        duckHorizontalMove = "right"
+      end
+    elseif(endx - startx < -50 ) then
+      if (Ducky.Position == "right") then
+        Ducky.Position = "middle"
+        duckHorizontalMove = "left"
+      elseif (Ducky.Position == "middle") then
+        Ducky.Position = "left"
+        duckHorizontalMove = "left"
+      end
     end
   end
 end

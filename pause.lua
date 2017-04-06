@@ -25,7 +25,7 @@ function draw()
 end
 
 function mousepressed(x,y,button, istouch)
-
+  game.startx = nil
   if x > 85 and x < 288 then
   
     if y > 70 and y < 176 then
@@ -64,7 +64,6 @@ function mousepressed(x,y,button, istouch)
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
-
   if x > 85 and x < 288 then
   
     if y > 70 and y < 176 then

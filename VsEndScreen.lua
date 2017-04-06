@@ -20,8 +20,10 @@ function load()
   
   platform = love.graphics.newImage("assets/platform.png")
   winPlatQuad = love.graphics.newQuad(1,1,150,150,150,150)
-  losePlatQuad = love.graphics.newQuad(1,1,75,75,75,75)
+  losePlatQuad = love.graphics.newQuad(1,1,90,75,90,75)
   drawPlatQuad = love.graphics.newQuad(1,1,120,120,120,120)
+  winFont = love.graphics.newFont(20) 
+  loseFont = love.graphics.newFont(15) 
   
   player1Score= 0
   player2Score= 0
@@ -45,17 +47,31 @@ function draw()
   else
     
     love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),winDuckQuad,0,20)
-    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,250,235)
-    love.graphics.draw(platform,winPlatQuad,40,200)
-    love.graphics.draw(platform,losePlatQuad,250,280)
+    love.graphics.draw(DuckDataBase.getFrontByCurrentDuck(),smallDuckQuad,260,225)
+    love.graphics.draw(platform,winPlatQuad,40,204)
+    love.graphics.draw(platform,losePlatQuad,250,277)
     love.graphics.setColor(0,0,255)
     love.graphics.print("The Winner",145,360)
     love.graphics.print("is",195,390)
+    love.graphics.print("1st Place",70,260)
+    love.graphics.setFont(loseFont)
+    love.graphics.print("2nd",277,295)
+    love.graphics.print("Place",275,310)
     if (player1Score > player2Score) then
+      love.graphics.setFont(winFont)
       love.graphics.print("Player 1!",170,420)
+      love.graphics.print(player1Score .. " points",75,290)
+      love.graphics.setFont(loseFont)
+      love.graphics.print(player2Score .. " points",265,325)
     else
+      love.graphics.setFont(winFont)
       love.graphics.print("Player 2!",170,420)
+      love.graphics.print(player2Score .. " points",75,290)
+      love.graphics.setFont(loseFont)
+      love.graphics.print(player1Score .. " points",265,325)
+      
     end
+    love.graphics.setFont(winFont)
     love.graphics.setColor(255,255,255)  
   end
   

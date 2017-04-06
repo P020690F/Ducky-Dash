@@ -13,11 +13,11 @@ function load()
   isSpawned = false
   upgradeType = "none"
   upgradeQuad = love.graphics.newQuad(1,1,100,100,100,100)
-  upgradeTex = "assets/invincibility.png"
+  upgradeTex = "assets/Invincibility.png"
   lifeLineUpgrade = love.graphics.newImage("assets/lifeline.png")
-  invincibilityUpgrade = love.graphics.newImage("assets/invincibility.png")
-  x2PointsUpgrade = love.graphics.newImage("assets/doublepoints.png")
-  halfSpeedUpgrade = love.graphics.newImage("assets/slowdown.png")
+  invincibilityUpgrade = love.graphics.newImage("assets/Invincibility.png")
+  x2PointsUpgrade = love.graphics.newImage("assets/double_points.png")
+  halfSpeedUpgrade = love.graphics.newImage("assets/Slow_down.png")
   lifeLineQuad = love.graphics.newQuad(1,1,100,100,100,100)
   invincibilityQuad = love.graphics.newQuad(1,1,100,100,100,100)
   x2PointsQuad = love.graphics.newQuad(1,1,100,100,100,100)

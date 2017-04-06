@@ -64,8 +64,8 @@ function mousepressed(x,y,button, istouch)
 end
 
 function touchpressed(id,x,y,sw,sh,pressure)
+  game.startx = nil
   if x > 85 and x < 288 then
-  
     if y > 70 and y < 176 then
       -- resume
       sound.playSqueak()

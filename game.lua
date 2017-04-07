@@ -42,6 +42,20 @@ function load()
    waterFrames[3] = love.graphics.newQuad(750,0,375,669,water:getDimensions())
    waterFrames[4] = love.graphics.newQuad(1125,0,375,669,water:getDimensions())
    
+   flowingWaterFrames = {}
+   flowingWaterFrames[1] = love.graphics.newQuad(0,669,375,669,water:getDimensions())
+   flowingWaterFrames[2] = love.graphics.newQuad(375,669,375,669,water:getDimensions())
+   flowingWaterFrames[3] = love.graphics.newQuad(750,669,375,669,water:getDimensions())
+   flowingWaterFrames[4] = love.graphics.newQuad(1125,669,375,669,water:getDimensions())
+   currentFlowingWaterFrame = 1
+   
+   drainingWaterFrames = {}
+   drainingWaterFrames[1] = love.graphics.newQuad(0,1338,375,669,water:getDimensions())
+   drainingWaterFrames[2] = love.graphics.newQuad(375,1338,375,669,water:getDimensions())
+   drainingWaterFrames[3] = love.graphics.newQuad(750,1338,375,669,water:getDimensions())
+   drainingWaterFrames[4] = love.graphics.newQuad(1125,1338,375,669,water:getDimensions())
+   currentDrainingWaterFrame = 1
+   
    bubbles = love.graphics.newImage("assets/bubbles.png")
    shampoo = love.graphics.newImage("assets/shampoo.png")
    soap = love.graphics.newImage("assets/soap.png")
@@ -60,6 +74,7 @@ function load()
  currentDuckFrame = 2
  currentWaterFrame = 1
  timer = 0
+ timer2 = 0
  storyLevel = 0
  speedMultiplier = 1
  endlessScore = 0
@@ -146,7 +161,14 @@ end
 
 function drawStory()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
+  if endlessScore <= pointsRequired then
   love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  else if _G.storyLevel == 4 and endlessScore >= pointsRequired then
+  love.graphics.draw(water, flowingWaterFrames[currentFlowingWaterFrame], 0, 0)
+  else
+  love.graphics.draw(water, drainingWaterFrames[currentDrainingWaterFrame], 0, 0)
+end
+end
   love.graphics.setFont(scoreFont)
   
   for i,v in ipairs(Obstacles) do
@@ -161,26 +183,35 @@ end
 
 function updateStory()
   if not _G.paused then
-    if (storyLevel == 1 and endlessScore >= 20) then
+    if (storyLevel == 1 and endlessScore >= pointsRequired  and timer2 >= 5) then
       if (_G.storyLevel == 1) then
         _G.storyLevel = 2
       end
       main.gamestate = "finishStoryLevel"
-    elseif (storyLevel == 2 and endlessScore >= 40) then
+      timer2 = 0
+      currentDrainingWaterFrame = 1
+    elseif (storyLevel == 2 and endlessScore >= pointsRequired  and timer2 >= 5) then
       if (_G.storyLevel == 2) then
         _G.storyLevel = 3
       end
         main.gamestate = "finishStoryLevel"
-    elseif (storyLevel == 3 and endlessScore >= 60) then
+        timer2 = 0
+        currentDrainingWaterFrame = 1
+    elseif (storyLevel == 3 and endlessScore >= pointsRequired  and timer2 >= 5) then
       if (_G.storyLevel == 3) then
         _G.storyLevel = 4
       end
         main.gamestate = "finishStoryLevel"
-    elseif (storyLevel == 4 and endlessScore >= 80) then
-      _G.completedStory = true
-      cutscene.cutsceneState = 8.1
-      main.gamestate = "cutscene"
-    end
+        timer2 = 0
+        currentDrainingWaterFrame = 1
+    elseif (storyLevel == 4 and endlessScore >= pointsRequired and timer2 >= 5) then
+        _G.completedStory = true
+        cutscene.cutsceneState = 8.1
+        main.gamestate = "cutscene"
+        timer2 = 0
+        currentFlowingWaterFrame = 1
+    end 
+  end
     if MoveToDrain then
       spinTowardsDrain()
     else
@@ -215,9 +246,20 @@ function updateStory()
         end
       end
     end
+    
+    if _G.storyLevel == 1 then
+      pointsRequired = 20
+    else if _G.storyLevel == 2 then 
+      pointsRequired = 40
+    else if _G.storyLevel == 3 then 
+      pointsRequired = 60
+    else if _G.storyLevel == 4 then 
+      pointsRequired = 80
+    end
+    end
+    end
+    end
   end  
-end
-
 function drawEndless()
   if (DuckDataBase.currentBackground == "Bath") then
     love.graphics.draw(bathtub, backgroundQuad, 0, 0)
@@ -689,8 +731,27 @@ function InAllUpdateStates()
     timer = 0
     currentWaterFrame = math.random(1,4)
   end 
-end
 
+  if (endlessScore >= pointsRequired) then
+      timer2 = timer2 + 1 * love.timer.getDelta()
+      if timer2 >= 1 then
+        currentFlowingWaterFrame = 1
+        currentDrainingWaterFrame = 1
+      end
+      if timer2 >= 2 then
+        currentFlowingWaterFrame = 2
+        currentDrainingWaterFrame = 2
+      end
+      if timer2 >= 3 then
+        currentFlowingWaterFrame = 3
+        currentDrainingWaterFrame = 3
+      end 
+      if timer2 >= 4 then
+        currentFlowingWaterFrame = 4
+        currentDrainingWaterFrame = 4
+      end
+  end
+end
 
 function InBothStoryAndEndlessUpdate()
   upgrades.Update()

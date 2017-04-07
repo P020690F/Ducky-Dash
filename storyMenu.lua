@@ -44,21 +44,25 @@ function clickLocations(x,y)
       main.gamestate = "cutscene"
       sound.play()
       cutscene.cutsceneState = 1.1
+      game.pointsRequired = 20
     elseif (y > 250 and y < 300 and _G.storyLevel >= 2) then
       sound.playSqueak()
       main.gamestate = "cutscene"
       sound.play()
       cutscene.cutsceneState = 3.1
+      game.pointsRequired = 40
     elseif (y > 165 and y < 213 and _G.storyLevel >= 3) then
       sound.playSqueak()
       main.gamestate = "cutscene"
       sound.play()
       cutscene.cutsceneState = 4.1
+      game.pointsRequired = 60
     elseif (y > 79 and y < 127 and _G.storyLevel >= 4) then
       sound.playSqueak()
       main.gamestate = "cutscene"
       sound.play()
       cutscene.cutsceneState = 6.1
+      game.pointsRequired = 80
     end
   end
 end

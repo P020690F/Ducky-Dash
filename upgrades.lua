@@ -84,7 +84,7 @@ function Update()
     end
   end
 end  
-
+end
 function DoublePoints()
   if (upgradeAcTimer > timerStep) then
     pointState = "normal"
@@ -109,7 +109,7 @@ function LifeLine()
   timerStep = love.math.random(10,30)
   isActive = false
 end
-
+end
 end
 function Invincibility()
   if (upgradeAcTimer > timerStep) then

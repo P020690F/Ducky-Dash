@@ -481,20 +481,28 @@ function clickLocations (x,y)
     end
   end]]--
   if x>= 590/2 and x < 750/2 and y >= 50/2 and y < 120/2 and main.gamestate == "endless" and DuckDataBase.numInvincability > 0 then
-    upgrades.isActive = true
+    if(upgrades.isActive == false) then
+    upgrades.upgradeType = "purchUp"
     upgrades.purchInv()
+    end
   end
   if x>= 590/2 and x < 750/2 and y >= 250/2 and y < 320/2 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
-    upgrades.isActive = true
+    if(upgrades.isActive == false) then
+    upgrades.upgradeType = "purchUp"
     upgrades.purchLifeLine()
+    end
   end
   if x>= 590/2 and x < 750/2 and y >= 450/2 and y < 520/2 and main.gamestate == "endless" and DuckDataBase.numDoublePoints> 0 then
-    upgrades.isActive = true
+    if(upgrades.isActive == false) then
+    upgrades.upgradeType = "purchUp"
     upgrades.purchX2()
+    end
   end
   if x>= 590/2 and x < 750/2 and y >= 650/2 and y < 720/2 and main.gamestate == "endless" and DuckDataBase.numHalfSpeed > 0 then
-    upgrades.isActive = true
+    if(upgrades.isActive == false) then
+    upgrades.upgradeType = "purchUp"
     upgrades.purchHalfSpeed()
+    end
   end
   if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then
     -- place object in position left

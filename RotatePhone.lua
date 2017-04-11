@@ -23,8 +23,8 @@ function draw()
     love.graphics.draw(asdf, buttonQuad,100,500)
     
     --text for both player, need to rotate text for top of screen
-    love.graphics.print("rotate phone to swap roles",60,100,math.rad(180),1,1,266,5)
-    love.graphics.print("rotate phone to swap roles",60,500) 
+    love.graphics.print("Rotate phone to swap roles",60,100,math.rad(180),1,1,266,5)
+    love.graphics.print("Rotate phone to swap roles",60,500) 
   
     love.graphics.draw(phoneImg, phoneQuad,200,300,math.rad(rotate),1,1,100,150)
   

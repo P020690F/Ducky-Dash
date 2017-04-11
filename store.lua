@@ -26,7 +26,7 @@ function load()
   ArrowQuad = love.graphics.newQuad(1,1,75,75,75,75)
   smallDuckQuad = love.graphics.newQuad(1,1,150/2,150/2,150/2,150/2)
   centreDuckQuad = love.graphics.newQuad(1,1,450/2,450/2,500/2,500/2)
-  upgradeQuad = love.graphics.newQuad(1,1,120,120,120,120)
+  upgradeQuad = love.graphics.newQuad(0,0,120,120,120,120)
   miniBackgroundQuad = love.graphics.newQuad(1,1,750/7,1337/7,750/7,1337/7)
   
   bathTubImg = love.graphics.newImage("assets/Bathtub.png")
@@ -48,7 +48,7 @@ end
 
 function drawStoreHub()
   love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
-  love.graphics.draw(mainImg, mainButtonQuad,10, 550)
+  love.graphics.draw(mainImg, mainButtonQuad,10, 570)
   love.graphics.draw(PriceBoxImg, mainButtonQuad,250,15)
   love.graphics.draw(DuckBillsImg, DuckBillQuad,250,-19)
   love.graphics.setColor(0,0,255)
@@ -71,7 +71,7 @@ function drawStoreHub()
 end
 function clickStoreHub(x,y)
 
- if(x > 20 and x  < 120 and y > 585 and  y < 635) then
+ if(x > 20 and x  < 120 and y > 595 and  y < 645) then
     sound.playSqueak()
     main.gamestate = "menu"
   end
@@ -158,18 +158,36 @@ function drawPowerUpStore()
   love.graphics.draw(upgrades.x2PointsUpgrade, upgradeQuad,50, 340)
   love.graphics.draw(upgrades.halfSpeedUpgrade, upgradeQuad,200, 340)
   
+
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 60 ,240) --75,290 x+15
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 220 ,240)
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 60 ,450) 
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 220 ,450)
+  
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 60 ,285) --75,290 x+15
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 220 ,285)
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 60 ,495) 
+  love.graphics.draw(PriceBoxImg, smallButtonQuad, 220 ,495)
+  
   love.graphics.setColor(0,0,255)
-  love.graphics.print("Own: ".. DuckDataBase.numLifeLine,90,280)
-  love.graphics.print("Own: ".. DuckDataBase.numInvincability,250,280)
-  love.graphics.print("Own: ".. DuckDataBase.numDoublePoints,90,490)
-  love.graphics.print("Own: ".. DuckDataBase.numHalfSpeed,250,490)
+  love.graphics.print("Own:".. DuckDataBase.numLifeLine,74,267)
+  love.graphics.print("Own:".. DuckDataBase.numInvincability,234,267)
+  love.graphics.print("Own:".. DuckDataBase.numDoublePoints,74,477)
+  love.graphics.print("Own:".. DuckDataBase.numHalfSpeed,234,477)
   love.graphics.setColor(255,255,255)
   
-  love.graphics.draw(buyImg, smallButtonQuad, 90 ,290) --75,290 x+15
-  love.graphics.draw(buyImg, smallButtonQuad, 250 ,290)
-  love.graphics.draw(buyImg, smallButtonQuad, 90 ,500) 
-  love.graphics.draw(buyImg, smallButtonQuad, 250 ,500)--220,540
+  love.graphics.draw(buyImg, smallButtonQuad, 60 ,265) --75,290 x+15
+  love.graphics.draw(buyImg, smallButtonQuad, 220 ,265)
+  love.graphics.draw(buyImg, smallButtonQuad, 60 ,475) 
+  love.graphics.draw(buyImg, smallButtonQuad, 220 ,475)--220,540
   
+  
+  love.graphics.setColor(0,0,255)
+  love.graphics.print("250",85,321)
+  love.graphics.print("250",245,321)
+  love.graphics.print("150",85,531)
+  love.graphics.print("150",245,531)
+  love.graphics.setColor(255,255,255)
 end
 
 function drawBackgroundStore()
@@ -190,7 +208,7 @@ function drawBackgroundStore()
   else
     love.graphics.draw(buyImg, smallButtonQuad, 75 ,290)
     love.graphics.setColor(0,255,0)
-    love.graphics.print("500",85,290)
+    love.graphics.print("500",100,290)
     love.graphics.setColor(255,255,255)
   end
   
@@ -201,9 +219,10 @@ function drawBackgroundStore()
     love.graphics.draw(selectImg, smallButtonQuad, 220 ,290)
     love.graphics.setColor(255,255,255)
   else
+    love.graphics.draw(PriceBoxImg, smallButtonQuad, 220 ,270)
     love.graphics.draw(buyImg, smallButtonQuad, 220 ,290)
-    love.graphics.setColor(0,255,0)
-    love.graphics.print("500",230,290)
+    love.graphics.setColor(0,0,255)
+    love.graphics.print("500",245,297)
     love.graphics.setColor(255,255,255)
   end
   
@@ -214,9 +233,10 @@ function drawBackgroundStore()
     love.graphics.draw(selectImg, smallButtonQuad, 75 ,540)
     love.graphics.setColor(255,255,255)
   else
+    love.graphics.draw(PriceBoxImg, smallButtonQuad, 75 ,520)
     love.graphics.draw(buyImg, smallButtonQuad, 75 ,540)
-    love.graphics.setColor(0,255,0)
-    love.graphics.print("500",85,540)
+    love.graphics.setColor(0,0,255)
+    love.graphics.print("500",100,547)
     love.graphics.setColor(255,255,255)
   end
   
@@ -266,22 +286,22 @@ function clickDuckSelect(x,y)
 end
 
 function clickPowerUpStore(x,y)
- if(x > 97 and x  < 145 and y > 308 and  y < 330) then
+ if(x > 67 and x  < 145 and y > 308 and  y < 330) then
     if(_G.DuckBills >= 0) then
       _G.DuckBills = _G.DuckBills - 0
       DuckDataBase.numLifeLine = DuckDataBase.numLifeLine + 1
     end
-  elseif(x > 262 and x  < 310 and y > 308 and  y < 330) then
+  elseif(x > 232 and x  < 310 and y > 308 and  y < 330) then
     if(_G.DuckBills >= 0) then
       _G.DuckBills = _G.DuckBills - 0
       DuckDataBase.numInvincability = DuckDataBase.numInvincability + 1
     end
-  elseif(x > 97 and x  < 145 and y > 518 and  y < 540) then
+  elseif(x > 67 and x  < 145 and y > 518 and  y < 540) then
     if(_G.DuckBills >= 0) then
       _G.DuckBills = _G.DuckBills - 0
       DuckDataBase.numDoublePoints = DuckDataBase.numDoublePoints + 1
     end
-  elseif(x > 262 and x  < 310 and y > 518 and  y < 540) then
+  elseif(x > 232 and x  < 310 and y > 518 and  y < 540) then
     if(_G.DuckBills >= 0) then
       _G.DuckBills = _G.DuckBills - 0
       DuckDataBase.numHalfSpeed = DuckDataBase.numHalfSpeed + 1

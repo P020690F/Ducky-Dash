@@ -25,7 +25,7 @@ function load()
   
   ownBath = true
   ownPark = false
-  ownRainbow = true
+  ownRainbow = false
   
   numLifeLine = 0
   numInvincability = 0

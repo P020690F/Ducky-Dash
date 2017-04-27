@@ -209,6 +209,7 @@ function updateStory()
         main.gamestate = "cutscene"
         timer2 = 0
         currentFlowingWaterFrame = 1
+        _G.completedStory = true
     end 
     if MoveToDrain then
       spinTowardsDrain()
@@ -253,6 +254,26 @@ function updateStory()
       pointsRequired = 60
     elseif _G.storyLevel == 4 then 
       pointsRequired = 80
+    end
+    
+    if (endlessScore >= pointsRequired) then
+      timer2 = timer2 + 1 * love.timer.getDelta()
+      if timer2 >= 1 then
+        currentFlowingWaterFrame = 1
+        currentDrainingWaterFrame = 1
+      end
+      if timer2 >= 2 then
+        currentFlowingWaterFrame = 2
+        currentDrainingWaterFrame = 2
+      end
+      if timer2 >= 3 then
+        currentFlowingWaterFrame = 3
+        currentDrainingWaterFrame = 3
+      end 
+      if timer2 >= 4 then
+        currentFlowingWaterFrame = 4
+        currentDrainingWaterFrame = 4
+      end
     end
   end
 end  
@@ -727,24 +748,6 @@ function InAllUpdateStates()
     timer = 0
     currentWaterFrame = math.random(1,4)
   end 
-
-  timer2 = timer2 + 1 * love.timer.getDelta()
-  if timer2 >= 1 then
-    currentFlowingWaterFrame = 1
-    currentDrainingWaterFrame = 1
-  end
-  if timer2 >= 2 then
-    currentFlowingWaterFrame = 2
-    currentDrainingWaterFrame = 2
-  end
-  if timer2 >= 3 then
-    currentFlowingWaterFrame = 3
-    currentDrainingWaterFrame = 3
-  end 
-  if timer2 >= 4 then
-    currentFlowingWaterFrame = 4
-    currentDrainingWaterFrame = 4
-  end
 end
 
 function InBothStoryAndEndlessUpdate()
@@ -787,9 +790,11 @@ function InBothStoryAndEndlessUpdate()
       elseif (v.TexNumber == 5) then
       v.Tex = submarine
     end
-         
-      v.PosY = -250 -- (i * 100) -- i = 0 , -500
-     
+      if ((endlessScore >= pointsRequired) and main.gamestate == "story") then
+        v.PosY = -1000000000
+      else
+        v.PosY = -250 -- (i * 100) -- i = 0 , -500
+      end
           
       if(upgrades.pointState == "normal" and v.Collidable == true) then
         endlessScore = endlessScore + 1

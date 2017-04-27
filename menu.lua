@@ -45,7 +45,7 @@ function clickLocations(x,y)
   if (x > 45/2 and x < 261/2 and y > 595/2 and y <825/2) then
     sound.playSqueak()
     main.gamestate = "storySelect"
-    _G.completedStory = true
+    
   end 
 
   --duck shop 

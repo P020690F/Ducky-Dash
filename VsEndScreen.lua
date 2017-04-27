@@ -27,14 +27,9 @@ function load()
   
   player1Score= 0
   player2Score= 0
-  
-  
 end
 
 function draw()
-  
-
-  
   love.graphics.draw(main.background, main.backgroundQuad, 0, 0)
   love.graphics.draw(mainImg,buttonQuad,50,500)
   love.graphics.draw(replayImg,buttonQuad,200,500)

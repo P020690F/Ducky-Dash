@@ -162,13 +162,12 @@ end
 function drawStory()
   love.graphics.draw(bathtub, backgroundQuad, 0, 0)
   if endlessScore <= pointsRequired then
-  love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
-  else if _G.storyLevel == 4 and endlessScore >= pointsRequired then
-  love.graphics.draw(water, flowingWaterFrames[currentFlowingWaterFrame], 0, 0)
+    love.graphics.draw(water, waterFrames[currentWaterFrame], 0, 0)
+  elseif _G.storyLevel == 4 and endlessScore >= pointsRequired then
+    love.graphics.draw(water, flowingWaterFrames[currentFlowingWaterFrame], 0, 0)
   else
-  love.graphics.draw(water, drainingWaterFrames[currentDrainingWaterFrame], 0, 0)
-end
-end
+    love.graphics.draw(water, drainingWaterFrames[currentDrainingWaterFrame], 0, 0)
+  end
   love.graphics.setFont(scoreFont)
   
   for i,v in ipairs(Obstacles) do
@@ -211,7 +210,6 @@ function updateStory()
         timer2 = 0
         currentFlowingWaterFrame = 1
     end 
-  end
     if MoveToDrain then
       spinTowardsDrain()
     else
@@ -249,17 +247,16 @@ function updateStory()
     
     if _G.storyLevel == 1 then
       pointsRequired = 20
-    else if _G.storyLevel == 2 then 
+    elseif _G.storyLevel == 2 then 
       pointsRequired = 40
-    else if _G.storyLevel == 3 then 
+    elseif _G.storyLevel == 3 then 
       pointsRequired = 60
-    else if _G.storyLevel == 4 then 
+    elseif _G.storyLevel == 4 then 
       pointsRequired = 80
     end
-    end
-    end
-    end
-  end  
+  end
+end  
+
 function drawEndless()
   if (DuckDataBase.currentBackground == "Bath") then
     love.graphics.draw(bathtub, backgroundQuad, 0, 0)
@@ -269,17 +266,6 @@ function drawEndless()
   elseif (DuckDataBase.currentBackground == "Rainbow") then
     love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
   end
-  love.graphics.draw(scoreBG,scoreQuad, 5, 563)
-  love.graphics.setFont(scoreFont)
-  love.graphics.setColor(255,0,0)
-  love.graphics.print("Score: ", 10, 600)
-  
-   --[[ for i,v in ipairs(Obstacles) do
-  love.graphics.print("Obj " .. i .. ":" .. v.PosY, 10 , 50 * i)  -- debug obstacle positions
-  end --]]
-  love.graphics.print(endlessScore, 80, 600)
-  love.graphics.setColor(255,255,255)
-  --love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 100, 10)
   
   for i,v in ipairs(Obstacles) do
     if (v.Collidable == true) then
@@ -291,6 +277,14 @@ function drawEndless()
   
   love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height,math.deg(SpinRotate),1,1,OriginSpin,OriginSpin)
   upgrades.Draw()
+  
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(scoreBG,scoreQuad, 5, 563)
+  love.graphics.setFont(scoreFont)
+  love.graphics.setColor(255,0,0)
+  love.graphics.print("Score: ", 10, 600)
+  love.graphics.print(endlessScore, 80, 600)
+  love.graphics.setColor(255,255,255)
 end
 
 function updateEndless()
@@ -342,14 +336,7 @@ function drawLocal()
     love.graphics.draw(rainbowImg, backgroundQuad, 0, 0)
   end
   love.graphics.draw(Co_OpLayout,Co_OpLayoutQuad,0,0)
-  love.graphics.draw(scoreBG,scoreQuad, 5, 563)
-  love.graphics.setFont(scoreFont)
-  love.graphics.setColor(255,0,0)
-  love.graphics.print("Score: ", 10, 600)
-  love.graphics.print(localScore, 80, 600)
-  love.graphics.setColor(255,255,255)
   -- wanna draw the new layout for co op mode
-  
  
   objectfound = false
   for i,v in ipairs(Obstacles) do
@@ -361,6 +348,14 @@ function drawLocal()
         end
   end
   love.graphics.draw(Ducky.Tex, duckFrames[currentDuckFrame], Ducky.PosX - Ducky.Width, Ducky.PosY - Ducky.Height,math.deg(SpinRotate),1,1,OriginSpin,OriginSpin)
+  
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(scoreBG,scoreQuad, 5, 563)
+  love.graphics.setFont(scoreFont)
+  love.graphics.setColor(255,0,0)
+  love.graphics.print("Score: ", 10, 600)
+  love.graphics.print(endlessScore, 80, 600)
+  love.graphics.setColor(255,255,255)
 end
 
 function updateLocal()
@@ -486,23 +481,24 @@ end
 function touchreleased(id,x,y,sw,sh,pressure)
     -- store x 2
   endx = x
-  
-  if not (startx == nil) then
-    if (endx - startx > 0) then
-      if (Ducky.Position == "left") then
-        Ducky.Position = "middle"
-        duckHorizontalMove = "right"
-      elseif (Ducky.Position == "middle") then
-        Ducky.Position = "right"
-        duckHorizontalMove = "right"
-      end
-    elseif(endx - startx < 0 ) then
-      if (Ducky.Position == "right") then
-        Ducky.Position = "middle"
-        duckHorizontalMove = "left"
-      elseif (Ducky.Position == "middle") then
-        Ducky.Position = "left"
-        duckHorizontalMove = "left"
+  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless"))) then
+    if not (startx == nil) then
+      if (endx - startx > 0) then
+        if (Ducky.Position == "left") then
+          Ducky.Position = "middle"
+          duckHorizontalMove = "right"
+        elseif (Ducky.Position == "middle") then
+          Ducky.Position = "right"
+          duckHorizontalMove = "right"
+        end
+      elseif(endx - startx < 0 ) then
+        if (Ducky.Position == "right") then
+          Ducky.Position = "middle"
+          duckHorizontalMove = "left"
+        elseif (Ducky.Position == "middle") then
+          Ducky.Position = "left"
+          duckHorizontalMove = "left"
+        end
       end
     end
   end
@@ -732,24 +728,22 @@ function InAllUpdateStates()
     currentWaterFrame = math.random(1,4)
   end 
 
-  if (endlessScore >= pointsRequired) then
-      timer2 = timer2 + 1 * love.timer.getDelta()
-      if timer2 >= 1 then
-        currentFlowingWaterFrame = 1
-        currentDrainingWaterFrame = 1
-      end
-      if timer2 >= 2 then
-        currentFlowingWaterFrame = 2
-        currentDrainingWaterFrame = 2
-      end
-      if timer2 >= 3 then
-        currentFlowingWaterFrame = 3
-        currentDrainingWaterFrame = 3
-      end 
-      if timer2 >= 4 then
-        currentFlowingWaterFrame = 4
-        currentDrainingWaterFrame = 4
-      end
+  timer2 = timer2 + 1 * love.timer.getDelta()
+  if timer2 >= 1 then
+    currentFlowingWaterFrame = 1
+    currentDrainingWaterFrame = 1
+  end
+  if timer2 >= 2 then
+    currentFlowingWaterFrame = 2
+    currentDrainingWaterFrame = 2
+  end
+  if timer2 >= 3 then
+    currentFlowingWaterFrame = 3
+    currentDrainingWaterFrame = 3
+  end 
+  if timer2 >= 4 then
+    currentFlowingWaterFrame = 4
+    currentDrainingWaterFrame = 4
   end
 end
 

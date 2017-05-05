@@ -545,25 +545,25 @@ function clickLocations (x,y)
   end]]--
   if x>= 590/2 and x < 750/2 and y >= 50/2 and y < 120/2 and main.gamestate == "endless" and DuckDataBase.numInvincability > 0 then
     if(upgrades.isActive == false) then
-    upgrades.upgradeType = "purchUp"
+    upgrades.upgradeType = "purchInvincibility"
     upgrades.purchInv()
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 250/2 and y < 320/2 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
     if(upgrades.isActive == false) then
-    upgrades.upgradeType = "purchUp"
+    upgrades.upgradeType = "purchLifeLine"
     upgrades.purchLifeLine()
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 450/2 and y < 520/2 and main.gamestate == "endless" and DuckDataBase.numDoublePoints> 0 then
     if(upgrades.isActive == false) then
-    upgrades.upgradeType = "purchUp"
+    upgrades.upgradeType = "purchX2Points"
     upgrades.purchX2()
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 650/2 and y < 720/2 and main.gamestate == "endless" and DuckDataBase.numHalfSpeed > 0 then
     if(upgrades.isActive == false) then
-    upgrades.upgradeType = "purchUp"
+    upgrades.upgradeType = "purchHalfSpeed"
     upgrades.purchHalfSpeed()
     end
   end
@@ -790,10 +790,10 @@ function InBothStoryAndEndlessUpdate()
       elseif (v.TexNumber == 5) then
       v.Tex = submarine
     end
-      if ((endlessScore >= pointsRequired) and main.gamestate == "story") then
-        v.PosY = -1000000000
+      if (main.gamestate == "story" and (endlessScore >= pointsRequired)) then
+       v.PosY = -1000000000
       else
-        v.PosY = -250 -- (i * 100) -- i = 0 , -500
+       v.PosY = -250 -- (i * 100) -- i = 0 , -500
       end
           
       if(upgrades.pointState == "normal" and v.Collidable == true) then

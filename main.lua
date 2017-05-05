@@ -45,7 +45,7 @@ function love.load()
  
   
   --global value
-   _G.completedStory = false
+   _G.completedStory = true
    _G.paused = false
    _G.settings = false
    _G.musicVolume = 1.0

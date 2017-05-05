@@ -77,14 +77,20 @@ function Update()
         end
       elseif (upgradeType == "x2Points") then
       DoublePoints()
-      else if (upgradeType == "halfSpeed") then
+      elseif (upgradeType == "halfSpeed") then
       HalfSpeed()
-      else if (upgradeType == "purchUp") then
+    elseif (upgradeType == "purchLifeline") then
+      purchLifeline()
+    elseif (upgradeType == "purchX2Points") then
+      purchX2()
+    elseif (upgradeType == "purchInvincibility") then
+      purchInv()
+    elseif (upgradeType == "purchHalfSpeed") then
+      purchHalfSpeed()
       end
     end
   end
 end  
-end
 function DoublePoints()
   if (upgradeAcTimer > timerStep) then
     pointState = "normal"
@@ -92,6 +98,7 @@ function DoublePoints()
     upgradeAcTimer = 0
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
+    upgradeType = "none"
   else
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     pointState = "doublePoints"
@@ -108,7 +115,7 @@ function LifeLine()
   upgradeSpTimer = 0
   timerStep = love.math.random(10,30)
   isActive = false
-end
+  upgradeType = "none"
 end
 end
 function Invincibility()
@@ -118,6 +125,7 @@ function Invincibility()
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
     isActive = false
+    upgradeType = "none"
   else
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     duckState = "invulnerable"
@@ -130,6 +138,7 @@ function HalfSpeed()
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
     isActive = false
+    upgradeType = "none"
   else
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     speedState = "halfSpeed"
@@ -180,6 +189,7 @@ function purchInv()
     upgradeAcTimer = 0
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
+    upgradeType = "none"
   else
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     duckState = "invulnerable"
@@ -189,15 +199,14 @@ end
 
 function purchLifeLine()
   if (game.duckLife == 1 or game.duckLife == 2) then
-  DuckDataBase.numLifeLine = DuckDataBase.numLifeLine -1
-  game.duckLife = 3 
+  game.duckLife = 3
   game.duckVerticalMove = "up"  
   game.hit = false
   upgradeAcTimer = 0
   upgradeSpTimer = 0
   timerStep = love.math.random(10,30)
   isActive = false
-
+  upgradeType = "none"
   end
 end
 function purchX2()
@@ -208,6 +217,7 @@ function purchX2()
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
     isActive = false
+    upgradeType = "none"
   else
     upgrades.isActive = true
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
@@ -216,12 +226,13 @@ function purchX2()
 end
 function purchHalfSpeed()
   DuckDataBase.numHalfSpeed = DuckDataBase.numHalfSpeed - 1
-  if (upgradeAcTimer > 15) then
+  if (upgradeAcTimer > 10) then
     speedState = "normal"
-    upgradeAcTimer = 0
-    upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
     isActive = false
+    upgradeSpTimer = 0
+    upgradeAcTimer = 0
+    upgradeType = "none"
   else
     upgrades.isActive = true
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()

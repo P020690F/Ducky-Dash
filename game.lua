@@ -374,8 +374,7 @@ function drawLocal()
   love.graphics.draw(scoreBG,scoreQuad, 5, 563)
   love.graphics.setFont(scoreFont)
   love.graphics.setColor(255,0,0)
-  love.graphics.print("Score: ", 10, 600)
-  love.graphics.print(endlessScore, 80, 600)
+  love.graphics.print("Score: ".. localScore, 10, 600)
   love.graphics.setColor(255,255,255)
 end
 

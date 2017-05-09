@@ -72,21 +72,21 @@ function Update()
       if (upgradeType == "Invincibility") then
       Invincibility()
       elseif (upgradeType == "LifeLine") then
-        if (game.duckLife == 1) then
+        if (game.duckLife == 1  or game.duckLife == 2) then
         LifeLine()
         end
       elseif (upgradeType == "x2Points") then
-      DoublePoints()
+        DoublePoints()
       elseif (upgradeType == "halfSpeed") then
-      HalfSpeed()
-    elseif (upgradeType == "purchLifeline") then
-      purchLifeline()
-    elseif (upgradeType == "purchX2Points") then
-      purchX2()
-    elseif (upgradeType == "purchInvincibility") then
-      purchInv()
-    elseif (upgradeType == "purchHalfSpeed") then
-      purchHalfSpeed()
+        HalfSpeed()
+      elseif (upgradeType == "purchLifeline") then
+        purchLifeline()
+      elseif (upgradeType == "purchX2Points") then
+        purchX2()
+      elseif (upgradeType == "purchInvincibility") then
+        purchInv()
+      elseif (upgradeType == "purchHalfSpeed") then
+        purchHalfSpeed()
       end
     end
   end
@@ -107,16 +107,21 @@ function DoublePoints()
 end
 
 function LifeLine()
-  if (game.duckLife == 1 or game.duckLife == 2) then
-  game.duckLife = game.duckLife + 1 
-  game.duckVerticalMove = "up"  
-  game.hit = false
-  upgradeAcTimer = 0
-  upgradeSpTimer = 0
-  timerStep = love.math.random(10,30)
-  isActive = false
-  upgradeType = "none"
-end
+  if (upgradeAcTimer > 1) then
+    if (game.duckLife < 3) then  
+    game.duckLife = game.duckLife + 1 
+    game.duckVerticalMove = "up"  
+    game.hit = false
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
+    isActive = false
+    upgradeType = "none"   
+    end
+  else
+    upgrades.isActive = true
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
+  end
 end
 function Invincibility()
   if (upgradeAcTimer > timerStep) then
@@ -146,7 +151,8 @@ function HalfSpeed()
 end
 
 function SpawnUpgrade()
-  upgradeDrop = love.math.random(1,4)
+  --upgradeDrop = love.math.random(1,4)
+  upgradeDrop = 1
   upgradeLane = love.math.random(1,3)
   if(upgradeLane == 1) then
     upgradeX = LeftPoint
@@ -192,6 +198,7 @@ function purchInv()
     isActive = false
     upgradeType = "none"
   else
+    upgrades.isActive = true
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     duckState = "invulnerable"
   end
@@ -199,16 +206,21 @@ function purchInv()
 end
 
 function purchLifeLine()
-  if (game.duckLife == 1 or game.duckLife == 2) then
-  game.duckLife = 3
-  game.duckVerticalMove = "up"  
-  game.hit = false
-  upgradeAcTimer = 0
-  upgradeSpTimer = 0
-  timerStep = love.math.random(10,30)
-  DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
-  isActive = false
-  upgradeType = "none"
+  if (upgradeAcTimer > 1) then
+    if (game.duckLife == 1 or game.duckLife == 2) then
+    game.duckLife = 3
+    game.duckVerticalMove = "up"  
+    game.hit = false
+    upgradeAcTimer = 0
+    upgradeSpTimer = 0
+    timerStep = love.math.random(10,30)
+    DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
+    isActive = false
+    upgradeType = "none"
+    end
+  else
+    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
+    DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
   end
 end
 function purchX2()
@@ -246,6 +258,9 @@ function Draw()
     if not(upgradeTex == nil) then
       love.graphics.draw(upgradeTex,upgradeQuad,upgradeX, upgradeY)
     end
+  end
+  if (isActive) then
+    love.graphics.setColor(111,111,111)
   end
   love.graphics.draw(purchImage,purchTank,0,0)
   love.graphics.draw(invincibilityUpgrade,purchQuadI,590/2,50/2)

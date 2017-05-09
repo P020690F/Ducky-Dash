@@ -544,27 +544,28 @@ function clickLocations (x,y)
     end
   end]]--
   if x>= 590/2 and x < 750/2 and y >= 50/2 and y < 120/2 and main.gamestate == "endless" and DuckDataBase.numInvincability > 0 then
-    if(upgrades.isActive == false) then
+    if(upgrades.isActive == false and upgrades.isSpawned == false ) then
     upgrades.upgradeType = "purchInvincibility"
-    upgrades.purchInv()
+    upgrades.isActive = true
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 250/2 and y < 320/2 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
-    if(upgrades.isActive == false) then
+    if(upgrades.isActive == false and upgrades.isSpawned == false and DuckDataBase.numLifeLine > 0) then
     upgrades.upgradeType = "purchLifeLine"
-    upgrades.purchLifeLine()
+    upgrades.isActive = true
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 450/2 and y < 520/2 and main.gamestate == "endless" and DuckDataBase.numDoublePoints> 0 then
-    if(upgrades.isActive == false) then
+    if(upgrades.isActive == false and upgrades.isSpawned == false) then
+    
     upgrades.upgradeType = "purchX2Points"
-    upgrades.purchX2()
+    upgrades.isActive = true
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 650/2 and y < 720/2 and main.gamestate == "endless" and DuckDataBase.numHalfSpeed > 0 then
-    if(upgrades.isActive == false) then
+    if(upgrades.isActive == false and upgrades.isSpawned == false) then
     upgrades.upgradeType = "purchHalfSpeed"
-    upgrades.purchHalfSpeed()
+    upgrades.isActive = true
     end
   end
   if x>= 40 and x < 127 and y >= 1 and y < 200 and main.gamestate == "local" and clickReady == true then

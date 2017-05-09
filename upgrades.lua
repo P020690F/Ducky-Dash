@@ -185,16 +185,17 @@ end
 function purchInv()
   if (upgradeAcTimer > 15) then
     duckState = "vulnerable"
-    isActive = false
     upgradeAcTimer = 0
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
+    DuckDataBase.numInvincability = DuckDataBase.numInvincability -1
+    isActive = false
     upgradeType = "none"
   else
     upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
     duckState = "invulnerable"
   end
-  DuckDataBase.numInvincability = DuckDataBase.numInvincability -1
+
 end
 
 function purchLifeLine()
@@ -205,17 +206,18 @@ function purchLifeLine()
   upgradeAcTimer = 0
   upgradeSpTimer = 0
   timerStep = love.math.random(10,30)
+  DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
   isActive = false
   upgradeType = "none"
   end
 end
 function purchX2()
-  DuckDataBase.numDoublePoints = DuckDataBase.numDoublePoints - 1
     if (upgradeAcTimer > 15) then
     pointState = "normal"
     upgradeAcTimer = 0
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
+    DuckDataBase.numDoublePoints = DuckDataBase.numDoublePoints - 1
     isActive = false
     upgradeType = "none"
   else
@@ -225,13 +227,13 @@ function purchX2()
   end
 end
 function purchHalfSpeed()
-  DuckDataBase.numHalfSpeed = DuckDataBase.numHalfSpeed - 1
   if (upgradeAcTimer > 10) then
     speedState = "normal"
     timerStep = love.math.random(10,30)
-    isActive = false
     upgradeSpTimer = 0
     upgradeAcTimer = 0
+    DuckDataBase.numHalfSpeed = DuckDataBase.numHalfSpeed - 1
+    isActive = false
     upgradeType = "none"
   else
     upgrades.isActive = true

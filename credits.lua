@@ -4,7 +4,7 @@ require "game"
 
 function load()
   
-  mainImg = love.graphics.newImage("assets/Close_button.png")  
+  mainImg = love.graphics.newImage("assets/Close_Button.png")  
   buttonQuad = love.graphics.newQuad(1,1,500/5,500/5,500/5,500/5)
   creditsFont1 = love.graphics.newFont(23)
   creditsFont2 = love.graphics.newFont(40)

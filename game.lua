@@ -470,22 +470,24 @@ function mousereleased(x,y,button, istouch)
   
   -- store x 2
   endx = x
-  if not (startx == nil) then
-    if (endx - startx > 50) then
-      if (Ducky.Position == "left") then
-        Ducky.Position = "middle"
-        duckHorizontalMove = "right"
-      elseif (Ducky.Position == "middle") then
-        Ducky.Position = "right"
-        duckHorizontalMove = "right"
-      end
-    elseif(endx - startx < -50 ) then
-      if (Ducky.Position == "right") then
-        Ducky.Position = "middle"
-        duckHorizontalMove = "left"
-      elseif (Ducky.Position == "middle") then
-        Ducky.Position = "left"
-        duckHorizontalMove = "left"
+  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless" and x < 590/2))) then
+    if not (startx == nil) then
+      if (endx - startx > 0) then
+        if (Ducky.Position == "left") then
+          Ducky.Position = "middle"
+          duckHorizontalMove = "right"
+        elseif (Ducky.Position == "middle") then
+          Ducky.Position = "right"
+          duckHorizontalMove = "right"
+        end
+      elseif(endx - startx < 0 ) then
+        if (Ducky.Position == "right") then
+          Ducky.Position = "middle"
+          duckHorizontalMove = "left"
+        elseif (Ducky.Position == "middle") then
+          Ducky.Position = "left"
+          duckHorizontalMove = "left"
+        end
       end
     end
   end
@@ -501,7 +503,7 @@ end
 function touchreleased(id,x,y,sw,sh,pressure)
     -- store x 2
   endx = x
-  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless"))) then
+  if ((y > 270 and main.gamestate == "local") or ((main.gamestate == "story") or (main.gamestate == "endless" and x < 590/2))) then
     if not (startx == nil) then
       if (endx - startx > 0) then
         if (Ducky.Position == "left") then

@@ -66,21 +66,21 @@ end
 function touchpressed(id,x,y,sw,sh,pressure)
   game.startx = nil
   if x > 85 and x < 288 then
+  
     if y > 70 and y < 176 then
       -- resume
       sound.playSqueak()
       _G.paused = false
     end
   
-    if y > 196 and y < 302 and not main.gamestate == "local" then
+    if y > 196 and y < 302 and not (main.gamestate == "local") then
       -- retry
       sound.playSqueak()
       game.load()
       _G.paused = false 
-      storyLevel = _G.holdStoryLevel
     end
   
-    if y > 320 and y < 426 and not main.gamestate == "local"then
+    if y > 320 and y < 426 and not (main.gamestate == "local")then
       -- settings
       sound.playSqueak()
       _G.settings = true

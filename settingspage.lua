@@ -6,7 +6,7 @@ require "sound"
 function load()
   settingsFont = love.graphics.newFont(20)
   settingsImg = love.graphics.newImage("assets/Settings_Title.png")
-  mainImg = love.graphics.newImage("assets/Close_Button.png")
+  mainImg = love.graphics.newImage("assets/Close_button.png")
   
   sliderBaseImg = love.graphics.newImage("assets/SliderBase.png")
   sliderImg = love.graphics.newImage("assets/Slider.png")

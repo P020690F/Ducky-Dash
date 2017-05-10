@@ -10,10 +10,10 @@ function load()
   ArrowRight = love.graphics.newImage("assets/RightArrow.png")
   
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
-  PowerUpImg = love.graphics.newImage("assets/Power_Ups_Button.png")
-  selectImg = love.graphics.newImage("assets/Select_Button.png")
-  buyImg = love.graphics.newImage("assets/Buy_Button.png")
-  DuckStoreImg = love.graphics.newImage("assets/Duck_Button.png")
+  PowerUpImg = love.graphics.newImage("assets/Power_Ups_button.png")
+  selectImg = love.graphics.newImage("assets/Select_button.png")
+  buyImg = love.graphics.newImage("assets/Buy_button.png")
+  DuckStoreImg = love.graphics.newImage("assets/Duck_button.png")
   DuckBillsImg = love.graphics.newImage("assets/Money.png")
   BackgroundImg = love.graphics.newImage("assets/Backgrounds_Button.png")
   PriceBoxImg = love.graphics.newImage("assets/PriceBox.png")
@@ -31,7 +31,7 @@ function load()
   
   bathTubImg = love.graphics.newImage("assets/Bathtub.png")
   parkImg = love.graphics.newImage("assets/Park_Level.png")
-  rainbowImg = love.graphics.newImage("assets/Rainbow_Level.png")
+  rainbowImg = love.graphics.newImage("assets/Rainbow_level.png")
   bathTubWaterImg = love.graphics.newImage("assets/StoreWater.png")
   
   storeState = "Duck"

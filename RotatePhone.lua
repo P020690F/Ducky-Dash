@@ -3,10 +3,7 @@ require "main"
 require "game"
 
 function load()
-  
-  
-  
-  asdf = love.graphics.newImage("assets/Continue_Button.png")
+  asdf = love.graphics.newImage("assets/Continue_button.png")
   buttonQuad = love.graphics.newQuad(1,1,200,200,200,200)
   
   phoneImg = love.graphics.newImage("assets/Phone.png")

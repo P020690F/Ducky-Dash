@@ -7,7 +7,7 @@ function load()
   
 
   
-  replayImg = love.graphics.newImage("assets/Replay_Button.png")
+  replayImg = love.graphics.newImage("assets/Replay_button.png")
   mainImg = love.graphics.newImage("assets/MainMenuButton.png")
   
   buttonQuad = love.graphics.newQuad(1,1,150,150,150,150)

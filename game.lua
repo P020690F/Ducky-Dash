@@ -842,7 +842,7 @@ function spinTowardsDrain()
        
     else
       main.gamestate = "gameover" 
-      factNum = love.math.random(1,10)
+      factNum = love.math.random(1,11)
     end
   end
 
@@ -898,6 +898,9 @@ function AddFact()
   elseif (factNum == 10) then
     love.graphics.print("100% of people that see a squeaky duck",20 ,420)
     love.graphics.print(" feel nothing but the urge to squeak it.",25 ,440)
+    
+  elseif (factNum == 11) then
+    love.graphics.print("The protagonist is called Daryl Duck.", 30 ,430)
   end
   love.graphics.setColor(255,255,255)
 end

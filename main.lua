@@ -52,7 +52,7 @@ function love.load()
    _G.settings = false
    _G.musicVolume = 1.0
    _G.effectVolume = 1.0
-   _G.DuckBills = 0
+   _G.DuckBills = 5000
    _G.storyLevel = 1
    _G.holdStoryLevel =0
    _G.creditsLoad = false

@@ -11,8 +11,8 @@ function load()
   sliderBaseImg = love.graphics.newImage("assets/SliderBase.png")
   sliderImg = love.graphics.newImage("assets/Slider.png")
   
-  buttonQuad = love.graphics.newQuad(1,1,200/2,200/2,200/2,200/2)
-  buttonQuad = love.graphics.newQuad(1,1,500/2,500/4,500/2,500/4)
+  buttonQuad = love.graphics.newQuad(1,1,500/2,500/2,500/2,500/2)
+  titleQuad = love.graphics.newQuad(1,1,500/2,500/4,500/2,500/4)
   baseQuad = love.graphics.newQuad(1,1,295,60,295,60)
   sliderQuad = love.graphics.newQuad(1,1,40,40,40,40)
   
@@ -21,7 +21,7 @@ function load()
 end
 
 function draw()  
-  love.graphics.draw(settingsImg, buttonQuad, 125/2 ,20)
+  love.graphics.draw(settingsImg, titleQuad, 125/2 ,20)
   love.graphics.draw(mainImg, buttonQuad, 125/2 ,750/2)
   
   love.graphics.setFont(settingsFont)

@@ -24,13 +24,13 @@ function load()
   ownDuck4 = true
   
   ownBath = true
-  ownPark = false
+  ownPark = true
   ownRainbow = false
   
-  numLifeLine = 9
-  numInvincability = 9
-  numDoublePoints = 9
-  numHalfSpeed = 9
+  numLifeLine = 5
+  numInvincability = 5
+  numDoublePoints = 5
+  numHalfSpeed = 5
   
 
   Standard_Duck = love.graphics.newImage("assets/Duck Skins/Standard_Duck_Front.png")

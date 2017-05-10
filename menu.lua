@@ -9,6 +9,7 @@ function load()
   coopDuck = love.graphics.newImage("assets/Co-opDuck.png")
   settings = love.graphics.newImage("assets/Settings_Button.png")
   titleImg = love.graphics.newImage("assets/Title_for_the_Game.png")
+  creditsImg = love.graphics.newImage("assets/Credits_Button.png")
   
   coopDuckQuad = love.graphics.newQuad(1,1,500/2,250/2,500/2,250/2)
   settingsQuad = love.graphics.newQuad(1,1,250/2,250/2,250/2,250/2)
@@ -24,6 +25,7 @@ function draw()
   love.graphics.draw(titleImg, TitleQuad,0,0)
   love.graphics.draw(coopDuck, coopDuckQuad, 65, 475)
   love.graphics.draw(settings, settingsQuad, 240, 580)
+  love.graphics.draw(creditsImg, settingsQuad, 20, 580)
   
   --xstring = ("asd" and love.mouse.getX())
   --ystring = ("asd" and love.mouse.getY())
@@ -70,10 +72,16 @@ function clickLocations(x,y)
   end
   
   --Settings
+  if (x > 30 and x < 130 and y > 615 and y <655) then
+    sound.playSqueak()
+    --load credits
+   
+    _G.creditsLoad = true
+  end
+  
   if (x > 250 and x < 350 and y > 615 and y <655) then
     sound.playSqueak()
     --load settings
     _G.settings = true
-    --_G.creditsLoad = true
   end
 end

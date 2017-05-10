@@ -61,7 +61,7 @@ function Update()
       end
     end
   end
-  hitTest = CheckCollision(upgradeX, upgradeY, 50, 100, game.Ducky.PosX, game.Ducky.PosY, game.Ducky.Width, game.Ducky.Height)
+  hitTest = CheckCollision(upgradeX, upgradeY, 100, 100, game.Ducky.PosX, game.Ducky.PosY, game.Ducky.Width, game.Ducky.Height)
   if (hitTest) then
     upgradeY = 700
     isSpawned = false
@@ -80,7 +80,7 @@ function Update()
       elseif (upgradeType == "halfSpeed") then
         HalfSpeed()
       elseif (upgradeType == "purchLifeline") then
-        purchLifeline()
+        purchLifeLine()
       elseif (upgradeType == "purchX2Points") then
         purchX2()
       elseif (upgradeType == "purchInvincibility") then
@@ -107,9 +107,7 @@ function DoublePoints()
 end
 
 function LifeLine()
-  if (upgradeAcTimer > 1) then
-    if (game.duckLife < 3) then  
-    game.duckLife = game.duckLife + 1 
+  if (game.duckLife < 3) then  
     game.duckVerticalMove = "up"  
     game.hit = false
     upgradeAcTimer = 0
@@ -117,10 +115,6 @@ function LifeLine()
     timerStep = love.math.random(10,30)
     isActive = false
     upgradeType = "none"   
-    end
-  else
-    upgrades.isActive = true
-    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
   end
 end
 function Invincibility()
@@ -151,8 +145,7 @@ function HalfSpeed()
 end
 
 function SpawnUpgrade()
-  --upgradeDrop = love.math.random(1,4)
-  upgradeDrop = 1
+  upgradeDrop = love.math.random(1,4)
   upgradeLane = love.math.random(1,3)
   if(upgradeLane == 1) then
     upgradeX = LeftPoint
@@ -206,21 +199,16 @@ function purchInv()
 end
 
 function purchLifeLine()
-  if (upgradeAcTimer > 1) then
-    if (game.duckLife == 1 or game.duckLife == 2) then
-    game.duckLife = 3
+  if (game.duckLife < 3) then
     game.duckVerticalMove = "up"  
+    game.duckLife = 2
     game.hit = false
     upgradeAcTimer = 0
     upgradeSpTimer = 0
     timerStep = love.math.random(10,30)
-    DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
+    DuckDataBase.numLifeLine = DuckDataBase.numLifeLine - 1
     isActive = false
     upgradeType = "none"
-    end
-  else
-    upgradeAcTimer = upgradeAcTimer + 1 * love.timer.getDelta()
-    DuckDataBase.numLifeline = DuckDataBase.numLifeline - 1
   end
 end
 function purchX2()

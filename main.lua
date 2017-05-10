@@ -10,6 +10,7 @@ require "storyMenu"
 require "RotatePhone"
 require "VsEndScreen"
 require "cutscene"
+require "credits"
 
 function love.load()
   if arg[#arg] == "-debug" then require("mobdebug").start() end
@@ -42,6 +43,7 @@ function love.load()
   VsEndScreen.load()
   upgrades.load()
   cutscene.load()
+  credits.load()
  
   
   --global value
@@ -53,6 +55,7 @@ function love.load()
    _G.DuckBills = 0
    _G.storyLevel = 1
    _G.holdStoryLevel =0
+   _G.creditsLoad = false
 end
 
 function love.draw()
@@ -60,11 +63,11 @@ function love.draw()
   
   if gamestate == "menu" then
     sound.play()
-    if _G.settings then
+    if _G.settings or _G.creditsLoad then
       love.graphics.setColor(113,113,113)
     end
     menu.draw()
-    if _G.settings then
+    if _G.settings or _G.creditsLoad then
       love.graphics.setColor(255,255,255)
     end
   end
@@ -142,6 +145,10 @@ function love.draw()
   if gamestate == "finishStoryLevel" then
     game.finishStoryLevel()
   end
+  
+  if _G.creditsLoad then
+    credits.draw()
+  end
 end
 
 function love.update()
@@ -157,6 +164,8 @@ function love.update()
     store.updateStore()
   elseif gamestate == "localSwitch" then
     RotatePhone.update()
+  elseif _G.creditsLoad then
+    credits.update()
   end
 end
 
@@ -189,11 +198,13 @@ function love.touchpressed(id,x,y,sw,sh,pressure)
   elseif (_G.settings) then
     settingspage.touchpressed(id,x,y,sw,sh,pressure)
   
-  elseif (gamestate == "menu" and not _G.settings) then
+  elseif (gamestate == "menu" and not _G.settings and not _G.creditsLoad) then
     menu.touchpressed(id,x,y,sw,sh,pressure)
   
   elseif (gamestate == "cutscene") then
     cutscene.touchpressed(id,x,y,sw,sh,pressure)
+  elseif (_G.creditsLoad) then
+    credits.touchpressed(id,x,y,sw,sh,pressure)
   end
 end
 
@@ -235,11 +246,13 @@ function love.mousepressed(x,y,button,istouch)
   elseif (_G.settings) then
     settingspage.mousepressed(x,y,button,istouch)
   
-  elseif (gamestate == "menu" and not _G.settings) then
+  elseif (gamestate == "menu" and not _G.settings and not _G.creditsLoad) then
     menu.mousepressed(x,y,button,istouch)
   
   elseif (gamestate == "cutscene") then
     cutscene.mousepressed(x,y,button,istouch)
+  elseif (_G.creditsLoad) then
+    credits.mousepressed(x,y,button,istouch)
   end
 end
 

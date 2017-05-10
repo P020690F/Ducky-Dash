@@ -74,5 +74,6 @@ function clickLocations(x,y)
     sound.playSqueak()
     --load settings
     _G.settings = true
+    --_G.creditsLoad = true
   end
 end

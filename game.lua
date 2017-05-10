@@ -542,26 +542,26 @@ function clickLocations (x,y)
       end
     end
   end]]--
-  if x>= 590/2 and x < 750/2 and y >= 50/2 and y < 120/2 and main.gamestate == "endless" and DuckDataBase.numInvincability > 0 then
+  if x>= 590/2 and x < 750/2 and y >= 25 and y < 95 and main.gamestate == "endless" and DuckDataBase.numInvincability > 0 then
     if(upgrades.isActive == false and upgrades.isSpawned == false ) then
     upgrades.upgradeType = "purchInvincibility"
     upgrades.isActive = true
     end
   end
-  if x>= 590/2 and x < 750/2 and y >= 250/2 and y < 320/2 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
+  if x>= 590/2 and x < 750/2 and y >= 125 and y < 195 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
     if(upgrades.isActive == false and upgrades.isSpawned == false and DuckDataBase.numLifeLine > 0) then
-    upgrades.upgradeType = "purchLifeLine"
+    upgrades.upgradeType = "purchLifeline"
     upgrades.isActive = true
     end
   end
-  if x>= 590/2 and x < 750/2 and y >= 450/2 and y < 520/2 and main.gamestate == "endless" and DuckDataBase.numDoublePoints> 0 then
+  if x>= 590/2 and x < 750/2 and y >= 225 and y < 295 and main.gamestate == "endless" and DuckDataBase.numDoublePoints> 0 then
     if(upgrades.isActive == false and upgrades.isSpawned == false) then
     
     upgrades.upgradeType = "purchX2Points"
     upgrades.isActive = true
     end
   end
-  if x>= 590/2 and x < 750/2 and y >= 650/2 and y < 720/2 and main.gamestate == "endless" and DuckDataBase.numHalfSpeed > 0 then
+  if x>= 590/2 and x < 750/2 and y >= 325 and y < 395 and main.gamestate == "endless" and DuckDataBase.numHalfSpeed > 0 then
     if(upgrades.isActive == false and upgrades.isSpawned == false) then
     upgrades.upgradeType = "purchHalfSpeed"
     upgrades.isActive = true
@@ -731,14 +731,18 @@ function InAllUpdateStates()
     if duckLife == 2 then
       Ducky.PosY =  Ducky.PosY - 5
       if Ducky.PosY == 350 then
+        duckLife = 3
         duckVerticalMove = "still"
         hit = false
+        
       end
     elseif duckLife == 1 then
       Ducky.PosY =  Ducky.PosY - 5
       if Ducky.PosY == 400 then
+        duckLife = 2
         duckVerticalMove = "still"
         hit = false
+        
       end
     end
   end

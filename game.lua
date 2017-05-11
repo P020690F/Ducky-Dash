@@ -551,7 +551,7 @@ function clickLocations (x,y)
     end
   end
   if x>= 590/2 and x < 750/2 and y >= 125 and y < 195 and main.gamestate == "endless" and DuckDataBase.numLifeLine > 0 then
-    if(upgrades.isActive == false and upgrades.isSpawned == false and DuckDataBase.numLifeLine > 0) then
+    if(upgrades.isActive == false and upgrades.isSpawned == false and DuckDataBase.numLifeLine > 0 and duckLife < 3) then
     upgrades.upgradeType = "purchLifeline"
     upgrades.isActive = true
     end

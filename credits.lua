@@ -18,49 +18,37 @@ function draw()
   love.graphics.setFont(creditsFont1)
   love.graphics.print("Credits", 150 , (0 + downMove)) 
   love.graphics.setFont(creditsFont2)
-  love.graphics.print("Team Doom", 80 , (50 + downMove)) 
+  love.graphics.print("Ducky Dash", 80 , (50 + downMove)) 
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Omar 'Games Artist' Hassan", 40 , (140 + downMove))
+  love.graphics.print("Omar Hassan", 40 , (140 + downMove))
   love.graphics.setFont(creditsFont3)
   love.graphics.print("Artist and Designer", 100 , (170 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Thomas 'Dashy Duck' Griffiths",  20, (210 + downMove))
+  love.graphics.print("Thomas Griffiths",  20, (210 + downMove))
   love.graphics.setFont(creditsFont3)
   love.graphics.print("Upgrades Programmer", 100 , (240 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("The Names Bond, Robert Bond",  15, (310 + downMove))
+  love.graphics.print("Robert Bond",  15, (310 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Sound Animator", 100 , (340 + downMove))
+  love.graphics.print("Audio & Animator", 100 , (340 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Thomas 'Local Co-op' Ibbs",  40, (380 + downMove))
+  love.graphics.print("Thomas Ibbs",  40, (380 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Versus Programmer", 100 , (410 + downMove))
+  love.graphics.print("Versus Mode Programmer", 100 , (410 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Rhys 'S500 is my home' Olson",  20, (480 + downMove))
+  love.graphics.print("Rhys Olson",  20, (480 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("'Programmer'", 100 , (510 + downMove))
+  love.graphics.print("'Gameplay Programmer'", 100 , (510 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Rhys 'The Other One' Panting",  20, (580 + downMove))
+  love.graphics.print("Rhys Panting",  20, (580 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Master of Merge", 120 , (610 + downMove))
-  
-  love.graphics.setFont(creditsFont1)
-  love.graphics.print("Special Mentions",  100, (700 + downMove))
-  
-  love.graphics.print("Dr Chris 'Scottish' McCreadie",  20, (750 + downMove))
-  love.graphics.setFont(creditsFont3)
-  love.graphics.print("Duck Thief", 120 , (780 + downMove))
-  
-  love.graphics.setFont(creditsFont1)
-  love.graphics.print("Daryl 'The Human One' Reeves",  15, (850 + downMove))
-  love.graphics.setFont(creditsFont3)
-  love.graphics.print("Namer of the Duck", 120 , (880 + downMove))
+  love.graphics.print("Source Control", 120 , (610 + downMove))
 
 
 end

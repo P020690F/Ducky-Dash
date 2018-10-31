@@ -21,34 +21,34 @@ function draw()
   love.graphics.print("Ducky Dash", 80 , (50 + downMove)) 
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Omar Hassan", 40 , (140 + downMove))
+  love.graphics.print("Omar Hassan", 120 , (140 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Artist and Designer", 100 , (170 + downMove))
+  love.graphics.print("'Artist' and 'Designer'", 110 , (170 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Thomas Griffiths",  20, (210 + downMove))
+  love.graphics.print("Thomas Griffiths",  100, (210 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Upgrades Programmer", 100 , (240 + downMove))
+  love.graphics.print("Upgrades Programmer", 90 , (240 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Robert Bond",  15, (310 + downMove))
+  love.graphics.print("Robert Bond",  120, (280 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Audio & Animator", 100 , (340 + downMove))
+  love.graphics.print("Audio & Animator", 110 , (310 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Thomas Ibbs",  40, (380 + downMove))
+  love.graphics.print("Thomas Ibbs",  115, (350 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Versus Mode Programmer", 100 , (410 + downMove))
+  love.graphics.print("Versus Mode Programmer", 80 , (380 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Rhys Olson",  20, (480 + downMove))
+  love.graphics.print("Rhys Olson",  130, (420 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("'Gameplay Programmer'", 100 , (510 + downMove))
+  love.graphics.print("'Gameplay' Programmer", 80 , (450 + downMove))
   
   love.graphics.setFont(creditsFont1)
-  love.graphics.print("Rhys Panting",  20, (580 + downMove))
+  love.graphics.print("Rhys Panting",  120, (490 + downMove))
   love.graphics.setFont(creditsFont3)
-  love.graphics.print("Source Control", 120 , (610 + downMove))
+  love.graphics.print("Source Control", 130 , (520 + downMove))
 
 
 end
@@ -71,7 +71,7 @@ end
 
 function update()
   downMove = downMove - 1
-  if downMove == -1000 then
+  if downMove == -600 then
    downMove = 600
   end
 end
